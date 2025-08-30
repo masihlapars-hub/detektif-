@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>100 Level: Detektif Kota</title>
-<meta name="description" content="Game detektif 100 level dengan mode Hard, papan skor, ekspor/impor progres, tema terang/gelap, dan pemilih avatar dari GitHub."/>
+<meta name="description" content="Game detektif 100 level — deduksi alibi & waktu. Mode hard, papan skor, tema, ekspor/impor progres."/>
 <style>
 :root{--bg:#0b1220;--card:#101a2b;--muted:#98a2b3;--text:#e6edf3;--accent:#73d7ff;--ok:#22c55e;--bad:#ff6b6b;--ring:#2b3a55}
 *{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;color:var(--text);background:linear-gradient(120deg,#0b1220 0%,#111a2c 100%);min-height:100vh;display:flex;flex-direction:column}
@@ -15,31 +15,25 @@ main{width:100%;max-width:1200px;margin:16px auto;padding:0 14px;flex:1;display:
 .card{background:var(--card);border:1px solid #1f2c48;border-radius:18px;box-shadow:0 10px 35px rgba(0,0,0,.25)}.card .body{padding:16px 18px}
 .title{font-weight:700;font-size:1.05rem}.muted{color:var(--muted)}.row{display:flex;flex-wrap:wrap;gap:10px}
 .badge{background:#0f1a2d;border:1px solid #253454;color:#b8c2d6;padding:.3rem .55rem;border-radius:8px;font-size:.86rem}
-.story{white-space:pre-wrap}.suspects{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}@media(max-width:860px){.suspects{grid-template-columns:1fr}}
+.story{white-space:pre-wrap}
+.suspects{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}@media(max-width:900px){.suspects{grid-template-columns:1fr}}
 .sus{position:relative;border-radius:16px;overflow:hidden;border:1px solid #22314e;background:#0f182a}
 .sus header{all:unset;display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1d2a45;background:#0e1627}
 .ava{font-size:28px;width:42px;height:42px;display:grid;place-items:center;background:#0b1324;border:1px solid #1f2b46;border-radius:12px}
-.sus .body{padding:12px 14px}.sus .meta{display:flex;gap:8px;flex-wrap:wrap}.sus label{display:block;cursor:pointer}.sus input{transform:scale(1.15);accent-color:#58c1ff}
+.sus .body{padding:12px 14px}.sus .meta{display:flex;gap:8px;flex-wrap:wrap}
 .foot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid #1d2a45;background:#0e1627}
+.sus label{display:block;cursor:pointer}.sus input{transform:scale(1.15);accent-color:#58c1ff}
 button{appearance:none;border:1px solid #2b3f63;background:#0e172a;color:#e6edf3;padding:.7rem 1rem;border-radius:12px;cursor:pointer;font-weight:600;transition:.2s transform,.2s background}
-button.primary{background:linear-gradient(180deg,#0d9cf3,#0676be);border-color:#0c7dd3}button.success{background:linear-gradient(180deg,#22c55e,#16a34a);border-color:#16a34a}button:active{transform:translateY(1px)}
-.center{display:grid;place-items:center}.progress{height:10px;border-radius:10px;background:#0d1527;border:1px solid #1f2b48;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,#4cc9f0,#22c55e);width:0%}
+button.primary{background:linear-gradient(180deg,#0d9cf3,#0676be);border-color:#0c7dd3}
+button.success{background:linear-gradient(180deg,#22c55e,#16a34a);border-color:#16a34a}
+button:active{transform:translateY(1px)}
+.center{display:grid;place-items:center}
+.progress{height:10px;border-radius:10px;background:#0d1527;border:1px solid #1f2b48;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,#4cc9f0,#22c55e);width:0%}
 .toast{padding:.65rem .85rem;border:1px solid #263758;background:#0e192c;border-radius:10px}.ok{color:#a6f4c5}.bad{color:#ffb3b3}.small{font-size:.88rem}
-footer{padding:18px 14px;text-align:center;color:#93a0b3}.tbl{width:100%;border-collapse:separate;border-spacing:0 8px}
-.tbl th,.tbl td{padding:8px 10px}.tbl tr{background:#0e1627;border:1px solid #1f2b46}.tbl tr td:first-child,.tbl tr th:first-child{border-radius:10px 0 0 10px}.tbl tr td:last-child,.tbl tr th:last-child{border-radius:0 10px 10px 0}
+footer{padding:18px 14px;text-align:center;color:#93a0b3}
+.tbl{width:100%;border-collapse:separate;border-spacing:0 8px}.tbl th,.tbl td{padding:8px 10px}.tbl tr{background:#0e1627;border:1px solid #1f2b46}
+.tbl tr td:first-child,.tbl tr th:first-child{border-radius:10px 0 0 10px}.tbl tr td:last-child,.tbl tr th:last-child{border-radius:0 10px 10px 0}
 .hidden{display:none}
-
-/* ===== Avatar Modal ===== */
-#avatarBtn{display:flex;align-items:center;gap:8px}
-#avatarImg{width:28px;height:28px;border-radius:50%;border:1px solid #2b3f63;object-fit:cover;background:#0e172a}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px}
-.modal .panel{max-width:900px;width:100%;background:var(--card);border:1px solid #1f2c48;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.panel header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #1f2c48;background:#0e1627}
-.grid{display:grid;gap:12px;padding:14px;grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
-.item{border:1px solid #22314e;border-radius:12px;background:#0f182a;cursor:pointer;overflow:hidden}
-.item:hover{box-shadow:0 6px 16px rgba(0,0,0,.2)}
-.item img{width:100%;height:90px;object-fit:contain;background:#0b1324}
-.item .cap{padding:8px 10px;font-size:.85rem;color:#bcd}
 </style>
 </head>
 <body>
@@ -51,20 +45,11 @@ footer{padding:18px 14px;text-align:center;color:#93a0b3}.tbl{width:100%;border-
   <div class="pill" id="detBadge">Detektif: —</div>
   <div class="pill" id="lokBadge">Lokasi: —</div>
   <div style="flex:1"></div>
-
-  <!-- Tombol Avatar -->
-  <button id="avatarBtn" class="pill" title="Pilih Avatar">
-    <img id="avatarImg" alt="">
-    <span>Pilih Avatar</span>
-  </button>
-
   <button id="btnTema" class="pill">Tema: Gelap</button>
   <button id="btnMode" class="pill">Switch Hard</button>
   <button id="btnReset" class="pill">Reset</button>
   <button id="btnExport" class="pill">Ekspor</button>
-  <label class="pill" style="cursor:pointer">
-    Impor <input id="fileImport" type="file" accept="application/json" class="hidden">
-  </label>
+  <label class="pill" style="cursor:pointer">Impor <input id="fileImport" type="file" accept="application/json" class="hidden"></label>
 </header>
 
 <main class="two">
@@ -80,11 +65,14 @@ footer{padding:18px 14px;text-align:center;color:#93a0b3}.tbl{width:100%;border-
         <span class="badge" id="badgePartner"></span>
       </div>
 
+      <div class="title">🧾 Petunjuk</div>
+      <ul id="clues" class="small" style="margin:0 0 2px 18px;padding:0;line-height:1.6"></ul>
+
       <div class="title">👥 Tersangka</div>
       <div id="suspects" class="suspects"></div>
 
       <div class="row">
-        <button id="btnKunci" class="primary">Kunci Jawaban</button>
+        <button id="btnTuduh" class="primary">Tuduh</button>
         <button id="btnHint">Beri Petunjuk</button>
         <button id="btnLewati">Lewati Level</button>
       </div>
@@ -112,7 +100,7 @@ footer{padding:18px 14px;text-align:center;color:#93a0b3}.tbl{width:100%;border-
         <input id="nick" class="pill" placeholder="Nickname" style="flex:1;min-width:160px">
         <button id="btnSaveNick">Simpan</button>
       </div>
-      <div class="muted small">Nama & avatar dipakai saat kirim skor.</div>
+      <div class="muted small">Nama dipakai saat kirim skor ke papan skor.</div>
 
       <div class="title">🏆 Papan Skor</div>
       <div class="small muted">Terakhir 50 skor tertinggi.</div>
@@ -124,8 +112,9 @@ footer{padding:18px 14px;text-align:center;color:#93a0b3}.tbl{width:100%;border-
 
       <div class="title">ℹ️ Aturan</div>
       <ul class="small muted" style="margin:0 0 2px 18px;padding:0">
-        <li>Normal: 3 tersangka, 3 petunjuk. Benar +10, salah −3, hint −1.</li>
+        <li>Normal: 3 tersangka, 3–4 petunjuk. Benar +10, salah −3, hint −1.</li>
         <li>Hard: 5 tersangka, 1–2 petunjuk. Benar +12, salah −5, hint −2.</li>
+        <li>Tuduhan salah tidak membocorkan pelaku — coba deduksi lagi.</li>
       </ul>
     </div>
   </aside>
@@ -133,116 +122,110 @@ footer{padding:18px 14px;text-align:center;color:#93a0b3}.tbl{width:100%;border-
 
 <footer>© 2025 — Detektif Kota. Semua fiksi.</footer>
 
-<!-- ===== Avatar Modal ===== -->
-<div id="avatarModal" class="modal" role="dialog" aria-modal="true">
-  <div class="panel">
-    <header>
-      <b>🎭 Pilih Avatar</b>
-      <button id="avatarClose" class="pill">Tutup</button>
-    </header>
-    <div id="avatarGrid" class="grid"></div>
-  </div>
-</div>
-
 <script>
-/* ================== CONFIG AVATAR (ubah ke repo kamu) ================== */
-const AVATAR_CFG = {
-  OWNER:  "masihlapars-hub",    // ← ganti
-  REPO:   "tebakz",             // ← ganti
-  BRANCH: "main",
-  PATH:   "tebakz/static/avatars" // folder di repo tempat kamu upload gambar
-};
+/* ===== Papan Skor publik (opsional) ===== */
+const SCOREBOARD_ENDPOINT = ""; // isi kalau mau publik
 
-/* ================== Papan Skor (opsional publik) ==================
-   Kalau mau publik, isi URL endpoint (CORS JSON):
-   GET -> [{name,score,mode,avatar,ts}], POST -> {name,score,mode,avatar,ts}
-*/
-const SCOREBOARD_ENDPOINT = ""; // contoh: "https://script.google.com/macros/s/AKfycb.../exec"
-
-/* ================== Util & PRNG ================== */
-class PRNG{constructor(seed){this.s=seed>>>0} next(){this.s=(1664525*this.s+1013904223)>>>0;return this.s/2**32} pick(a){return a[Math.floor(this.next()*a.length)]}}
+/* ===== Util ===== */
+class PRNG{constructor(seed){this.s=seed>>>0}next(){this.s=(1664525*this.s+1013904223)>>>0;return this.s/2**32}pick(a){return a[Math.floor(this.next()*a.length)]}int(a,b){return Math.floor(this.next()*(b-a+1))+a}}
 const $=q=>document.querySelector(q), $$=q=>document.querySelectorAll(q);
-function esc(s){return (s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
+const esc=s=>(s||"").replace(/[&<>\"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
 function timeago(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return s+" dtk lalu";const m=Math.floor(s/60);if(m<60)return m+" mnt lalu";const h=Math.floor(m/60);if(h<24)return h+" jam lalu";const d=Math.floor(h/24);return d+" hari lalu"}
 
-/* ================== Data Pools ================== */
+/* ===== Data ===== */
 const TOTAL=100;
 const NAMA=["Aji","Bima","Cika","Dina","Eko","Fira","Gilang","Hana","Indra","Joko","Kyla","Lia","Miko","Nara","Ojan","Putri","Qila","Rino","Salsa","Tegar","Uti","Vino","Wulan","Xena","Yuda","Zara","Aksa","Bela","Ceko","Dito","Eli","Fadil","Gita","Heri","Ira","Jani","Kori","Lana","Mora","Niko","Ovi","Puti","Qori","Raka","Seno","Tia","Ucup","Vira","Wibi","Yani","Kamal","Bahar","Celine","Dewi","Evan","Farah","Ghani","Hesti","Ilham","Jihan","Kevin","Laras","Mahen","Nabila","Omar","Pras","Qiana","Rizky","Sasha","Tito","Umar","Vallen","Wisnu","Yessi","Zidan"];
-const EMOJI=["🦊","🐼","🐱","🐶","🐻","🦁","🐵","🦉","🦄","🐸","🧑","👩","👨","👩‍🦰","🧔","👱‍♀️","👩‍🦱","👩‍🦳","🧑‍🎤","🧑‍💻","🧑‍🍳","🧑‍🔧","🧑‍🎨","🧑‍🏫","🧑‍🔬"];
+const EMOJI=["🧑","👩","👨","🧔","👩‍🦱","👩‍🦰","👱‍♀️","🧑‍🎤","🧑‍💻","🧑‍🍳","🧑‍🔧","🧑‍🎨","🧑‍🏫","🧑‍🔬"];
 const KOTA=["Jakarta","Bandung","Surabaya","Yogyakarta","Semarang","Malang","Medan","Makassar","Denpasar","Bogor","Tangerang","Depok","Bekasi","Solo","Padang","Palembang","Banjarmasin","Balikpapan","Samarinda","Pontianak","Batam","Pekanbaru","Manado","Kupang","Jayapura","Mataram","Ambon","Ternate","Banda Aceh","Cirebon","Tasikmalaya","Purwokerto","Kediri","Madiun","Jember","Lumajang","Magelang","Salatiga","Cilacap","Serang","Cilegon","Sukabumi","Garut","Karawang","Subang","Indramayu","Klaten","Karanganyar","Gianyar","Tabanan"];
 const TEMPAT=["galeri seni","perpustakaan kota","stasiun kereta","pasar malam","gedung konser","museum sejarah","taman kota","kafe 24 jam","hotel tua","gudang pelabuhan","kantor startup","laboratorium","studio musik","bioskop","rumah lelang","pameran teknologi","toko perhiasan","ruang server","ruang arsip","arena e-sport","terminal bus","alun-alun","rumah susun","terminal feri","lorong bawah tanah","rumah sakit","kampus teknik","pabrik tekstil","rumah dinas","hotel butik","lapangan futsal","pantai kota","bukit radio","terminal kargo","pusat data","balai kota","pasar antik","toko komik","studio foto","toko bunga","taman bermain","bandara lama","dermaga timur","gudang logistik","rumah kaca","toko jam","rumah bordir","kios koran","peron 3","galeri fotografi"];
-const JENIS=["pencurian artefak","peretasan server","pemalsuan dokumen","sabotase listrik","penculikan kucing seleb","perampokan mini","pencurian lukisan","kebocoran rahasia produk","penggelapan kas","pemerasan anonim","pencurian berlian","pembobolan brankas","perusakan karya seni","penipuan lelang","pencurian prototipe"];
+const JENIS=["pencurian artefak","peretasan server","pemalsuan dokumen","sabotase listrik","pencurian lukisan","kebocoran rahasia produk","penggelapan kas","pemerasan anonim","pembobolan brankas","perusakan karya seni","penipuan lelang","pencurian prototipe"];
 const JAM=["dini hari","pagi","siang","sore","malam","tengah malam"];
 const MITRA=[["Riko","analisis sidik jari kilat"],["Maya","ahli membaca gerak tubuh"],["Seno","spesialis CCTV"],["Vira","pakar jejak digital"],["Bara","intel jalanan"]];
-const WARNA=["merah","biru","hijau","hitam","putih","kuning","ungu","cokelat","abu-abu","oranye"];
-const BARANG=["ransel","payung","kotak makan","helm","sarung tangan","obeng","kamera","buku sketsa","USB","jaket hujan","topi","botol minum","tongkat selfie","masker","sepatu lari"];
-const TANGAN=["kanan","kidal"];
 
-/* ================== State ================== */
+/* ===== Local store ===== */
 const store={get(){try{return JSON.parse(localStorage.getItem("detektif100")||"{}")}catch{return {}}},set(v){localStorage.setItem("detektif100",JSON.stringify(v))}};
-let state=Object.assign({level:1,score:0,unlocked:1,mode:"normal",nick:"",theme:"dark",avatar:""},store.get());
+let state=Object.assign({level:1,score:0,unlocked:1,mode:"normal",nick:"",theme:"dark"},store.get());
 
-/* ================== Meta Level Unik ================== */
-const metaLevels = (() => {
-  const rng=new PRNG(987654);
-  const names=[...NAMA]; const usedNames=new Set(); const usedPlace=new Set();
-  const meta={};
-  for(let lv=1; lv<=TOTAL; lv++){
-    let det; for(let tries=0; tries<500; tries++){det=rng.pick(names); if(!usedNames.has(det)){usedNames.add(det);break}}
-    let kota, tempat, key; for(let tries=0; tries<2000; tries++){
-      kota=rng.pick(KOTA); tempat=rng.pick(TEMPAT); key=kota+"|"+tempat; if(!usedPlace.has(key)){usedPlace.add(key);break}
-    }
-    meta[lv]={detektif:det, kota, tempat};
-  }
-  return meta;
-})();
+/* ===== Meta unik (detektif + lokasi tidak berulang) ===== */
+const metaLevels=(()=>{const rng=new PRNG(987654);const names=[...NAMA];const usedN=new Set();const usedP=new Set();const m={};for(let lv=1;lv<=TOTAL;lv++){let det;for(let t=0;t<500;t++){det=rng.pick(names);if(!usedN.has(det)){usedN.add(det);break}}let kota,tmpt,key;for(let t=0;t<2000;t++){kota=rng.pick(KOTA);tmpt=rng.pick(TEMPAT);key=kota+"|"+tmpt;if(!usedP.has(key)){usedP.add(key);break}}m[lv]={detektif:det,kota,tmpt};}return m})();
 
-/* ================== Generator Level ================== */
+/* ===== Generator kasus (tanpa warna/barang/tangan) =====
+   Mekanik utama: deduksi JENDELA WAKTU + ALIBI + BUKTI.
+*/
 function genLevel(n, hard=false){
-  const seed = 123456 + n*97 + (hard?777:0);
+  const seed=123456+n*137+(hard?777:0);
   const rng=new PRNG(seed);
   const m=metaLevels[n];
   const jenis=rng.pick(JENIS), waktu=rng.pick(JAM);
   const [partner,keahlian]=rng.pick(MITRA);
-  const clueColor=rng.pick(WARNA), clueItem=rng.pick(BARANG), clueHand=rng.pick(TANGAN);
-  const count=hard?5:3;
-  const suspects=[], used=new Set();
 
-  for(let i=0;i<count;i++){
+  const suspectCount=hard?5:3;
+  const suspects=[], used=new Set();
+  for(let i=0;i<suspectCount;i++){
     let name; do{name=rng.pick(NAMA)}while(used.has(name)); used.add(name);
     suspects.push({
-      id:i, name, emoji:rng.pick(EMOJI), color:rng.pick(WARNA), item:rng.pick(BARANG), hand:rng.pick(TANGAN),
-      alibi:["pesan kopi","menunggu ojek","perbaiki ponsel","latihan vokal","mencari toilet","telpon ibu","vlog","antar paket","cari parkir","bantu satpam"][Math.floor(rng.next()*10)]
+      id:i, name, emoji:rng.pick(EMOJI),
+      notes:[], // fakta unik (alergi, hobi, dsb)
+      timeline:[] // [{t:"18:20",loc:"kafe"}, ...]
     });
   }
-  const culpritIndex=Math.floor(rng.next()*suspects.length);
-  suspects[culpritIndex].color=clueColor; suspects[culpritIndex].item=clueItem; suspects[culpritIndex].hand=clueHand;
-  for(let i=0;i<suspects.length;i++){
-    if(i===culpritIndex) continue;
-    if(suspects[i].color===clueColor && suspects[i].item===clueItem && suspects[i].hand===clueHand){
-      suspects[i].item = BARANG[(BARANG.indexOf(suspects[i].item)+1)%BARANG.length];
+
+  // clock helpers
+  const tBase=rng.int(17,22); // jam kejadian (17-22)
+  const tCrime=`${tBase}:${rng.int(10,50)}`; // menit acak
+  const windowMin=rng.int(8,16); // durasi jendela (menit)
+  const window=`${windowMin} menit`;
+  const places=["kafe","halte","minimarket","lobi gedung","parkiran","perpustakaan","studio foto","toko komik","warung soto","lapangan kecil"];
+  // travel time matrix kasar (menit)
+  function tTravel(){return rng.int(4,14)}
+
+  // tentukan pelaku lewat alibi yang paling "masuk jendela"
+  const culpritIndex=rng.int(0,suspectCount-1);
+  suspects.forEach((s,i)=>{
+    const t1=`${tBase-1}:${String(rng.int(0,59)).padStart(2,"0")}`;
+    const p1=rng.pick(places), p2=rng.pick(places);
+    s.timeline.push({t:t1,loc:p1});
+    if(i===culpritIndex){
+      // posisi sebelum kejadian cukup dekat untuk sempat ke TKP
+      s.timeline.push({t:`${tBase}:${String(rng.int(0,15)).padStart(2,"0")}`,loc:p2});
+      s.notes.push("terlihat terburu-buru","pernah bekerja di area TKP");
+    }else{
+      // buat sengaja jauh (butuh waktu tempuh > window)
+      s.timeline.push({t:`${tBase}:${String(rng.int(30,59)).padStart(2,"0")}`,loc:p2});
+      s.notes.push("mengantar paket","terlihat mengobrol lama");
     }
+  });
+
+  // petunjuk global
+  const cluesBase=[
+    `Kejadian ${jenis} di ${m.tmpt} ${m.kota} sekitar ${waktu} pukul ${tCrime}.`,
+    `Dari saksi & jejak, pelaku punya kesempatan dalam jendela ± <b>${window}</b> sebelum/atau sesudah ${tCrime}.`,
+    `Waktu tempuh rata-rata antar titik di area itu 4–14 menit (tergantung rute).`,
+  ];
+  // Tambahkan bukti spesifik (CCTV/struk) yang menguatkan jendela waktu
+  const cctvIdx=rng.int(0,suspects.length-1);
+  const strukIdx=rng.int(0,suspects.length-1);
+  if(!hard){ // lebih banyak petunjuk di normal
+    cluesBase.push(`Cuplikan CCTV di lorong samping merekam seseorang mirip <i>${suspects[cctvIdx].name}</i> pukul ${tBase}:${String(rng.int(0,59)).padStart(2,"0")}.`);
+    cluesBase.push(`Struk pembayaran di kios dekat TKP tercetak pukul ${tBase}:${String(rng.int(5,25)).padStart(2,"0")}.`);
+  }else{
+    cluesBase.push(`Sebagian CCTV mati 10 menit sebelum ${tCrime}. Beberapa orang tak terekam.`);
   }
 
   const story =
-`Kasus ${jenis} terjadi di ${m.tempat} ${m.kota} pada ${waktu}.
+`Kasus ${jenis} terjadi di ${m.tmpt} ${m.kota} pada ${waktu}.
 Kamu, Detektif ${m.detektif}, ditemani ${partner} (ahli ${keahlian}).
-CCTV melihat sosok dengan warna ${clueColor} membawa ${clueItem}.
-Saksi menyebut pelaku dominan tangan ${clueHand}.`;
+Fokus pada siapa yang <b>punya kesempatan</b> di jendela waktu sempit itu.`;
 
-  const baseHints = [
-    `Pelaku berhubungan dengan warna <b>${clueColor}</b>.`,
-    `Ditemukan ${clueItem} di dekat pintu darurat.`,
-    `Polanya konsisten dengan orang bertangan <b>${clueHand}</b>.`
-  ];
-  const hints = hard ? baseHints.slice(0, Math.random()<0.5?1:2) : baseHints;
-
-  return {n, story, tmpt:m.tempat, kota:m.kota, waktu, jenis, partner,
-          suspects, culpritIndex, hints, clueColor, clueItem, clueHand,
-          detektif:m.detektif};
+  return {n, story, tmpt:m.tmpt, kota:m.kota, waktu, jenis, partner,
+          suspects, culpritIndex, clues:cluesBase, crimeTime:tCrime, windowMin};
 }
 
-/* ================== UI helpers ================== */
+/* ===== Tema & UI ===== */
+function setLight(){document.documentElement.dataset.theme="light";document.documentElement.style.cssText=`--bg:#f5f7fb;--card:#ffffff;--muted:#55607a;--text:#0f172a;--accent:#0077ff;--ok:#16a34a;--bad:#e11d48;--ring:#e6ecff`;document.body.style.background="linear-gradient(120deg,#eaf2ff 0%,#f6f9ff 100%)"}
+function setDark(){document.documentElement.dataset.theme="dark";document.documentElement.style.cssText=`--bg:#0b1220;--card:#101a2b;--muted:#98a2b3;--text:#e6edf3;--accent:#73d7ff;--ok:#22c55e;--bad:#ff6b6b;--ring:#2b3a55`;document.body.style.background="linear-gradient(120deg,#0b1220 0%,#111a2c 100%)"}
+function toast(msg,bad=false){const el=$("#result"); el.innerHTML=msg; el.classList.toggle("hidden",false); el.className=`toast small ${bad?"bad":"ok"}`}
+
 function setProgress(){
   $("#levelBadge").textContent=`Level ${state.level} / ${TOTAL}`;
   $("#scoreBadge").textContent=`Skor ${state.score}`;
@@ -250,13 +233,9 @@ function setProgress(){
   $("#prog").style.width = `${(state.unlocked-1)/TOTAL*100}%`;
   $("#goto").value = state.level;
   $("#nick").value = state.nick||"";
-  $("#avatarImg").src = state.avatar || dummyAvatars()[0].url;
 }
-function toast(msg,bad=false){const el=$("#result"); el.innerHTML=msg; el.classList.toggle("hidden",false); el.className=`toast small ${bad?"bad":"ok"}`}
-function setLight(){document.documentElement.dataset.theme="light";document.documentElement.style.cssText=`--bg:#f5f7fb;--card:#ffffff;--muted:#55607a;--text:#0f172a;--accent:#0077ff;--ok:#16a34a;--bad:#e11d48;--ring:#e6ecff`;document.body.style.background="linear-gradient(120deg,#eaf2ff 0%,#f6f9ff 100%)"}
-function setDark(){document.documentElement.dataset.theme="dark";document.documentElement.style.cssText=`--bg:#0b1220;--card:#101a2b;--muted:#98a2b3;--text:#e6edf3;--accent:#73d7ff;--ok:#22c55e;--bad:#ff6b6b;--ring:#2b3a55`;document.body.style.background="linear-gradient(120deg,#0b1220 0%,#111a2c 100%)"}
 
-/* ================== Render ================== */
+/* ===== Render ===== */
 function render(level){
   const hard=state.mode==='hard';
   const L=genLevel(level, hard);
@@ -265,175 +244,88 @@ function render(level){
   $("#badgeWaktu").textContent=`Waktu: ${L.waktu}`;
   $("#badgeJenis").textContent=`Kasus: ${L.jenis}`;
   $("#badgePartner").textContent=`Partner: ${L.partner}`;
-  $("#detBadge").textContent=`Detektif: ${L.detektif}`;
+  $("#detBadge").textContent=`Detektif: ${metaLevels[level].detektif}`;
   $("#lokBadge").textContent=`Lokasi: ${L.tmpt}, ${L.kota}`;
+
+  const clues=$("#clues"); clues.innerHTML=L.clues.map(c=>`<li>${c}</li>`).join("");
 
   const wrap=$("#suspects"); wrap.innerHTML="";
   L.suspects.forEach(s=>{
+    const tl=s.timeline.map(x=>`${x.t} — ${x.loc}`).join("<br>");
+    const notes=s.notes.map(x=>"• "+x).join("<br>");
     const el=document.createElement("div");
     el.className="sus";
     el.innerHTML=`
       <header><div class="ava">${s.emoji}</div>
-        <div><div style="font-weight:700">${s.name}</div>
-        <div class="muted small">alibi: ${s.alibi}</div></div></header>
-      <div class="body"><div class="meta small">
-        <span class="badge">🎨 ${s.color}</span><span class="badge">🎒 ${s.item}</span><span class="badge">✋ tangan ${s.hand}</span>
-      </div></div>
-      <div class="foot"><label class="small"><input type="radio" name="pick" value="${s.id}"> Pilih ${s.name}</label><span class="muted small">ID #${s.id+1}</span></div>`;
+        <div><div style="font-weight:700">${esc(s.name)}</div>
+        <div class="muted small">alibi & catatan di bawah</div></div></header>
+      <div class="body">
+        <div class="meta small">
+          <div><b>Timeline:</b><br>${tl}</div>
+          <div style="margin-top:6px"><b>Catatan:</b><br>${notes||"—"}</div>
+        </div>
+      </div>
+      <div class="foot"><label class="small"><input type="radio" name="pick" value="${s.id}"> Tuduh ${esc(s.name)}</label><span class="muted small">ID #${s.id+1}</span></div>`;
     wrap.appendChild(el);
   });
 
-  $("#result").classList.add("hidden"); $("#btnNext").classList.add("hidden"); $("#btnKunci").disabled=false;
+  $("#result").classList.add("hidden"); $("#btnNext").classList.add("hidden"); $("#btnTuduh").disabled=false;
   render.current=L; setProgress();
 }
 
-/* ================== Events ================== */
-$("#btnKunci").onclick=()=>{
+/* ===== Events ===== */
+$("#btnTuduh").onclick=()=>{
   const L=render.current, hard=state.mode==='hard';
-  const pick=[...$$('input[name="pick"]')].find(x=>x.checked); if(!pick){toast("Pilih tersangka dulu.",true);return}
+  const pick=[...$$('input[name="pick"]')].find(x=>x.checked); if(!pick){toast("Pilih satu tersangka dulu.",true);return}
   const ok=(+pick.value)===L.culpritIndex;
-  if(ok){state.score+= hard?12:10; state.unlocked=Math.max(state.unlocked,state.level+1); toast(`Benar! Pelaku: ${L.suspects[L.culpritIndex].name}.`,false); $("#btnNext").classList.remove("hidden")}
-  else{state.score=Math.max(0,state.score-(hard?5:3)); toast(`Salah. Petunjuk mengarah pada <b>${L.suspects[L.culpritIndex].name}</b> (🎨 ${L.clueColor}, 🎒 ${L.clueItem}, ✋ ${L.clueHand}).`,true)}
-  $("#btnKunci").disabled=true; store.set(state); setProgress();
+  if(ok){
+    state.score+= hard?12:10;
+    state.unlocked=Math.max(state.unlocked,state.level+1);
+    toast("Tepat! Tuduhanmu masuk akal berdasarkan jendela waktu.",false);
+    $("#btnNext").classList.remove("hidden");
+  }else{
+    state.score=Math.max(0,state.score-(hard?5:3));
+    toast("Bukan. Alibinya masih memungkinkan — cek lagi timeline & petunjuk.",true);
+  }
+  $("#btnTuduh").disabled=true; store.set(state); setProgress();
 };
-$("#btnHint").onclick=()=>{const L=render.current, hard=state.mode==='hard'; const key=`hint${L.n}${hard?'H':''}`; const used=(state[key]||0)+1; state[key]=used; state.score=Math.max(0,state.score-(hard?2:1)); const msg=L.hints[(used-1)%L.hints.length]||"Tidak ada petunjuk lagi."; toast(`Petunjuk: ${msg}`,false); store.set(state); setProgress()};
+$("#btnHint").onclick=()=>{
+  const L=render.current, hard=state.mode==='hard';
+  const key=`hint${L.n}${hard?'H':''}`; const used=(state[key]||0)+1; state[key]=used;
+  state.score=Math.max(0,state.score-(hard?2:1));
+  const extra = [
+    "Bandingkan waktu tempuh antar lokasi dengan jendela kejadian.",
+    "Siapa yang paling dekat TKP dalam ±10 menit dari waktu kejadian?",
+    "Catatan pekerjaan/riwayat di area TKP bisa jadi kunci."
+  ];
+  toast("Petunjuk: "+extra[(used-1)%extra.length],false);
+  store.set(state); setProgress();
+};
 $("#btnLewati").onclick=()=>{state.unlocked=Math.max(state.unlocked,state.level+1); state.level=Math.min(100,state.level+1); store.set(state); render(state.level)};
 $("#btnNext").onclick=()=>{state.level=Math.min(100,state.level+1); state.unlocked=Math.max(state.unlocked,state.level); store.set(state); render(state.level)};
 $("#btnGoto").onclick=()=>{const v=+$("#goto").value||1; if(v>state.unlocked){toast("Level itu belum terbuka.",true);return} state.level=Math.min(Math.max(1,v),100); store.set(state); render(state.level)};
-$("#btnReset").onclick=()=>{if(!confirm("Reset progres & skor?"))return; state={level:1,score:0,unlocked:1,mode:state.mode,nick:state.nick,theme:state.theme,avatar:state.avatar}; store.set(state); render(1)};
+$("#btnReset").onclick=()=>{if(!confirm("Reset progres & skor?"))return; state={level:1,score:0,unlocked:1,mode:state.mode,nick:state.nick,theme:state.theme}; store.set(state); render(1)};
+$("#btnMode").onclick=()=>{state.mode=state.mode==='hard'?'normal':'hard'; store.set(state); setProgress(); render(state.level)};
+$("#btnSaveNick").onclick=()=>{state.nick=($("#nick").value||"").trim().slice(0,20)||"Anon"; store.set(state); toast("Nama disimpan.",false)};
 
-/* Tema toggle */
+/* Tema */
 $("#btnTema").onclick=()=>{state.theme=(state.theme==="light"?"dark":"light"); store.set(state); applyTheme()};
 function applyTheme(){state.theme==="light"?setLight():setDark(); $("#btnTema").textContent="Tema: "+(state.theme==="light"?"Terang":"Gelap")}
 applyTheme();
 
-/* Mode */
-$("#btnMode").onclick=()=>{state.mode=state.mode==='hard'?'normal':'hard'; store.set(state); setProgress(); render(state.level)};
-$("#btnSaveNick").onclick=()=>{state.nick=($("#nick").value||"").trim().slice(0,20)||"Anon"; store.set(state); toast("Nama disimpan.",false)};
+/* Ekspor/Impor */
+$("#btnExport").onclick=()=>{const data=JSON.stringify({v:2,state},null,2);const blob=new Blob([data],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`detektif_progress_${Date.now()}.json`;document.body.appendChild(a);a.click();a.remove()};
+$("#fileImport").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const t=await f.text();const o=JSON.parse(t);if(!o||!o.state)throw new Error("format tidak valid");const s=o.state;state.level=Math.min(Math.max(1,+s.level||1),TOTAL);state.score=Math.max(0,+s.score||0);state.unlocked=Math.min(TOTAL,Math.max(1,+s.unlocked||1));state.mode=(s.mode==="hard"?"hard":"normal");state.nick=(s.nick||"").toString().slice(0,20);state.theme=(s.theme==="light"?"light":"dark");store.set(state);applyTheme();setProgress();render(state.level);toast("Progres diimpor.",false)}catch(err){toast("Gagal impor: "+err,true)}};
 
-/* Ekspor / Impor Progres */
-$("#btnExport").onclick=()=>{
-  const data=JSON.stringify({v:1,state},null,2);
-  const blob=new Blob([data],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download=`detektif_progress_${Date.now()}.json`;
-  document.body.appendChild(a); a.click(); a.remove();
-};
-$("#fileImport").onchange=async e=>{
-  const file=e.target.files[0]; if(!file) return;
-  try{
-    const txt=await file.text(); const obj=JSON.parse(txt);
-    if(!obj || !obj.state) throw new Error("format tidak valid");
-    const s=obj.state;
-    state.level=Math.min(Math.max(1, +s.level||1), TOTAL);
-    state.score=Math.max(0, +s.score||0);
-    state.unlocked=Math.min(TOTAL, Math.max(1, +s.unlocked||1));
-    state.mode=(s.mode==="hard"?"hard":"normal");
-    state.nick=(s.nick||"").toString().slice(0,20);
-    state.theme=(s.theme==="light"?"light":"dark");
-    state.avatar=(s.avatar||"").toString();
-    store.set(state); applyTheme(); setProgress(); render(state.level);
-    toast("Progres diimpor.",false);
-  }catch(err){ toast("Gagal impor: "+err,true) }
-};
-
-/* ====== AVATAR PICKER: ambil dari GitHub static/avatars/ ====== */
-function dummyAvatars(){
-  const svgs=[
-    {name:"Cat.svg",svg:`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><circle cx='48' cy='48' r='44' fill='#f9c74f'/><circle cx='34' cy='38' r='7'/><circle cx='62' cy='38' r='7'/><path d='M30 60 Q48 72 66 60' stroke='#000' stroke-width='5' fill='none'/></svg>`},
-    {name:"Dog.svg",svg:`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect x='6' y='6' width='84' height='84' rx='16' fill='#f9844a'/><circle cx='36' cy='44' r='8'/><circle cx='60' cy='44' r='8'/><circle cx='48' cy='64' r='10'/></svg>`},
-    {name:"Bear.svg",svg:`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><circle cx='48' cy='48' r='44' fill='#8d6e63'/><circle cx='30' cy='28' r='9' fill='#5d4037'/><circle cx='66' cy='28' r='9' fill='#5d4037'/><circle cx='38' cy='48' r='7'/><circle cx='58' cy='48' r='7'/></svg>`},
-    {name:"Alien.svg",svg:`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><ellipse cx='48' cy='56' rx='40' ry='36' fill='#90be6d'/><ellipse cx='36' cy='44' rx='12' ry='16'/><ellipse cx='60' cy='44' rx='12' ry='16'/></svg>`},
-    {name:"Robot.svg",svg:`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect x='14' y='14' width='68' height='68' rx='12' fill='#577590'/><circle cx='36' cy='46' r='8' fill='#f1faee'/><circle cx='60' cy='46' r='8' fill='#f1faee'/><rect x='30' y='64' width='36' height='8' fill='#f1faee'/></svg>`}
-  ];
-  return svgs.map(x=>{
-    const url=URL.createObjectURL(new Blob([x.svg],{type:"image/svg+xml"}));
-    return {name:x.name,url};
-  });
-}
-
-async function fetchAvatarList(){
-  const api = `https://api.github.com/repos/${AVATAR_CFG.OWNER}/${AVATAR_CFG.REPO}/contents/${AVATAR_CFG.PATH}?ref=${AVATAR_CFG.BRANCH}`;
-  try{
-    const res=await fetch(api);
-    if(!res.ok) throw new Error(res.status+" "+res.statusText);
-    const data=await res.json();
-    const files=(data||[]).filter(f=>f.type==="file" && /\.(png|jpg|jpeg|webp|svg|gif|avif)$/i.test(f.name));
-    if(!files.length) return dummyAvatars();
-    return files.map(f=>({name:f.name,url:f.download_url}));
-  }catch(e){
-    return dummyAvatars();
-  }
-}
-
-function openAvatarModal(list){
-  const modal=$("#avatarModal"), grid=$("#avatarGrid");
-  grid.innerHTML = list.map(a=>(
-    `<div class="item" data-url="${a.url}">
-       <img loading="lazy" src="${a.url}" alt="${esc(a.name)}">
-       <div class="cap">${esc(a.name)}</div>
-     </div>`
-  )).join("");
-  grid.querySelectorAll(".item").forEach(it=>{
-    it.onclick=()=>{
-      state.avatar = it.dataset.url;
-      store.set(state);
-      $("#avatarImg").src = state.avatar;
-      modal.style.display="none";
-      toast("Avatar diganti.",false);
-    };
-  });
-  modal.style.display="flex";
-}
-
-$("#avatarBtn").onclick=async()=>{ openAvatarModal(await fetchAvatarList()) };
-$("#avatarClose").onclick=()=>{ $("#avatarModal").style.display="none" };
-$("#avatarModal").addEventListener("click",(e)=>{ if(e.target.id==="avatarModal") e.currentTarget.style.display="none" });
-
-/* ====== Papan skor ====== */
-async function loadBoard(){
-  const tb=$("#board tbody"); tb.innerHTML="<tr><td colspan='5' class='muted'>Memuat…</td></tr>";
-  try{
-    let rows=[];
-    if(SCOREBOARD_ENDPOINT){
-      const r=await fetch(SCOREBOARD_ENDPOINT,{method:"GET",headers:{"Accept":"application/json"}});
-      rows=await r.json();
-    }else{
-      rows=localBoard().get();
-    }
-    rows=(rows||[]).slice(0,50);
-    if(!rows.length){tb.innerHTML="<tr><td colspan='5' class='muted'>Belum ada skor.</td></tr>";return}
-    tb.innerHTML=rows.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${x.score}</td><td>${x.mode||'normal'}</td><td>${timeago(x.ts||Date.now())}</td></tr>`).join("");
-  }catch(e){
-    tb.innerHTML=`<tr><td colspan='5' class='bad small'>Gagal ambil papan skor: ${esc(String(e))}</td></tr>`;
-  }
-}
+/* Papan skor */
+async function loadBoard(){const tb=$("#board tbody");tb.innerHTML="<tr><td colspan='5' class='muted'>Memuat…</td></tr>";try{let rows=[];if(SCOREBOARD_ENDPOINT){const r=await fetch(SCOREBOARD_ENDPOINT,{method:"GET",headers:{"Accept":"application/json"}});rows=await r.json()}else{rows=localBoard().get()}rows=(rows||[]).slice(0,50);if(!rows.length){tb.innerHTML="<tr><td colspan='5' class='muted'>Belum ada skor.</td></tr>";return}tb.innerHTML=rows.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${x.score}</td><td>${x.mode||'normal'}</td><td>${timeago(x.ts||Date.now())}</td></tr>`).join("")}catch(e){tb.innerHTML=`<tr><td colspan='5' class='bad small'>Gagal ambil papan skor: ${esc(String(e))}</td></tr>`}}
 function localBoard(){const key="detektif100-board";return{get(){try{return JSON.parse(localStorage.getItem(key)||"[]")}catch{return[]}},set(list){localStorage.setItem(key,JSON.stringify(list))}}}
-async function submitScore(){
-  const name=(state.nick||"").trim()||"Anon";
-  const payload={name,score:state.score,mode:state.mode,avatar:state.avatar,ts:Date.now()};
-  try{
-    if(SCOREBOARD_ENDPOINT){
-      await fetch(SCOREBOARD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-      toast("Skor terkirim ke papan skor publik.",false);
-    }else{
-      const lb=localBoard(); const list=lb.get(); list.push(payload); list.sort((a,b)=>b.score-a.score); lb.set(list.slice(0,50));
-      toast("Skor disimpan (lokal). Set endpoint untuk publik.",false);
-    }
-    loadBoard();
-  }catch(e){ toast("Gagal kirim skor: "+e,true) }
-}
-$("#btnSubmitScore").onclick=submitScore;
-$("#btnRefreshBoard").onclick=loadBoard;
+async function submitScore(){const name=(state.nick||"").trim()||"Anon";const payload={name,score:state.score,mode:state.mode,ts:Date.now()};try{if(SCOREBOARD_ENDPOINT){await fetch(SCOREBOARD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});toast("Skor terkirim ke papan skor publik.",false)}else{const lb=localBoard();const list=lb.get();list.push(payload);list.sort((a,b)=>b.score-a.score);lb.set(list.slice(0,50));toast("Skor disimpan (lokal). Set endpoint untuk publik.",false)}loadBoard()}catch(e){toast("Gagal kirim skor: "+e,true)}}
+$("#btnSubmitScore").onclick=submitScore; $("#btnRefreshBoard").onclick=loadBoard;
 
 /* Init */
-function setProgressInit(){
-  state.level=Math.min(Math.max(1,state.level||1),TOTAL);
-  state.unlocked=Math.max(1,Math.min(TOTAL,state.unlocked||1));
-  setProgress();
-}
-setProgressInit(); render(state.level); loadBoard();
+function init(){state.level=Math.min(Math.max(1,state.level||1),TOTAL);state.unlocked=Math.max(1,Math.min(TOTAL,state.unlocked||1));setProgress();render(state.level);loadBoard()}
+init();
 </script>
 </body>
 </html>
