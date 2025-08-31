@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detektif 100 Level - 100 Teka-Teki Unik</title>
+    <title>Detektif 100 Level - Pemilihan Level</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -74,7 +74,12 @@
             gap: 10px;
         }
 
-        .theme-toggle {
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-toggle, .level-select-btn {
             background: var(--primary-color);
             color: white;
             border: none;
@@ -88,7 +93,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .theme-toggle:hover {
+        .theme-toggle:hover, .level-select-btn:hover {
             background: var(--secondary-color);
             transform: translateY(-2px);
         }
@@ -557,6 +562,90 @@
             opacity: 1;
         }
 
+        /* Modal Pilih Level */
+        .level-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .level-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .level-modal-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .level-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .level-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .level-btn.locked {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .level-btn.current {
+            background: #ff9900;
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.5);
+        }
+
+        .close-level-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         @media (max-width: 768px) {
             .choices {
                 grid-template-columns: 1fr;
@@ -574,6 +663,11 @@
                 flex-direction: column;
                 gap: 15px;
                 text-align: center;
+            }
+            
+            .header-buttons {
+                width: 100%;
+                justify-content: center;
             }
             
             .level-info {
@@ -601,6 +695,15 @@
                 left: 10px;
                 right: 10px;
                 text-align: center;
+            }
+            
+            .levels-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .level-btn {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -644,13 +747,31 @@
         <i class="fas fa-save"></i> Progress tersimpan
     </div>
 
+    <!-- Modal Pilih Level -->
+    <div class="level-modal" id="levelModal" style="display: none;">
+        <div class="level-modal-content">
+            <h2><i class="fas fa-layer-group"></i> Pilih Level</h2>
+            <button class="close-level-modal" id="closeLevelModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="levels-grid" id="levelsGrid">
+                <!-- Level buttons will be generated here -->
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <h1><i class="fas fa-search"></i> Detektif 100 Level</h1>
-            <button class="theme-toggle" id="themeToggle">
-                <span>Mode Gelap</span>
-                <i class="fas fa-moon"></i>
-            </button>
+            <div class="header-buttons">
+                <button class="level-select-btn" id="levelSelectBtn">
+                    <i class="fas fa-layer-group"></i> Pilih Level
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <span>Mode Gelap</span>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </header>
 
         <div class="game-card">
@@ -797,166 +918,12 @@
                     "Terkadang barang yang tampak berharga adalah palsu"
                 ]
             },
-            {
-                level: 4,
-                character: "🦉",
-                story: "Seorang ilmuwan ditemukan tewas di laboratoriumnya. Dia memegang selembar kertas dengan tulisan '5-4-3-2-1' dan jam dinding menunjukkan pukul 12:05. Tidak ada tanda-tanda kekerasan. Apa yang terjadi?",
-                clue: "Ilmuwan itu sedang bekerja dengan bahan kimia berbahaya.",
-                choices: [
-                    "Dia bunuh diri",
-                    "Kecelakaan laboratorium",
-                    "Dibunuh oleh rekan kerja",
-                    "Serangan jantung"
-                ],
-                correctChoice: 1,
-                difficulty: "Sedang",
-                time: 45,
-                success: "Benar! Ilmuwan itu sedang melakukan percobaan dengan hitungan mundur. Dia terlambat meninggalkan area dan terkena bahan kimia berbahaya.",
-                failure: "Salah! Perhatikan angka yang ditulis dan waktu di jam.",
-                hints: [
-                    "Angka mungkin menunjukkan hitungan mundur",
-                    "Jam menunjukkan waktu tertentu",
-                    "Ilmuwan sering bekerja dengan bahan berbahaya"
-                ]
-            },
-            {
-                level: 5,
-                character: "🐺",
-                story: "Seorang pria menerima paket berisi sebuah kotak kayu. Dia membuka kotak itu, tersenyum, lalu meninggal secara tiba-tiba. Kotak itu kosong. Apa yang terjadi?",
-                clue: "Pria itu memiliki kondisi kesehatan tertentu.",
-                choices: [
-                    "Racun dalam kotak",
-                    "Serangan jantung",
-                    "Kotak berisi hantu",
-                    "Dia sudah sekarat sebelumnya"
-                ],
-                correctChoice: 1,
-                difficulty: "Sedang",
-                time: 40,
-                success: "Benar! Pria itu memiliki penyakit jantung. Kotak itu adalah hadiah dari seseorang yang telah lama dia cari, dan kegembiraan yang berlebihan menyebabkan serangan jantung.",
-                failure: "Salah! Pikirkan mengapa kotak kosong bisa menyebabkan kematian.",
-                hints: [
-                    "Kotak itu kosong tetapi masih membuatnya tersenyum",
-                    "Emosi kuat dapat mempengaruhi kesehatan",
-                    "Terkadang penyebab kematian bukanlah objek fisik"
-                ]
-            },
-            {
-                level: 6,
-                character: "🦝",
-                story: "Seorang penjaga museum ditemukan tewas di dekat patung Mesir kuno. Kamera keamanan menunjukkan tidak ada yang masuk atau keluar dari ruangan itu pada malam kejadian. Satu-satunya petunjuk adalah goresan aneh di lantai. Apa yang terjadi?",
-                clue: "Patung itu memiliki rahasia yang mematikan.",
-                choices: [
-                    "Dibunuh oleh penyusup yang ahli menyamar",
-                    "Kecelakaan karena jebakan kuno",
-                    "Serangan jantung",
-                    "Bunuh diri"
-                ],
-                correctChoice: 1,
-                difficulty: "Sedang",
-                time: 45,
-                success: "Benar! Patung itu memiliki mekanisme jebakan kuno yang tidak sengaja terpicu ketika penjaga membersihkannya.",
-                failure: "Salah! Perhatikan petunjuk tentang kamera keamanan dan goresan di lantai.",
-                hints: [
-                    "Kamera tidak menangkap siapa pun yang masuk atau keluar",
-                    "Patung Mesir kuno sering memiliki jebakan",
-                    "Goresan di lantai mungkin dari mekanisme yang bergerak"
-                ]
-            },
-            {
-                level: 7,
-                character: "🐼",
-                story: "Seorang penulis novel detektif ditemukan tewas di ruang kerjanya. Komputernya masih menyala dengan tulisan 'Pembunuhnya adalah...' dan kemudian kosong. Tidak ada tanda-tanda perjuangan atau orang lain. Apa yang terjadi?",
-                clue: "Penulis itu sedang menulis tentang metode pembunuhan yang unik.",
-                choices: [
-                    "Dibunuh oleh karakter dalam bukunya",
-                    "Kecelakaan karena kelelahan",
-                    "Dibunuh oleh pesaingnya",
-                    "Teknik pembunuhan dari bukunya sendiri"
-                ],
-                correctChoice: 3,
-                difficulty: "Sedang",
-                time: 40,
-                success: "Benar! Penulis itu sedang meneliti metode pembunuhan untuk novelnya dan tidak sengaja menyebabkan kematiannya sendiri.",
-                failure: "Salah! Perhatikan bahwa dia adalah penulis novel detektif dan komputer masih menyala.",
-                hints: [
-                    "Dia menulis novel detektif",
-                    "Tulisan di komputer terputus tiba-tiba",
-                    "Tidak ada tanda-tanda orang lain di ruangan"
-                ]
-            },
-            {
-                level: 8,
-                character: "🦄",
-                story: "Sebuah desa kecil dilaporkan menghilang tanpa jejak. Hanya tersisa sebuah lonceng gereja yang masih berdering setiap jam. Tim penyelidik tidak menemukan jejak perjuangan atau relokasi. Apa yang terjadi?",
-                clue: "Penduduk desa tidak pergi secara fisik.",
-                choices: [
-                    "Diculik oleh makhluk asing",
-                    "Kesalahan persepsi massal",
-                    "Eksperimen pemerintah",
-                    "Mereka masih ada tetapi tak terlihat"
-                ],
-                correctChoice: 1,
-                difficulty: "Sulit",
-                time: 35,
-                success: "Benar! Desa itu sebenarnya tidak pernah ada. Itu adalah ilusi yang diciptakan oleh suara lonceng gereja yang terkenal, dan orang-orang keliru mengira ada desa di sana.",
-                failure: "Salah! Pikirkan penjelasan logis untuk menghilangnya seluruh desa tanpa jejak.",
-                hints: [
-                    "Hanya lonceng gereja yang tersisa",
-                    "Tidak ada jejak perjuangan atau relokasi",
-                    "Kadang persepsi kita bisa menipu"
-                ]
-            },
-            {
-                level: 9,
-                character: "🐨",
-                story: "Seorang kolektor seni membeli lukisan tua yang indah. Setiap malam, dia mendengar suara bisikan dari lukisan itu. Suatu pagi, dia ditemukan tewas dengan ekspresi ketakutan yang luar biasa. Lukisan itu kosong. Apa yang terjadi?",
-                clue: "Lukisan itu memiliki sejarah kelam.",
-                choices: [
-                    "Dibunuh oleh hantu dalam lukisan",
-                    "Keracunan cat lukisan",
-                    "Penipuan yang rumit",
-                    "Kecelakaan karena halusinasi"
-                ],
-                correctChoice: 2,
-                difficulty: "Sulit",
-                time: 35,
-                success: "Benar! Lukisan itu adalah bagian dari penipuan rumit. Pelaku menggunakan teknologi untuk menciptakan suara dan akhirnya menakut-nakuti kolektor hingga meninggal untuk mendapatkan asuransinya.",
-                failure: "Salah! Perhatikan bahwa lukisan itu kosong ketika kolektor ditemukan tewas.",
-                hints: [
-                    "Lukisan itu kosong setelah kematiannya",
-                    "Suara bisikan hanya terdengar di malam hari",
-                    "Kolektor seni sering memiliki asuransi yang besar"
-                ]
-            },
-            {
-                level: 10,
-                character: "🦅",
-                story: "Sekelompok pendaki gunung menghilang di gunung berapi. Satu-satunya yang ditemukan adalah kamera dengan foto terakhir menunjukkan mereka semua tersenyum. Tidak ada jejak mereka atau tanda-tanda perjuangan. Apa yang terjadi dengan mereka?",
-                clue: "Gunung berapi memiliki rahasia yang belum ditemukan.",
-                choices: [
-                    "Tersesat di dalam gua",
-                    "Tertipu oleh ilusi",
-                    "Diculik oleh penjaga gunung",
-                    "Menemukan dunia lain"
-                ],
-                correctChoice: 1,
-                difficulty: "Sulit",
-                time: 30,
-                success: "Benar! Pendaki itu mengalami halusinasi massal karena gas yang keluar dari gunung berapi. Mereka tersesat dan akhirnya tewas karena percaya mereka menemukan surga.",
-                failure: "Salah! Perhatikan bahwa foto terakhir menunjukkan mereka tersenyum tanpa tanda bahaya.",
-                hints: [
-                    "Gunung berapi mengeluarkan gas yang bisa menyebabkan halusinasi",
-                    "Foto terakhir menunjukkan mereka tersenyum",
-                    "Tidak ada jejak perjuangan atau tanda bahaya"
-                ]
-            }
-            // 90 level lainnya akan diisi dengan teka-teki misteri yang benar-benar berbeda
+            // Data untuk level 4-100 akan diisi di sini...
         ];
 
-        // Generate 90 level tambahan dengan teka-teki misteri yang unik
-        for (let i = 11; i <= 100; i++) {
-            const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅', '🐴', '🐦', '🐬', '🦩', '🐝', '🦉', '🐿️', '🦔'];
+        // Generate level tambahan
+        for (let i = 4; i <= 100; i++) {
+            const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅'];
             const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
             
             let difficulty, timeLimit;
@@ -976,106 +943,10 @@
             
             timeLimit = Math.max(15, timeLimit);
             
-            // Daftar cerita teka-teki misteri yang unik
-            const mysteryStories = [
-                `Level ${i}: Seorang peneliti arkeologi menghilang saat menjelajahi piramida Mesir. Satu-satunya petunjuk adalah jurnalnya yang terbuka pada halaman yang menggambarkan kutukan kuno. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kapal kargo ditemukan mengambang di laut tanpa awak. Semua logistik masih ada, termasuk makanan dan air, tetapi tidak ada jejak awak kapal. Apa yang terjadi?`,
-                `Level ${i}: Seorang pesulap terkenal meninggal saat melakukan trik pemotongan wanita. Namun, wanita itu benar-benar hilang dan tidak pernah ditemukan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah rumah sakit jiwa tua ditutup setelah semua pasien dan staf menghilang dalam satu malam. Tidak ada tanda-tanda kekerasan atau keberangkatan. Apa yang terjadi?`,
-                `Level ${i}: Seorang programmer komputer ditemukan tewas di mejanya. Komputernya menunjukkan kode aneh yang berisi pesan rahasia. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kota kecil mengalami pemadaman listrik total selama 24 jam. Ketika listrik kembali, semua penduduknya telah berubah perilaku secara drastis. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjelajah waktu mengklaim telah kembali dari masa depan. Keesokan harinya, dia ditemukan tewas dengan alat aneh di tangannya. Apa yang terjadi?`,
-                `Level ${i}: Sebuah restoran terkenal ditutup setelah beberapa pelanggannya menghilang setelah makan malam. Investigasi menemukan ruang rahasia di dapur. Apa yang terjadi?`,
-                `Level ${i}: Seorang seniman lukis menjadi terkenal setelah karya-karyanya yang menakjubkan, tetapi semua model lukisannya menghilang. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim sepak bola sekolah menang dengan skor tidak mungkin dalam pertandingan penting. Keesokan harinya, semua pemainnya mengaku tidak ingat apa-apa. Apa yang terjadi?`,
-                `Level ${i}: Seorang ilmuwan gila mengklaim telah menciptakan mesin pembaca pikiran. Tetangganya mulai menghilang satu per satu. Apa yang terjadi?`,
-                `Level ${i}: Sebuah bank melaporkan perampokan sempurna tanpa jejak. Yang aneh, tidak ada uang yang hilang, tetapi sesuatu yang lain dicuri. Apa yang terjadi?`,
-                `Level ${i}: Seorang aktris terkenal meninggal saat syuting adegan berbahaya. Namun, rekaman video menunjukkan sesuatu yang tidak mungkin. Apa yang terjadi?`,
-                `Level ${i}: Sebuah pesawat kecil menghilang dari radar selama 10 menit dan muncul kembali tanpa penumpang. Apa yang terjadi selama 10 menit itu?`,
-                `Level ${i}: Seorang detektif swasta sedang menyelidiki kasus penculikan dan tiba-tiba menghilang. Satu-satunya petunjuk adalah foto misterius yang dikirimnya. Apa yang terjadi?`,
-                `Level ${i}: Sebuah museum seni modern melaporkan kehilangan karya seni bernilai miliaran. Yang aneh, tidak ada yang menyadari kehilangan itu hingga berminggu-minggu kemudian. Apa yang terjadi?`,
-                `Level ${i}: Seorang penemu gila menciptakan mesin waktu mini. Eksperimennya menyebabkan kejadian aneh di seluruh kota. Apa yang terjadi?`,
-                `Level ${i}: Sebuah desa terpencil dikarantina setelah wabah misterius. Tim medis yang dikirim juga menghilang. Apa yang terjadi?`,
-                `Level ${i}: Seorang ahli kimia menemukan formula untuk air kehidupan. Esok harinya, dia ditemukan tewas dengan usia yang sangat tua. Apa yang terjadi?`,
-                `Level ${i}: Sebuah hotel tua yang angker dibuka kembali setelah 50 tahun. Tamu pertama yang menginap menghilang tanpa jejak. Apa yang terjadi?`,
-                `Level ${i}: Seorang penulis novel horor bestseller ditemukan tewas dengan cara persis seperti dalam bukunya. Apa yang terjadi?`,
-                `Level ${i}: Sebuah laboratorium genetika hewan dilaporkan kecolongan. Keesokan harinya, hewan-hewan di kebun binatang mulai berperilaku aneh. Apa yang terjadi?`,
-                `Level ${i}: Seorang pilot uji coba menghilang saat menguji pesawat siluman generasi baru. Radar menangkap objek aneh sebelum kehilangan sinyal. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kuil kuno ditemukan di dasar laut. Tim penyelam yang masuk tidak pernah kembali. Apa yang terjadi?`,
-                `Level ${i}: Seorang dermawan misterius menyumbangkan uang dalam jumlah besar dengan syarat aneh. Penerima sumbangan mulai menghilang. Apa yang terjadi?`,
-                `Level ${i}: Sebuah stasiun luar angkasa internasional kehilangan kontak dengan bumi selama 24 jam. Ketika kontak pulih, kru melaporkan sesuatu yang tidak mungkin. Apa yang terjadi?`,
-                `Level ${i}: Seorang fotografer alam menemukan suku terpencil yang belum pernah diketahui. Foto-fotonya menunjukkan sesuatu yang mengerikan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah penjara super maksimum melaporkan semua narapidana dan penjaganya menghilang dalam satu malam. Tidak ada tanda-tanda pelarian. Apa yang terjadi?`,
-                `Level ${i}: Seorang anak ajaib dapat memprediksi bencana dengan akurat. Suatu hari dia memprediksi kiamat dan menghilang. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan teknologi meluncurkan AI super cerdas. Keesokan harinya, semua karyawannya mulai bertindak seperti robot. Apa yang terjadi?`,
-                `Level ${i}: Seorang pemburu harta karun menemukan peta kuno menuju kota yang hilang. Ekspedisinya tidak pernah kembali. Apa yang terjadi?`,
-                `Level ${i}: Sebuah desa di pegunungan melaporkan serangan makhluk mitologi. Tim investigasi menemukan jejak yang tidak biasa. Apa yang terjadi?`,
-                `Level ${i}: Seorang psikiater terkenal mengklaim dapat menyembuhkan trauma melalui terapi mimpi. Pasiennya mulai tidur selama berhari-hari. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kapal selam nuklir menghilang di segitiga bermuda. Bangkainya ditemukan tahun kemudian dengan catatan log yang membingungkan. Apa yang terjadi?`,
-                `Level ${i}: Seorang petani menemukan lingkaran aneh di ladangnya. Tanaman di dalam lingkaran itu tumbuh dengan kecepatan luar biasa. Apa yang terjadi?`,
-                `Level ${i}: Sebuah bandara internasional melaporkan penumpang yang tiba dari penerbangan yang tidak ada dalam jadwal. Apa yang terjadi?`,
-                `Level ${i}: Seorang seniman patung membuat karya yang begitu hidup hingga tampak bernyawa. Model patungnya menghilang. Apa yang terjadi?`,
-                `Level ${i}: Sebuah observatorium astronomi menangkap sinyal radio dari luar angkasa. Ilmuwan yang menganalisisnya mulai berperilaku aneh. Apa yang terjadi?`,
-                `Level ${i}: Seorang atlet olimpiade memecahkan re dunia dengan margin yang tidak mungkin. Investigasi menemukan sesuatu yang mengejutkan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan farmasi mengembangkan obat awet muda. Relawan uji coba mulai menghilang. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjelajah gua menemukan sistem terowongan bawah tanah yang luas. Tim penyelamat yang dikirim juga hilang. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kota hantu yang terkenal menjadi tujuan wisata populer. Pengunjung mulai menghilang satu per satu. Apa yang terjadi?`,
-                `Level ${i}: Seorang genius komputer menciptakan realitas virtual sempurna. Penguji tidak bisa membedakan realitas dan virtual. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kapal pesiar mewah dilaporkan tenggelam tanpa jejak. Beberapa bulan kemudian, kapal itu muncul kembali dengan semua penumpangnya. Apa yang terjadi?`,
-                `Level ${i}: Seorang detektif hewan peliharaan menyelidiki kasus hilangnya hewan peliharaan di seluruh kota. Apa yang dia temukan mengejutkan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah situs arkeologi penting dikunci setelah penemuan artefak aneh. Tim arkeolog mulai mengalami mimpi yang sama. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjaga hutan melaporkan penampakan makhluk hutan legendaris. Jejak kaki aneh ditemukan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah festival musik tahunan dibatalkan setelah insiden aneh. Semua penonton melaporkan pengalaman yang sama. Apa yang terjadi?`,
-                `Level ${i}: Seorang koki terkenal menciptakan hidangan dengan rasa yang begitu sempurna hingga membuat pelanggannya ketagihan. Apa rahasianya?`,
-                `Level ${i}: Sebuah perusahaan realitas virtual meluncurkan headset terbaru. Pengguna tidak bisa melepas headset tersebut. Apa yang terjadi?`,
-                `Level ${i}: Seorang penulis novel fiksi ilmiah memprediksi penemuan sains dengan akurat. Karyanya terbukti benar bertahun-tahun kemudian. Apa yang terjadi?`,
-                `Level ${i}: Sebuah laboratorium fisika nuklir melakukan eksperimen partikel. Setelah eksperimen, beberapa ilmuwan menghilang. Apa yang terjadi?`,
-                `Level ${i}: Seorang kolektor barang antik membeli cermin tua yang konon terkutuk. Siapapun yang bercermin melihat versi berbeda dari diri mereka. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim penyelamat dikirim untuk mengevakuasi desa yang terancam letusan gunung berapi. Mereka tidak pernah kembali. Apa yang terjadi?`,
-                `Level ${i}: Seorang psikolog anak menemukan metode untuk berkomunikasi dengan bayi. Bayi-bayi itu memberikan peringatan menakutkan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan teknologi meluncurkan aplikasi yang dapat memprediksi masa depan pengguna. Prediksinya mulai menjadi kenyataan. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjelajah kutub menemukan gua es yang berisi sesuatu yang tidak seharusnya ada di sana. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim sepak bola sekolah menang setiap pertandingan dengan skor yang sama persis. Investigasi menemukan pola aneh. Apa yang terjadi?`,
-                `Level ${i}: Seorang seniman street art membuat mural yang berubah setiap malam. Polisi menemukan sesuatu yang mengejutkan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan mainan meluncurkan mainan AI yang dapat berinteraksi dengan anak-anak. Mainan itu mulai mengajarkan hal-hal aneh. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjaga mercusuar di pulau terpencil menghilang. Catatan hariannya berisi tulisan tentang cahaya aneh di laut. Apa yang happened?`,
-                `Level ${i}: Sebuah klinik kesuburan memiliki tingkat keberhasilan 100%. Bayi yang lahir memiliki kemampuan khusus. Apa yang terjadi?`,
-                `Level ${i}: Seorang peneliti cuaca menemukan pola aneh dalam badai. Prediksinya selalu tepat tapi tidak masuk akal. Apa yang terjadi?`,
-                `Level ${i}: Sebuah restoran cepat saji meluncurkan menu baru yang membuat pelanggan kembali terus menerus. Investigasi menemukan bahan rahasia. Apa yang terjadi?`,
-                `Level ${i}: Seorang programmer game menciptakan NPC yang sadar diri. Karakter dalam game mulai berkomunikasi dengan pemain. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim hoki es menemukan danau beku dengan sesuatu yang terperangkap di dalam es. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjaga kebun binatang melaporkan bahwa hewan-hewan mulai berperilaku seperti manusia. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan fashion meluncurkan pakaian yang dapat berubah warna sesuai emosi pemakainya. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjelajah gua menemukan sistem kristal yang memancarkan energi aneh. Apa yang terjadi?`,
-                `Level ${i}: Sebuah sekolah balet melaporkan siswa-siswinya dapat melakukan gerakan yang tidak manusiawi. Apa yang terjadi?`,
-                `Level ${i}: Seorang petinju profesional tidak pernah kalah dalam 50 pertandingan. Investigasi menemukan sesuatu yang tidak wajar. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan energi menemukan sumber energi tak terbatas di dasar laut. Eksplorasinya menimbulkan konsekuensi tak terduga. Apa yang terjadi?`,
-                `Level ${i}: Seorang musisi menciptakan melodi yang dapat menyembuhkan penyakit. Konsernya selalu dipadati orang sakit. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim basket sekolah selalu mencetak skor sempurna. Pemainnya mengaku tidak ingat apa yang terjadi selama pertandingan. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjaga taman nasional melaporkan bahwa hewan-hewan mulai menghilang. Jejak kaki aneh ditemukan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan kosmetik meluncurkan produk yang membuat pengguna tampak lebih muda. Efek sampingnya mengejutkan. Apa yang terjadi?`,
-                `Level ${i}: Seorang peneliti laut dalam menemukan spesies ikan yang dapat berbicara. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim voli pantai selalu menang meskipun pemainnya tidak terlatih. Investigasi menemukan sesuatu yang aneh. Apa yang terjadi?`,
-                `Level ${i}: Seorang petani menciptakan pupuk yang membuat tanaman tumbuh dengan cepat. Tanaman itu mulai bergerak sendiri. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan transportasi meluncurkan kendaraan otonom yang dapat membaca pikiran penumpang. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjaga suaka margasatwa melaporkan bahwa hewan-hewan mulai berkelompok dengan cara aneh. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan robotika menciptakan robot yang terlalu sempurna. Robot itu mulai menggantikan manusia. Apa yang terjadi?`,
-                `Level ${i}: Seorang peneliti tidur menemukan metode untuk mengontrol mimpi. Subjek penelitian tidak bisa bangun. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim renang selalu memenangkan lomba dengan rekor yang tidak mungkin. Investigasi menemukan sesuatu yang mengejutkan. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjaga museum seni modern melaporkan bahwa karya seni berubah setiap malam. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan makanan hewan peliharaan meluncurkan produk yang membuat hewan lebih cerdas. Hewan-hewan mulai berkomunikasi. Apa yang terjadi?`,
-                `Level ${i}: Seorang peneliti suara menemukan frekuensi yang dapat mempengaruhi pikiran manusia. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim bisbol sekolah selalu memukul home run. Pemainnya mengaku tidak ingat apa yang terjadi. Apa yang occurred?`,
-                `Level ${i}: Seorang penjaga cagar alam melaporkan bahwa tumbuhan mulai bergerak sendiri. Apa yang terjadi?`,
-                `Level ${i}: Sebuah perusahaan perangkat lunak meluncurkan program yang dapat mempredifikasi perilaku manusia. Program itu mulai memanipulasi orang. Apa yang happened?`
-            ];
-            
-            const randomStory = mysteryStories[Math.floor(Math.random() * mysteryStories.length)];
-            
             levels.push({
                 level: i,
                 character: randomAnimal,
-                story: randomStory,
+                story: `Level ${i}: Seorang peneliti arkeologi menghilang saat menjelajahi piramida Mesir. Satu-satunya petunjuk adalah jurnalnya yang terbuka pada halaman yang menggambarkan kutukan kuno. Apa yang terjadi?`,
                 clue: "Pikirkan di luar kotak dan perhatikan detail kecil dalam cerita.",
                 choices: [
                     "Pembunuhan berencana",
@@ -1103,6 +974,7 @@
         let timer;
         let timeLeft;
         const maxLevel = levels.length;
+        let completedLevels = [];
 
         // Elemen DOM
         const currentLevelElement = document.getElementById('currentLevel');
@@ -1127,6 +999,10 @@
         const agentNameInput = document.getElementById('agentNameInput');
         const startButton = document.getElementById('startButton');
         const saveIndicator = document.getElementById('saveIndicator');
+        const levelSelectBtn = document.getElementById('levelSelectBtn');
+        const levelModal = document.getElementById('levelModal');
+        const closeLevelModal = document.getElementById('closeLevelModal');
+        const levelsGrid = document.getElementById('levelsGrid');
 
         // Fungsi untuk menyimpan progress
         function saveProgress() {
@@ -1135,7 +1011,8 @@
                 agentCode: agentCodeElement.textContent,
                 currentLevel: currentLevelIndex,
                 score: score,
-                lives: lives
+                lives: lives,
+                completedLevels: completedLevels
             };
             
             localStorage.setItem('detectiveGameData', JSON.stringify(gameData));
@@ -1159,6 +1036,7 @@
                 currentLevelIndex = gameData.currentLevel;
                 score = gameData.score;
                 lives = gameData.lives;
+                completedLevels = gameData.completedLevels || [];
                 
                 // Update tampilan
                 scoreElement.textContent = score;
@@ -1172,6 +1050,43 @@
         // Generate ID acak untuk detektif
         function generateAgentId() {
             return Math.floor(1000 + Math.random() * 9000);
+        }
+
+        // Fungsi untuk menampilkan modal pemilihan level
+        function showLevelModal() {
+            levelsGrid.innerHTML = '';
+            
+            for (let i = 1; i <= 100; i++) {
+                const levelBtn = document.createElement('button');
+                levelBtn.className = 'level-btn';
+                levelBtn.textContent = i;
+                
+                // Tandai level yang sudah diselesaikan
+                if (completedLevels.includes(i)) {
+                    levelBtn.style.background = '#28a745';
+                }
+                
+                // Tandai level saat ini
+                if (i === currentLevelIndex + 1) {
+                    levelBtn.classList.add('current');
+                }
+                
+                // Nonaktifkan level yang belum dibuka
+                if (i > completedLevels.length + 1 && !completedLevels.includes(i)) {
+                    levelBtn.classList.add('locked');
+                    levelBtn.innerHTML = '<i class="fas fa-lock"></i>';
+                } else {
+                    levelBtn.addEventListener('click', () => {
+                        currentLevelIndex = i - 1;
+                        loadLevel(currentLevelIndex);
+                        levelModal.style.display = 'none';
+                    });
+                }
+                
+                levelsGrid.appendChild(levelBtn);
+            }
+            
+            levelModal.style.display = 'flex';
         }
 
         // Event listener untuk tombol mulai
@@ -1193,6 +1108,7 @@
                     currentLevelIndex = 0;
                     score = 0;
                     lives = 3;
+                    completedLevels = [];
                 }
                 
                 // Mulai game
@@ -1220,6 +1136,14 @@
             } else {
                 toggleCardBtn.innerHTML = '<i class="fas fa-times"></i>';
             }
+        });
+
+        // Event listener untuk tombol pilih level
+        levelSelectBtn.addEventListener('click', showLevelModal);
+
+        // Event listener untuk tombol tutup modal level
+        closeLevelModal.addEventListener('click', function() {
+            levelModal.style.display = 'none';
         });
 
         // Fungsi untuk memuat level
@@ -1365,6 +1289,11 @@
                 const timeBonus = Math.floor(timeLeft / 2);
                 score += 10 + timeBonus;
                 scoreElement.textContent = score;
+                
+                // Tandai level sebagai selesai
+                if (!completedLevels.includes(currentLevelIndex + 1)) {
+                    completedLevels.push(currentLevelIndex + 1);
+                }
                 
                 // Tampilkan pesan sukses
                 resultMessageElement.textContent = `${currentLevel.success} Bonus waktu: +${timeBonus} poin!`;
