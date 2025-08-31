@@ -44,12 +44,12 @@
             line-height: 1.6;
             background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
             min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
         }
 
         header {
@@ -330,150 +330,6 @@
             font-size: 1.2rem;
         }
 
-        /* Kartu Detektif */
-        .detective-card-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            perspective: 1000px;
-        }
-
-        .detective-card {
-            width: 300px;
-            height: 180px;
-            background: linear-gradient(135deg, #2c3e50, #4a5568);
-            border-radius: 15px;
-            padding: 20px;
-            color: white;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-        }
-
-        .detective-card:hover {
-            transform: rotateY(10deg);
-        }
-
-        .detective-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><text x="0" y="50" font-family="monospace" font-size="12" transform="rotate(-45 50 50)">CONFIDENTIAL</text></svg>');
-            background-repeat: repeat;
-            opacity: 0.1;
-        }
-
-        .detective-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 10px;
-        }
-
-        .detective-card-title {
-            font-size: 1rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .detective-card-badge {
-            background: #e74c3c;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .detective-card-content {
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 15px;
-        }
-
-        .detective-card-photo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(45deg, #3498db, #2980b9);
-            border: 3px solid white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
-
-        .detective-card-details {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .detective-card-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .detective-card-id {
-            font-family: monospace;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 5px;
-            border-radius: 3px;
-        }
-
-        .detective-card-footer {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            font-size: 0.7rem;
-            opacity: 0.7;
-        }
-
-        .toggle-card-btn {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-            z-index: 101;
-        }
-
-        .card-minimized {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-minimized .detective-card-content {
-            display: none;
-        }
-
         /* Modal Input Nama */
         .modal-overlay {
             position: fixed;
@@ -680,21 +536,6 @@
                 align-items: center;
             }
             
-            .detective-card-container {
-                position: relative;
-                top: 0;
-                right: 0;
-                margin: 0 auto 20px auto;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-            }
-            
-            .detective-card {
-                width: 100%;
-                max-width: 300px;
-            }
-            
             .save-indicator {
                 bottom: 10px;
                 left: 10px;
@@ -721,29 +562,6 @@
             <p>Masukkan nama detektif Anda untuk memulai misi rahasia!</p>
             <input type="text" class="name-input" id="agentNameInput" placeholder="Nama Detektif" maxlength="20">
             <button class="start-button" id="startButton">Mulai Misi</button>
-        </div>
-    </div>
-
-    <!-- Kartu Detektif -->
-    <div class="detective-card-container">
-        <div class="detective-card" id="detectiveCard">
-            <button class="toggle-card-btn" id="toggleCardBtn">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="detective-card-header">
-                <div class="detective-card-title">SECRET AGENT</div>
-                <div class="detective-card-badge">LEVEL <span id="cardLevel">1</span></div>
-            </div>
-            <div class="detective-card-content">
-                <div class="detective-card-photo">
-                    <i class="fas fa-user-secret"></i>
-                </div>
-                <div class="detective-card-details">
-                    <div class="detective-card-name" id="agentName">Detective</div>
-                    <div class="detective-card-id" id="agentId">ID: D-<span id="agentCode">0000</span></div>
-                </div>
-            </div>
-            <div class="detective-card-footer">CONFIDENTIAL</div>
         </div>
     </div>
 
@@ -855,7 +673,7 @@
     </div>
 
     <script>
-        // Data level dan karakter - 100 teka-teki misteri yang benar-benar berbeda
+        // Data level dan karakter - 10 teka-teki misteri pertama
         const levels = [
             {
                 level: 1,
@@ -1076,72 +894,8 @@
                     "Foto terakhir menunjukkan mereka tersenyum",
                     "Tidak ada jejak perjuangan atau tanda bahaya"
                 ]
-            },
-            // 90 level lainnya akan diisi dengan teka-teki misteri yang benar-benar berbeda
-        ];
-
-        // Generate 90 level tambahan dengan teka-teki misteri yang unik
-        for (let i = 11; i <= 100; i++) {
-            const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅', '🐴', '🐦', '🐬', '🦩', '🐝', '🦉', '🐿️', '🦔'];
-            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-            
-            let difficulty, timeLimit;
-            if (i <= 25) {
-                difficulty = "Pemula";
-                timeLimit = 60 - i;
-            } else if (i <= 50) {
-                difficulty = "Sedang";
-                timeLimit = 50 - Math.floor(i/2);
-            } else if (i <= 75) {
-                difficulty = "Sulit";
-                timeLimit = 40 - Math.floor(i/3);
-            } else {
-                difficulty = "Expert";
-                timeLimit = 30 - Math.floor(i/4);
             }
-            
-            timeLimit = Math.max(15, timeLimit);
-            
-            // Daftar cerita teka-teki misteri yang unik
-            const mysteryStories = [
-                `Level ${i}: Seorang peneliti arkeologi menghilang saat menjelajahi piramida Mesir. Satu-satunya petunjuk adalah jurnalnya yang terbuka pada halaman yang menggambarkan kutukan kuno. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kapal kargo ditemukan mengambang di laut tanpa awak. Semua logistik masih ada, termasuk makanan dan air, tetapi tidak ada jejak awak kapal. Apa yang terjadi?`,
-                `Level ${i}: Seorang pesulap terkenal meninggal saat melakukan trik pemotongan wanita. Namun, wanita itu benar-benar hilang dan tidak pernah ditemukan. Apa yang terjadi?`,
-                `Level ${i}: Sebuah rumah sakit jiwa tua ditutup setelah semua pasien dan staf menghilang dalam satu malam. Tidak ada tanda-tanda kekerasan atau keberangkatan. Apa yang terjadi?`,
-                `Level ${i}: Seorang programmer komputer ditemukan tewas di mejanya. Komputernya menunjukkan kode aneh yang berisi pesan rahasia. Apa yang terjadi?`,
-                `Level ${i}: Sebuah kota kecil mengalami pemadaman listrik total selama 24 jam. Ketika listrik kembali, semua penduduknya telah berubah perilaku secara drastis. Apa yang terjadi?`,
-                `Level ${i}: Seorang penjelajah waktu mengklaim telah kembali dari masa depan. Keesokan harinya, dia ditemukan tewas dengan alat aneh di tangannya. Apa yang terjadi?`,
-                `Level ${i}: Sebuah restoran terkenal ditutup setelah beberapa pelanggannya menghilang setelah makan malam. Investigasi menemukan ruang rahasia di dapur. Apa yang terjadi?`,
-                `Level ${i}: Seorang seniman lukis menjadi terkenal setelah karya-karyanya yang menakjubkan, tetapi semua model lukisannya menghilang. Apa yang terjadi?`,
-                `Level ${i}: Sebuah tim sepak bola sekolah menang dengan skor tidak mungkin dalam pertandingan penting. Keesokan harinya, semua pemainnya mengaku tidak ingat apa-apa. Apa yang terjadi?`,
-                // ... tambahkan lebih banyak cerita unik
-            ];
-            
-            const randomStory = mysteryStories[Math.floor(Math.random() * mysteryStories.length)];
-            
-            levels.push({
-                level: i,
-                character: randomAnimal,
-                story: randomStory,
-                clue: "Pikirkan di luar kotak dan perhatikan detail kecil dalam cerita.",
-                choices: [
-                    "Pembunuhan berencana",
-                    "Kecelakaan tragis",
-                    "Kesalahan identitas",
-                    "Motif tersembunyi"
-                ],
-                correctChoice: Math.floor(Math.random() * 4),
-                difficulty: difficulty,
-                time: timeLimit,
-                success: `Hebat! Anda berhasil memecahkan misteri level ${i}.`,
-                failure: `Sayang sekali, Anda belum berhasil memecahkan misteri level ${i}. Coba lagi!`,
-                hints: [
-                    "Perhatikan detail kecil dalam cerita",
-                    "Gunakan petunjuk yang diberikan",
-                    "Analisis semua opsi dengan cermat sebelum memilih"
-                ]
-            });
-        }
+        ];
 
         // Variabel game
         let currentLevelIndex = 0;
@@ -1166,11 +920,6 @@
         const resultMessageElement = document.getElementById('resultMessage');
         const timerElement = document.getElementById('timer');
         const livesElement = document.getElementById('lives');
-        const detectiveCard = document.getElementById('detectiveCard');
-        const toggleCardBtn = document.getElementById('toggleCardBtn');
-        const cardLevelElement = document.getElementById('cardLevel');
-        const agentNameElement = document.getElementById('agentName');
-        const agentCodeElement = document.getElementById('agentCode');
         const nameModal = document.getElementById('nameModal');
         const agentNameInput = document.getElementById('agentNameInput');
         const startButton = document.getElementById('startButton');
@@ -1183,8 +932,6 @@
         // Fungsi untuk menyimpan progress
         function saveProgress() {
             const gameData = {
-                agentName: agentNameElement.textContent,
-                agentCode: agentCodeElement.textContent,
                 currentLevel: currentLevelIndex,
                 score: score,
                 lives: lives,
@@ -1204,35 +951,33 @@
         function loadProgress() {
             const savedData = localStorage.getItem('detectiveGameData');
             if (savedData) {
-                const gameData = JSON.parse(savedData);
-                
-                // Isi data yang disimpan
-                agentNameElement.textContent = gameData.agentName;
-                agentCodeElement.textContent = gameData.agentCode;
-                currentLevelIndex = gameData.currentLevel;
-                score = gameData.score;
-                lives = gameData.lives;
-                completedLevels = gameData.completedLevels || [];
-                
-                // Update tampilan
-                scoreElement.textContent = score;
-                updateLivesDisplay();
-                
-                return true;
+                try {
+                    const gameData = JSON.parse(savedData);
+                    
+                    // Isi data yang disimpan
+                    currentLevelIndex = gameData.currentLevel || 0;
+                    score = gameData.score || 0;
+                    lives = gameData.lives || 3;
+                    completedLevels = gameData.completedLevels || [];
+                    
+                    // Update tampilan
+                    scoreElement.textContent = score;
+                    updateLivesDisplay();
+                    
+                    return true;
+                } catch (e) {
+                    console.error("Error loading saved data:", e);
+                    return false;
+                }
             }
             return false;
-        }
-
-        // Generate ID acak untuk detektif
-        function generateAgentId() {
-            return Math.floor(1000 + Math.random() * 9000);
         }
 
         // Fungsi untuk menampilkan modal pemilihan level
         function showLevelModal() {
             levelsGrid.innerHTML = '';
             
-            for (let i = 1; i <= 100; i++) {
+            for (let i = 1; i <= levels.length; i++) {
                 const levelBtn = document.createElement('button');
                 levelBtn.className = 'level-btn';
                 levelBtn.textContent = i;
@@ -1269,12 +1014,6 @@
         startButton.addEventListener('click', function() {
             const agentName = agentNameInput.value.trim();
             if (agentName) {
-                // Set nama agen
-                agentNameElement.textContent = agentName;
-                
-                // Set ID acak
-                agentCodeElement.textContent = generateAgentId();
-                
                 // Sembunyikan modal
                 nameModal.style.display = 'none';
                 
@@ -1304,16 +1043,6 @@
             }
         });
 
-        // Toggle kartu detektif
-        toggleCardBtn.addEventListener('click', function() {
-            detectiveCard.classList.toggle('card-minimized');
-            if (detectiveCard.classList.contains('card-minimized')) {
-                toggleCardBtn.innerHTML = '<i class="fas fa-id-card"></i>';
-            } else {
-                toggleCardBtn.innerHTML = '<i class="fas fa-times"></i>';
-            }
-        });
-
         // Event listener untuk tombol pilih level
         levelSelectBtn.addEventListener('click', showLevelModal);
 
@@ -1327,7 +1056,7 @@
             if (levelIndex >= maxLevel) {
                 // Game selesai
                 clearInterval(timer);
-                storyElement.textContent = "Selamat! Anda telah menyelesaikan semua 100 level. Anda sekarang adalah Detektif Master! Terima kasih telah bermain!";
+                storyElement.textContent = "Selamat! Anda telah menyelesaikan semua level. Anda sekarang adalah Detektif Master! Terima kasih telah bermain!";
                 characterElement.textContent = "🏆";
                 choicesElement.innerHTML = "";
                 resultMessageElement.style.display = "none";
@@ -1345,12 +1074,11 @@
             storyElement.textContent = level.story;
             clueElement.textContent = level.clue;
             levelDifficultyElement.textContent = level.difficulty;
-            cardLevelElement.textContent = level.level;
             
             // Update progress bar
-            const progressPercentage = (level.level / 100) * 100;
+            const progressPercentage = (level.level / levels.length) * 100;
             levelProgressElement.style.width = `${progressPercentage}%`;
-            progressPercentageElement.textContent = `${progressPercentage}%`;
+            progressPercentageElement.textContent = `${Math.round(progressPercentage)}%`;
             
             // Kosongkan pilihan sebelumnya
             choicesElement.innerHTML = "";
@@ -1386,7 +1114,7 @@
 
         // Fungsi untuk memulai timer
         function startTimer() {
-            timer = setInterval(() {
+            timer = setInterval(() => {
                 timeLeft--;
                 timerElement.textContent = timeLeft;
                 
@@ -1539,11 +1267,11 @@
 
         // Coba muat progress saat halaman dimuat
         window.addEventListener('load', function() {
-            if (loadProgress()) {
-                // Jika ada progress yang disimpan, langsung muat level
-                nameModal.style.display = 'none';
-                loadLevel(currentLevelIndex);
-            }
+            // Selalu tampilkan modal nama saat halaman dimuat
+            nameModal.style.display = 'flex';
+            
+            // Coba muat progress yang disimpan
+            loadProgress();
         });
     </script>
 </body>
