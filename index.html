@@ -3,594 +3,733 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detektif 100 Level</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Detective Game - Investigasi Lengkap</title>
     <style>
         :root {
-            --primary-color: #4e54c8;
-            --secondary-color: #8f94fb;
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
             --text-color: #333;
-            --bg-color: #f9f9f9;
-            --card-bg: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --choice-bg: #f0f4ff;
-            --choice-hover: #e0e8ff;
-        }
-
-        .dark-mode {
-            --primary-color: #6b75cb;
-            --secondary-color: #4a4f8c;
-            --text-color: #f0f0f0;
-            --bg-color: #1a1a2e;
-            --card-bg: #16213e;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --choice-bg: #2a3b6a;
-            --choice-hover: #344878;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #1a1a2e;
+            color: var(--light-color);
             line-height: 1.6;
-            background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
-            min-height: 100vh;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 0, 0.05) 0%, transparent 20%);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
+            background-color: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
             padding: 20px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding: 15px 20px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px var(--shadow-color);
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color);
         }
 
         h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .theme-toggle {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-toggle:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .game-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .level-info {
+            grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
+            background-color: var(--secondary-color);
+            padding: 12px;
+            border-radius: 8px;
             margin-bottom: 20px;
             font-weight: bold;
-            color: var(--primary-color);
-            background: var(--choice-bg);
-            padding: 12px 20px;
-            border-radius: 10px;
         }
 
-        .character-container {
-            text-align: center;
-            margin: 25px 0;
-            perspective: 1000px;
-        }
-
-        .character {
-            font-size: 6rem;
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
-            transform-style: preserve-3d;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-10px) rotateY(10deg); }
-        }
-
-        .story {
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-            text-align: justify;
-            line-height: 1.8;
-            background: var(--choice-bg);
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .choices {
+        .game-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 20px;
         }
 
-        .choice-btn {
+        .location-section {
+            grid-column: 1;
+            margin-bottom: 20px;
+        }
+
+        .location-header {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        .location-description {
+            background-color: var(--secondary-color);
             padding: 15px;
-            background: var(--choice-bg);
-            color: var(--text-color);
-            border: 2px solid var(--primary-color);
-            border-radius: 12px;
+            border-radius: 5px;
+            line-height: 1.6;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 20px;
+            min-height: 150px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .action-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .characters-section {
+            grid-column: 2;
+            margin-bottom: 20px;
+        }
+
+        .characters-header {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .character-btn {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
             text-align: left;
+            transition: background-color 0.3s;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .choice-btn:hover {
-            background: var(--choice-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--shadow-color);
+        .character-btn:hover {
+            background-color: var(--accent-color);
         }
 
-        .choice-btn i {
-            color: var(--primary-color);
-            font-size: 1.2rem;
+        .character-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #d4bcbd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border: 2px solid var(--accent-color);
         }
 
-        .progress-container {
-            margin: 30px 0;
+        .inventory-section {
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
         }
 
-        .progress-label {
+        .inventory-header {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--secondary-color);
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .inventory-toggle {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .inventory-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .inventory-item {
+            background-color: var(--primary-color);
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .inventory-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .item-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+        }
+
+        .item-name {
+            font-size: 0.9rem;
             font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .modal-title {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--light-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .conversation-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .conversation-btn {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+
+        .conversation-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .locations-modal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .location-option {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .location-option:hover {
+            background-color: var(--accent-color);
         }
 
         .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: #e0e0e0;
-            border-radius: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 5px;
+            margin-top: 10px;
             overflow: hidden;
         }
 
-        .progress {
+        .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 10px;
-            width: 1%;
-            transition: width 0.5s ease;
-        }
-
-        .instructions {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 30px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            border-left: 4px solid var(--secondary-color);
-        }
-
-        .instructions h2 {
-            margin-bottom: 20px;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .instructions ol {
-            padding-left: 20px;
-        }
-
-        .instructions li {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            font-size: 0.9rem;
-        }
-
-        .level-badge {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.9rem;
+            background-color: var(--accent-color);
+            width: 30%;
+            transition: width 0.5s;
         }
 
         @media (max-width: 768px) {
-            .choices {
+            .container {
                 grid-template-columns: 1fr;
             }
             
-            .character {
-                font-size: 4rem;
+            .game-content {
+                grid-template-columns: 1fr;
             }
             
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .actions-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Modal untuk percakapan -->
+    <div id="conversation-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="conversation-title">Percakapan dengan Karakter</h2>
+                <button class="close-modal" onclick="closeModal('conversation-modal')">&times;</button>
+            </div>
+            <div id="conversation-text">
+                Selamat siang, Detektif. Ada yang bisa saya bantu?
+            </div>
+            <div class="conversation-options" id="conversation-options">
+                <button class="conversation-btn" onclick="askQuestion('whereabouts')">Di mana Anda saat kejadian?</button>
+                <button class="conversation-btn" onclick="askQuestion('relationship')">Apa hubungan Anda dengan korban?</button>
+                <button class="conversation-btn" onclick="askQuestion('alibi')">Apakah Anda memiliki alibi?</button>
+                <button class="conversation-btn" onclick="closeModal('conversation-modal')">Akhiri percakapan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk lokasi -->
+    <div id="locations-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Pilih Lokasi</h2>
+                <button class="close-modal" onclick="closeModal('locations-modal')">&times;</button>
+            </div>
+            <div class="locations-modal">
+                <button class="location-option" onclick="goToLocation('library')">Perpustakaan</button>
+                <button class="location-option" onclick="goToLocation('hall')">Aula Utama</button>
+                <button class="location-option" onclick="goToLocation('kitchen')">Dapur</button>
+                <button class="location-option" onclick="goToLocation('garden')">Taman</button>
+                <button class="location-option" onclick="goToLocation('study')">Ruang Kerja</button>
+                <button class="location-option" onclick="goToLocation('bedroom')">Kamar Tidur</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk inventory -->
+    <div id="inventory-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Inventory</h2>
+                <button class="close-modal" onclick="closeModal('inventory-modal')">&times;</button>
+            </div>
+            <div class="inventory-items">
+                <div class="inventory-item" onclick="examineItem('notebook')">
+                    <div class="item-icon">📓</div>
+                    <div class="item-name">Notebook</div>
+                </div>
+                <div class="inventory-item" onclick="examineItem('pen')">
+                    <div class="item-icon">✏️</div>
+                    <div class="item-name">Pena</div>
+                </div>
+                <div class="inventory-item" onclick="examineItem('fragment')">
+                    <div class="item-icon">🧩</div>
+                    <div class="item-name">Pecahan Vas</div>
+                </div>
+                <div class="inventory-item" onclick="examineItem('key')">
+                    <div class="item-icon">🔑</div>
+                    <div class="item-name">Kunci Kecil</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
-            <h1><i class="fas fa-search"></i> Detektif 100 Level</h1>
-            <button class="theme-toggle" id="themeToggle">
-                <span>Mode Gelap</span>
-                <i class="fas fa-moon"></i>
-            </button>
+            <h1>Detective Game</h1>
+            <p>Selamat datang, Detektif. Selesaikan misteri dengan logika dan observasimu!</p>
         </header>
 
-        <div class="game-card">
-            <div class="level-info">
-                <span>Level: <span id="currentLevel">1</span>/100</span>
-                <span>Skor: <span id="score">0</span></span>
-                <span class="level-badge" id="levelDifficulty">Pemula</span>
-            </div>
+        <div class="level-info">
+            <span>Level: 6 - Mode: Normal</span>
+            <span>Konspirasi Museum - Bagian 3</span>
+        </div>
 
-            <div class="progress-container">
-                <div class="progress-label">
-                    <span>Progress</span>
-                    <span id="progressPercentage">1%</span>
+        <div class="game-content">
+            <div class="location-section">
+                <h2 class="location-header">Lokasi: Perpustakaan</h2>
+                <div class="location-description">
+                    <p>Tuan Harrington ditemukan terbaring di dekat perapian. Ada luka di kepalanya, dan sebuah pecahan vas bunga tergeletak di dekatnya. Ruangan ini agak berantakan, sepertinya ada perlawanan.</p>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress" id="levelProgress"></div>
+                
+                <h3 class="location-header">Aksi Investigasi</h3>
+                <div class="actions-grid">
+                    <button class="action-btn" onclick="examineObject('vas')">Periksa Vas Pecah</button>
+                    <button class="action-btn" onclick="examineObject('body')">Periksa Tubuh Korban</button>
+                    <button class="action-btn" onclick="examineObject('window')">Periksa Jendela</button>
+                    <button class="action-btn" onclick="examineObject('bookshelf')">Periksa Rak Buku</button>
+                    <button class="action-btn" onclick="showModal('locations-modal')">Jelajahi Lokasi Lain</button>
+                    <button class="action-btn" onclick="addToInventory('fragment')">Ambil Pecahan Vas</button>
                 </div>
             </div>
 
-            <div class="character-container">
-                <div class="character" id="character">🦊</div>
-            </div>
-
-            <div class="story" id="story">
-                Selamat datang, Detektif! Hari ini kita memiliki kasus hilangnya kue spesial di kafe setempat. 
-                Pemilik kafe, rubah licik bernama Felix, melaporkan bahwa kue coklatnya hilang tepat sebelum acara penting. 
-                Mari kita selidiki bersama!
-            </div>
-
-            <div class="choices" id="choices">
-                <button class="choice-btn" onclick="makeChoice(1)"><i class="fas fa-comment"></i> Wawancarai Felix si Rubah</button>
-                <button class="choice-btn" onclick="makeChoice(2)"><i class="fas fa-utensils"></i> Periksa area dapur</button>
-                <button class="choice-btn" onclick="makeChoice(3)"><i class="fas fa-users"></i> Tanyai pelanggan yang hadir</button>
-                <button class="choice-btn" onclick="makeChoice(4)"><i class="fas fa-video"></i> Periksa CCTV</button>
+            <div class="characters-section">
+                <h2 class="characters-header">Karakter</h2>
+                <div class="characters-grid">
+                    <button class="character-btn" onclick="startConversation('charles')">
+                        <div class="character-avatar">C</div>
+                        <span>Charles, Butler</span>
+                    </button>
+                    <button class="character-btn" onclick="startConversation('eleanor')">
+                        <div class="character-avatar">E</div>
+                        <span>Eleanor, Istri Almarhum</span>
+                    </button>
+                    <button class="character-btn" onclick="startConversation('thomas')">
+                        <div class="character-avatar">T</div>
+                        <span>Thomas, Keponakan</span>
+                    </button>
+                    <button class="character-btn" onclick="startConversation('maria')">
+                        <div class="character-avatar">M</div>
+                        <span>Maria, Pembantu</span>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="instructions">
-            <h2><i class="fas fa-info-circle"></i> Cara Bermain</h2>
-            <ol>
-                <li>Setiap level menampilkan kasus misteri yang berbeda dengan karakter unik</li>
-                <li>Baca cerita dengan seksama dan pilih tindakan yang tepat</li>
-                <li>Setiap pilihan akan mempengaruhi perkembangan cerita dan skor Anda</li>
-                <li>Selesaikan setiap kasus untuk melanjutkan ke level berikutnya</li>
-                <li>Gunakan tombol mode gelap untuk mengubah tampilan sesuai kenyamanan mata Anda</li>
-                <li>Tujuan utama: Selesaikan semua 100 level untuk menjadi Detektif Master!</li>
-            </ol>
+        <div class="inventory-section">
+            <div class="inventory-header">
+                <span>Inventory</span>
+                <button class="inventory-toggle" onclick="showModal('inventory-modal')">Lihat Detail</button>
+            </div>
+            <div class="inventory-items">
+                <div class="inventory-item" onclick="examineItem('notebook')">
+                    <div class="item-icon">📓</div>
+                    <div class="item-name">Notebook</div>
+                </div>
+                <div class="inventory-item" onclick="examineItem('pen')">
+                    <div class="item-icon">✏️</div>
+                    <div class="item-name">Pena</div>
+                </div>
+                <div class="inventory-item" onclick="examineItem('fragment')">
+                    <div class="item-icon">🧩</div>
+                    <div class="item-name">Pecahan Vas</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
         </div>
-
-        <footer>
-            <p>&copy; 2023 Detektif 100 Level - Game Misteri Interaktif</p>
-            <p>Temukan petunjuk, pecahkan misteri, dan jadi detektif terbaik!</p>
-        </footer>
     </div>
 
     <script>
-        // Data level dan karakter (contoh untuk 10 level pertama)
-        const levels = [
-            {
-                level: 1,
-                character: "🦊",
-                story: "Selamat datang, Detektif! Hari ini kita memiliki kasus hilangnya kue spesial di kafe setempat. Pemilik kafe, rubah licik bernama Felix, melaporkan bahwa kue coklatnya hilang tepat sebelum acara penting. Mari kita selidiki bersama!",
-                choices: [
-                    "Wawancarai Felix si Rubah",
-                    "Periksa area dapur",
-                    "Tanyai pelanggan yang hadir",
-                    "Periksa CCTV"
-                ],
-                correctChoice: 3,
-                difficulty: "Pemula"
-            },
-            {
-                level: 2,
-                character: "🐱",
-                story: "Bagus! Dengan memeriksa CCTV, Anda menemukan bahwa kucing pelayan, Whiskers, terlihat mengambil kue tersebut. Sekarang saatnya menghadapinya. Whiskers terlihat gugup saat Anda mendekati.",
-                choices: [
-                    "Tanyai secara langsung tentang kejadian tersebut",
-                    "Periksa locker Whiskers",
-                    "Cari saksi yang melihat Whiskers mengambil kue",
-                    "Bandingkan sidik jari di area kejadian"
-                ],
-                correctChoice: 1,
-                difficulty: "Pemula"
-            },
-            {
-                level: 3,
-                character: "🐶",
-                story: "Di locker Whiskers, Anda menemukan sisa-sisa kue dan sebuah catatan. Ternyata Whiskers mengambil kue karena diperintah oleh bos bawah tanah, Bulldog bernama Brutus. Sekarang kita harus menyelidiki Brutus!",
-                choices: [
-                    "Kunjungi markas Brutus langsung",
-                    "Selidiki latar belakang Brutus",
-                    "Cari informasi dari sumber terpercaya",
-                    "Atur jebakan untuk menangkap Brutus"
-                ],
-                correctChoice: 2,
-                difficulty: "Pemula"
-            },
-            {
-                level: 4,
-                character: "🦉",
-                story: "Setelah menyelidiki, Anda mengetahui bahwa Brutus sebenarnya tidak terlibat. Ini semua adalah kesalahpahaman. Sumber terpercaya Anda, Owlbert si burung hantu, memberikan informasi bahwa ada pelaku lain yang memanfaatkan situasi.",
-                choices: [
-                    "Periksa kembali bukti di TKP",
-                    "Wawancarai Owlbert lebih lanjut",
-                    "Periksa alibi semua suspect",
-                    "Gunakan teknologi canggih untuk analisis sidik jari"
-                ],
-                correctChoice: 1,
-                difficulty: "Sedang"
-            },
-            {
-                level: 5,
-                character: "🐭",
-                story: "Owlbert mengungkapkan bahwa ia melihat tikus kecil bernama Mickey mengambil kue tersebut sebagai balas dendam karena Felix tidak memberinya potongan kue gratis. Sekarang saatnya menemui Mickey.",
-                choices: [
-                    "Hadapi Mickey langsung dengan bukti",
-                    "Kumpulkan lebih banyak bukti sebelum konfrontasi",
-                    "Minta bantuan Owlbert untuk memantau Mickey",
-                    "Atur pertemuan dengan Mickey secara diam-diam"
-                ],
-                correctChoice: 0,
-                difficulty: "Sedang"
-            },
-            {
-                level: 6,
-                character: "🦝",
-                story: "Mickey mengaku telah mengambil kue, tetapi ternyata dia hanya mengambil sebagian kecil. Masih ada pihak lain yang terlibat. Sekarang kita harus menyelidiki lebih dalam. Raccoon yang licik terlihat mencurigakan di sekitar kafe.",
-                choices: [
-                    "Periksa tempat persembunyian Raccoon",
-                    "Interogasi Mickey tentang Raccoon",
-                    "Pasang kamera pengintai",
-                    "Periksa catatan keuangan kafe"
-                ],
-                correctChoice: 0,
-                difficulty: "Sedang"
-            },
-            {
-                level: 7,
-                character: "🐰",
-                story: "Anda menemukan bukti bahwa Raccoon bekerja bersama dengan kelinci cepat, Bugsy. Mereka merencanakan sesuatu yang lebih besar dari sekadar mencuri kue. Bugsy dikenal sebagai pencuri ulung yang sangat sulit ditangkap.",
-                choices: [
-                    "Buat rencana untuk menjebak Bugsy",
-                    "Cari informasi tentang rencana mereka",
-                    "Minta bantuan polisi setempat",
-                    "Awasi pergerakan Bugsy dari jauh"
-                ],
-                correctChoice: 1,
-                difficulty: "Sedang"
-            },
-            {
-                level: 8,
-                character: "🦄",
-                story: "Bugsy dan Raccoon ternyata merencanakan pencurian resep rahasia kue tersebut! Unicorn ajaib, Uni, melaporkan bahwa dia melihat mereka sedang mempelajari dokumen rahasia di gudang. Kita harus bergerak cepat.",
-                choices: [
-                    "Serbu gudang langsung",
-                    "Kumpulkan tim detektif lebih banyak",
-                    "Lakukan penyamaran untuk mendekati mereka",
-                    "Sabotase rencana mereka diam-diam"
-                ],
-                correctChoice: 2,
-                difficulty: "Sulit"
-            },
-            {
-                level: 9,
-                character: "🐯",
-                story: "Dengan penyamaran yang baik, Anda berhasil menyusup ke dalam kelompok mereka. Tiger, sang pemimpin sebenarnya, mulai mencurigai Anda. Anda harus berhati-hati dan mengambil keputusan tepat.",
-                choices: [
-                    "Buat alibi yang meyakinkan",
-                    "Kumpulkan bukti secepat mungkin",
-                    "Keluar dari penyamaran sebelum ketahuan",
-                    "Hadapi Tiger langsung"
-                ],
-                correctChoice: 1,
-                difficulty: "Sulit"
-            },
-            {
-                level: 10,
-                character: "🐲",
-                story: "Tiger ternyata sedang merencanakan pencurian besar-besaran terhadap semua resep rahasia di kota! Naga bijak, Draco, memberikan informasi bahwa Tiger memiliki markas bawah tanah yang sangat terlindungi. Kita harus menemukan cara masuk.",
-                choices: [
-                    "Cari celah keamanan markas",
-                    "Gunakan teknologi canggih untuk menerobos",
-                    "Cari sekutu yang bisa membantu",
-                    "Buat gangguan untuk menarik perhatian Tiger"
-                ],
-                correctChoice: 0,
-                difficulty: "Sulit"
-            }
-            // Data untuk 90 level lainnya akan ditambahkan di sini
-        ];
-
-        // Generate 90 level tambahan
-        for (let i = 11; i <= 100; i++) {
-            const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅'];
-            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-            
-            let difficulty;
-            if (i <= 30) difficulty = "Pemula";
-            else if (i <= 60) difficulty = "Sedang";
-            else if (i <= 90) difficulty = "Sulit";
-            else difficulty = "Master";
-            
-            levels.push({
-                level: i,
-                character: randomAnimal,
-                story: `Level ${i}: Kasus misterius terjadi di kota! ${randomAnimal} membutuhkan bantuan Anda untuk mengungkap kebenaran di balik kejadian aneh yang sedang berlangsung. Setiap petunjuk membawa Anda semakin dekat kepada jawaban, tetapi juga pada bahaya yang tidak terduga.`,
-                choices: [
-                    "Selidiki tempat kejadian",
-                    "Wawancarai saksi",
-                    "Periksa bukti forensik",
-                    "Gunakan teknologi mutakhir"
-                ],
-                correctChoice: Math.floor(Math.random() * 4),
-                difficulty: difficulty
-            });
-        }
-
-        let currentLevel = 0;
-        let score = 0;
-        const maxLevel = levels.length;
-
-        // Elemen DOM
-        const currentLevelElement = document.getElementById('currentLevel');
-        const scoreElement = document.getElementById('score');
-        const levelProgressElement = document.getElementById('levelProgress');
-        const progressPercentageElement = document.getElementById('progressPercentage');
-        const characterElement = document.getElementById('character');
-        const storyElement = document.getElementById('story');
-        const choicesElement = document.getElementById('choices');
-        const themeToggle = document.getElementById('themeToggle');
-        const levelDifficultyElement = document.getElementById('levelDifficulty');
-
-        // Fungsi untuk memuat level
-        function loadLevel(levelIndex) {
-            if (levelIndex >= maxLevel) {
-                // Game selesai
-                storyElement.textContent = "Selamat! Anda telah menyelesaikan semua 100 level. Anda sekarang adalah Detektif Master! Terima kasih telah bermain!";
-                characterElement.textContent = "🏆";
-                choicesElement.innerHTML = "";
-                return;
-            }
-
-            const level = levels[levelIndex];
-            currentLevelElement.textContent = level.level;
-            characterElement.textContent = level.character;
-            storyElement.textContent = level.story;
-            levelDifficultyElement.textContent = level.difficulty;
-            
-            // Update progress bar
-            const progressPercentage = (level.level / 100) * 100;
-            levelProgressElement.style.width = `${progressPercentage}%`;
-            progressPercentageElement.textContent = `${progressPercentage}%`;
-            
-            // Kosongkan pilihan sebelumnya
-            choicesElement.innerHTML = "";
-            
-            // Tambahkan pilihan baru
-            level.choices.forEach((choice, index) => {
-                const button = document.createElement('button');
-                button.className = 'choice-btn';
-                
-                // Icon berbeda untuk setiap pilihan
-                const icons = ['fa-search', 'fa-user', 'fa-clue', 'fa-microscope'];
-                button.innerHTML = `<i class="fas ${icons[index]}"></i> ${choice}`;
-                
-                button.onclick = () => makeChoice(index);
-                choicesElement.appendChild(button);
-            });
-        }
-
-        // Fungsi untuk membuat pilihan
-        function makeChoice(choiceIndex) {
-            if (choiceIndex === levels[currentLevel].correctChoice) {
-                // Jawaban benar
-                score += 10;
-                scoreElement.textContent = score;
-                currentLevel++;
-                
-                if (currentLevel < maxLevel) {
-                    loadLevel(currentLevel);
-                } else {
-                    // Game selesai
-                    storyElement.textContent = "Selamat! Anda telah menyelesaikan semua 100 level. Anda sekarang adalah Detektif Master! Terima kasih telah bermain!";
-                    characterElement.textContent = "🏆";
-                    choicesElement.innerHTML = "";
+        // Data game
+        const gameData = {
+            currentLocation: 'library',
+            characters: {
+                charles: {
+                    name: 'Charles, Butler',
+                    responses: {
+                        whereabouts: 'Saya sedang merapikan perpustakaan sekitar setengah jam sebelum kejadian. Setelah itu, saya pergi ke dapur.',
+                        relationship: 'Saya telah melayani keluarga Harrington selama 20 tahun. Tuan James seperti keluarga bagi saya.',
+                        alibi: 'Saya berada di dapur bersama kepala koki ketika teriakan terdengar.'
+                    }
+                },
+                eleanor: {
+                    name: 'Eleanor, Istri Almarhum',
+                    responses: {
+                        whereabouts: 'Saya sedang beristirahat di kamar saya. Saya merasa tidak enak badan sejak sore.',
+                        relationship: 'James adalah suami saya. Kami sudah menikah selama 5 tahun.',
+                        alibi: 'Sayangnya, saya sendirian di kamar. Tidak ada yang bisa membuktikan.'
+                    }
+                },
+                thomas: {
+                    name: 'Thomas, Keponakan',
+                    responses: {
+                        whereabouts: 'Saya sedang berjalan-jalan di taman. Saya butuh udara segar setelah diskusi panas dengan paman saya.',
+                        relationship: 'James adalah paman saya. Saya tinggal di sini sejak orang tua saya meninggal.',
+                        alibi: 'Tidak ada yang melihat saya di taman. Tapi saya tidak melakukan ini!'
+                    }
+                },
+                maria: {
+                    name: 'Maria, Pembantu',
+                    responses: {
+                        whereabouts: 'Saya sedang membersihkan lantai atas. Saya mendengar suara berisik dari perpustakaan tapi mengira itu hanya anjing.',
+                        relationship: 'Saya bekerja sebagai pembantu di sini selama 3 tahun.',
+                        alibi: 'Saya sendirian di lantai atas saat itu. Tidak ada yang melihat saya.'
+                    }
                 }
+            },
+            locations: {
+                library: {
+                    name: 'Perpustakaan',
+                    description: 'Tuan Harrington ditemukan terbaring di dekat perapian. Ada luka di kepalanya, dan sebuah pecahan vas bunga tergeletak di dekatnya. Ruangan ini agak berantakan, sepertinya ada perlawanan.'
+                },
+                hall: {
+                    name: 'Aula Utama',
+                    description: 'Aula besar dengan tangga mewah. Ada lukisan keluarga Harrington tergantung di dinding. Segelas anggur separuh diminum terletak di meja kecil.'
+                },
+                kitchen: {
+                    name: 'Dapur',
+                    description: 'Dapur yang bersih dan teratur. Pisau dapur tersusun rapi di raknya. Ada meja persiapan dengan beberapa bahan makanan.'
+                },
+                garden: {
+                    name: 'Taman',
+                    description: 'Taman yang indah dengan bunga-bunga yang terawat. Ada bangku taman yang menghadap ke air mancur. Jejak kaki terlihat di tanah lembab.'
+                },
+                study: {
+                    name: 'Ruang Kerja',
+                    description: 'Ruang kerja yang berantakan dengan dokumen berserakan. Komputer masih menyala dan ada secangkir kopi setengah habis.'
+                },
+                bedroom: {
+                    name: 'Kamar Tidur',
+                    description: 'Kamar tidur mewah dengan tempat tidur besar. Lemari pakaian terbuka dan beberapa pakaian berserakan di lantai.'
+                }
+            },
+            inventory: ['notebook', 'pen', 'fragment'],
+            progress: 30
+        };
+
+        // Fungsi untuk menampilkan modal
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        // Fungsi untuk menutup modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Fungsi untuk memulai percakapan dengan karakter
+        function startConversation(characterId) {
+            const character = gameData.characters[characterId];
+            document.getElementById('conversation-title').textContent = `Percakapan dengan ${character.name}`;
+            document.getElementById('conversation-text').textContent = 'Selamat siang, Detektif. Ada yang bisa saya bantu?';
+            showModal('conversation-modal');
+            
+            // Simpan karakter yang sedang diajak bicara
+            window.currentCharacter = characterId;
+        }
+
+        // Fungsi untuk mengajukan pertanyaan
+        function askQuestion(questionType) {
+            const characterId = window.currentCharacter;
+            const character = gameData.characters[characterId];
+            const response = character.responses[questionType];
+            
+            document.getElementById('conversation-text').textContent = response;
+            
+            // Tambahkan progress
+            gameData.progress += 5;
+            if (gameData.progress > 100) gameData.progress = 100;
+            document.getElementById('progress-fill').style.width = `${gameData.progress}%`;
+        }
+
+        // Fungsi untuk memeriksa objek
+        function examineObject(object) {
+            let message = '';
+            
+            switch(object) {
+                case 'vas':
+                    message = 'Anda menemukan pecahan vas dengan noda darah. Ada sidik jari pada beberapa pecahan.';
+                    if (!gameData.inventory.includes('fragment')) {
+                        gameData.inventory.push('fragment');
+                        updateInventory();
+                    }
+                    break;
+                case 'body':
+                    message = 'Korban memiliki luka di kepala akibat benda tumpul. Jam tangannya berhenti pada pukul 21:45. Ada sobekan kertas di tangannya.';
+                    break;
+                case 'window':
+                    message = 'Jendela terkunci dari dalam. Tidak ada tanda-tanda pembobolan.';
+                    break;
+                case 'bookshelf':
+                    message = 'Rak buku berisi koleksi buku langka. Salah satu buku terlihat tidak pada tempatnya.';
+                    if (!gameData.inventory.includes('key')) {
+                        gameData.inventory.push('key');
+                        updateInventory();
+                    }
+                    break;
+            }
+            
+            alert(message);
+            
+            // Tambahkan progress
+            gameData.progress += 3;
+            if (gameData.progress > 100) gameData.progress = 100;
+            document.getElementById('progress-fill').style.width = `${gameData.progress}%`;
+        }
+
+        // Fungsi untuk menuju lokasi
+        function goToLocation(locationId) {
+            const location = gameData.locations[locationId];
+            gameData.currentLocation = locationId;
+            
+            document.querySelector('.location-header').textContent = `Lokasi: ${location.name}`;
+            document.querySelector('.location-description').innerHTML = `<p>${location.description}</p>`;
+            
+            closeModal('locations-modal');
+            
+            // Tambahkan progress
+            gameData.progress += 2;
+            if (gameData.progress > 100) gameData.progress = 100;
+            document.getElementById('progress-fill').style.width = `${gameData.progress}%`;
+        }
+
+        // Fungsi untuk menambahkan item ke inventory
+        function addToInventory(item) {
+            if (!gameData.inventory.includes(item)) {
+                gameData.inventory.push(item);
+                updateInventory();
+                alert('Item ditambahkan ke inventory!');
+                
+                // Tambahkan progress
+                gameData.progress += 5;
+                if (gameData.progress > 100) gameData.progress = 100;
+                document.getElementById('progress-fill').style.width = `${gameData.progress}%`;
             } else {
-                // Jawaban salah
-                alert("Pilihan salah! Coba lagi.");
-                score = Math.max(0, score - 5);
-                scoreElement.textContent = score;
+                alert('Item sudah ada di inventory!');
             }
         }
 
-        // Toggle mode gelap/terang
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
+        // Fungsi untuk memeriksa item di inventory
+        function examineItem(item) {
+            let message = '';
             
-            if (document.body.classList.contains('dark-mode')) {
-                themeToggle.innerHTML = '<span>Mode Terang</span> <i class="fas fa-sun"></i>';
-            } else {
-                themeToggle.innerHTML = '<span>Mode Gelap</span> <i class="fas fa-moon"></i>';
+            switch(item) {
+                case 'notebook':
+                    message = 'Buku catatan Anda berisi semua temuan selama investigasi. Terdapat catatan tentang pertengkaran antara korban dan keponakannya.';
+                    break;
+                case 'pen':
+                    message = 'Pena biasa yang Anda gunakan untuk mencatat. Tidak ada yang mencurigakan.';
+                    break;
+                case 'fragment':
+                    message = 'Pecahan vas antik dengan noda darah. Sidik jari terlihat pada beberapa bagian. Mungkin bisa dicocokkan dengan tersangka.';
+                    break;
+                case 'key':
+                    message = 'Kunci kecil yang Anda temukan di rak buku. Mungkin untuk membuka laci atau kotak tertentu.';
+                    break;
             }
-        });
+            
+            alert(message);
+            closeModal('inventory-modal');
+        }
 
-        // Mulai game
-        loadLevel(currentLevel);
+        // Fungsi untuk memperbarui tampilan inventory
+        function updateInventory() {
+            const inventoryContainer = document.querySelector('.inventory-items');
+            inventoryContainer.innerHTML = '';
+            
+            gameData.inventory.forEach(item => {
+                let icon = '';
+                let name = '';
+                
+                switch(item) {
+                    case 'notebook':
+                        icon = '📓';
+                        name = 'Notebook';
+                        break;
+                    case 'pen':
+                        icon = '✏️';
+                        name = 'Pena';
+                        break;
+                    case 'fragment':
+                        icon = '🧩';
+                        name = 'Pecahan Vas';
+                        break;
+                    case 'key':
+                        icon = '🔑';
+                        name = 'Kunci Kecil';
+                        break;
+                }
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'inventory-item';
+                itemElement.onclick = () => examineItem(item);
+                itemElement.innerHTML = `
+                    <div class="item-icon">${icon}</div>
+                    <div class="item-name">${name}</div>
+                `;
+                
+                inventoryContainer.appendChild(itemElement);
+            });
+        }
+
+        // Inisialisasi progress bar
+        document.getElementById('progress-fill').style.width = `${gameData.progress}%`;
     </script>
 </body>
 </html>
