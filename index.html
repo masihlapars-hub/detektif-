@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detektif 100 Level</title>
+    <title>Detektif 100 Level - Tantangan Sulit</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -15,6 +15,7 @@
             --shadow-color: rgba(0, 0, 0, 0.1);
             --choice-bg: #f0f4ff;
             --choice-hover: #e0e8ff;
+            --timer-red: #ff4757;
         }
 
         .dark-mode {
@@ -26,6 +27,7 @@
             --shadow-color: rgba(0, 0, 0, 0.3);
             --choice-bg: #2a3b6a;
             --choice-hover: #344878;
+            --timer-red: #ff6b81;
         }
 
         * {
@@ -120,6 +122,16 @@
             background: var(--choice-bg);
             padding: 12px 20px;
             border-radius: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--timer-red);
+            font-weight: bold;
         }
 
         .character-container {
@@ -152,10 +164,27 @@
             border-left: 4px solid var(--primary-color);
         }
 
+        .clue-container {
+            background: var(--choice-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 3px solid var(--secondary-color);
+        }
+
+        .clue-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
         .choices {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: 1fr;
+            gap: 12px;
             margin-top: 20px;
         }
 
@@ -276,6 +305,31 @@
             border: 2px solid #f5c6cb;
         }
 
+        .hint-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lives-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .life {
+            color: #ff4757;
+            font-size: 1.2rem;
+        }
+
         @media (max-width: 768px) {
             .choices {
                 grid-template-columns: 1fr;
@@ -293,6 +347,11 @@
                 flex-direction: column;
                 gap: 15px;
                 text-align: center;
+            }
+            
+            .level-info {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -312,6 +371,14 @@
                 <span>Level: <span id="currentLevel">1</span>/100</span>
                 <span>Skor: <span id="score">0</span></span>
                 <span class="level-badge" id="levelDifficulty">Pemula</span>
+                <div class="timer-container">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">60</span>s
+                </div>
+                <div class="lives-container">
+                    <span>Nyawa: </span>
+                    <span id="lives">❤️❤️❤️</span>
+                </div>
             </div>
 
             <div class="progress-container">
@@ -334,12 +401,24 @@
                 Mari kita selidiki bersama!
             </div>
 
-            <div class="choices" id="choices">
-                <button class="choice-btn" onclick="makeChoice(1)"><i class="fas fa-comment"></i> Wawancarai Felix si Rubah</button>
-                <button class="choice-btn" onclick="makeChoice(2)"><i class="fas fa-utensils"></i> Periksa area dapur</button>
-                <button class="choice-btn" onclick="makeChoice(3)"><i class="fas fa-users"></i> Tanyai pelanggan yang hadir</button>
-                <button class="choice-btn" onclick="makeChoice(4)"><i class="fas fa-video"></i> Periksa CCTV</button>
+            <div class="clue-container">
+                <div class="clue-header">
+                    <i class="fas fa-clue"></i>
+                    <span>Petunjuk:</span>
+                </div>
+                <div id="clue">Felix si Rubah dikenal sebagai pemilik yang sangat teliti. Dia selalu mengunci dapur setelah selesai bekerja.</div>
             </div>
+
+            <div class="choices" id="choices">
+                <button class="choice-btn" onclick="makeChoice(0)"><i class="fas fa-comment"></i> Wawancarai Felix si Rubah</button>
+                <button class="choice-btn" onclick="makeChoice(1)"><i class="fas fa-utensils"></i> Periksa area dapur</button>
+                <button class="choice-btn" onclick="makeChoice(2)"><i class="fas fa-users"></i> Tanyai pelanggan yang hadir</button>
+                <button class="choice-btn" onclick="makeChoice(3)"><i class="fas fa-video"></i> Periksa CCTV</button>
+            </div>
+
+            <button class="hint-btn" onclick="showHint()">
+                <i class="fas fa-lightbulb"></i> Butuh Petunjuk? (-5 poin)
+            </button>
 
             <div id="resultMessage" class="result-message"></div>
         </div>
@@ -350,7 +429,8 @@
                 <li>Setiap level menampilkan kasus misteri yang berbeda dengan karakter unik</li>
                 <li>Baca cerita dengan seksama dan pilih tindakan yang tepat</li>
                 <li>Setiap pilihan akan mempengaruhi perkembangan cerita dan skor Anda</li>
-                <li>Selesaikan setiap kasus untuk melanjutkan ke level berikutnya</li>
+                <li>Anda memiliki waktu terbatas untuk menyelesaikan setiap level</li>
+                <li>Setiap level hanya boleh melakukan 3 kesalahan sebelum game over</li>
                 <li>Gunakan tombol mode gelap untuk mengubah tampilan sesuai kenyamanan mata Anda</li>
                 <li>Tujuan utama: Selesaikan semua 100 level untuk menjadi Detektif Master!</li>
             </ol>
@@ -369,6 +449,7 @@
                 level: 1,
                 character: "🦊",
                 story: "Selamat datang, Detektif! Hari ini kita memiliki kasus hilangnya kue spesial di kafe setempat. Pemilik kafe, rubah licik bernama Felix, melaporkan bahwa kue coklatnya hilang tepat sebelum acara penting. Mari kita selidiki bersama!",
+                clue: "Felix si Rubah dikenal sebagai pemilik yang sangat teliti. Dia selalu mengunci dapur setelah selesai bekerja.",
                 choices: [
                     "Wawancarai Felix si Rubah",
                     "Periksa area dapur",
@@ -377,13 +458,20 @@
                 ],
                 correctChoice: 3,
                 difficulty: "Pemula",
+                time: 60,
                 success: "Bagus! Dengan memeriksa CCTV, Anda menemukan bahwa kucing pelayan, Whiskers, terlihat mengambil kue tersebut. Kasus level 1 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 1."
+                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 1.",
+                hints: [
+                    "CCTV mungkin merekam kejadian yang terjadi",
+                    "Felix dikenal jujur dan teliti",
+                    "Dapur selalu terkunci setelah jam kerja"
+                ]
             },
             {
                 level: 2,
                 character: "🐱",
                 story: "Kasus level 2: Kucing pelayan, Whiskers, terlihat mencurigakan. Dia sering terlihat mondar-mandir di sekitar tempat kue hilang. Mari kita selidiki lebih lanjut!",
+                clue: "Whiskers memiliki catatan keuangan yang buruk dan sedang membutuhkan uang.",
                 choices: [
                     "Tanyai secara langsung tentang kejadian tersebut",
                     "Periksa locker Whiskers",
@@ -392,28 +480,42 @@
                 ],
                 correctChoice: 1,
                 difficulty: "Pemula",
+                time: 55,
                 success: "Hebat! Di locker Whiskers, Anda menemukan sisa-sisa kue. Whiskers mengaku telah mengambil kue karena lapar. Kasus level 2 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 2."
+                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 2.",
+                hints: [
+                    "Whiskers mungkin menyimpan barang bukti di lokernya",
+                    "Dia memiliki motif finansial",
+                    "Cari bukti fisik bukan hanya kesaksian"
+                ]
             },
             {
                 level: 3,
                 character: "🐶",
                 story: "Kasus level 3: Anjing penjaga, Rover, melaporkan bahwa tulang kesayangannya hilang. Dia curiga ada yang mengambilnya saat dia tertidur. Mari kita bantu Rover!",
+                clue: "Rover adalah penjaga yang sangat setia tetapi mudah tertidur setelah makan malam.",
                 choices: [
                     "Periksa tempat tidur Rover",
                     "Tanyai hewan-hewan lain di sekitar",
-                    "Cari jejaki tanah di sekitar rumah",
+                    "Cari jejak tanah di sekitar rumah",
                     "Periksa kamera pengintai"
                 ],
                 correctChoice: 2,
-                difficulty: "Pemula",
+                difficulty: "Sedang",
+                time: 50,
                 success: "Luar biasa! Anda menemukan jejak tanah yang mengarah ke sarang rubah. Ternyata rubah kecil mengambil tulang tersebut. Kasus level 3 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 3."
+                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 3.",
+                hints: [
+                    "Rubah dikenal suka mengumpulkan barang berkilau dan tulang",
+                    "Perhatikan jejak di tanah",
+                    "Waktu kejadian adalah setelah makan malam Rover"
+                ]
             },
             {
                 level: 4,
                 character: "🦉",
                 story: "Kasus level 4: Burung hantu bijak, Oliver, kehilangan kacamatanya. Dia tidak bisa membaca buku-buku tua tanpa kacamata itu. Bantu Oliver menemukan kacamatanya!",
+                clue: "Oliver baru saja kembali dari perpustakaan hutan ketika menyadari kacamatanya hilang.",
                 choices: [
                     "Periksa kembali tempat biasa Oliver meletakkan kacamata",
                     "Tanyai teman-teman Oliver",
@@ -422,13 +524,20 @@
                 ],
                 correctChoice: 3,
                 difficulty: "Sedang",
+                time: 45,
                 success: "Bagus! Anda menemukan kacamata Oliver di perpustakaan kecilnya, tersembunyi di antara buku-buku. Kasus level 4 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 4."
+                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 4.",
+                hints: [
+                    "Oliver baru saja dari perpustakaan",
+                    "Dia sangat teliti dengan barang-barangnya",
+                    "Periksa lokasi terakhir dia menggunakan kacamata"
+                ]
             },
             {
                 level: 5,
                 character: "🐭",
                 story: "Kasus level 5: Tikus kecil, Mickey, melaporkan bahwa keju favoritnya hilang dari dapur. Dia yakin ada yang mengambilnya pagi ini. Mari kita selidiki!",
+                clue: "Mickey tinggal bersama keluarganya yang besar di balik dinding dapur.",
                 choices: [
                     "Periksa jebakan yang mungkin dipasang",
                     "Tanyai kucing rumah",
@@ -436,43 +545,71 @@
                     "Periksa tempat persembunyian tikus lain"
                 ],
                 correctChoice: 2,
-                difficulty: "Sedang",
+                difficulty: "Sulit",
+                time: 40,
                 success: "Luar biasa! Anda mengikuti jejak remah-remah keju yang mengarah ke sarang tikus lain. Ternyata saudara Mickey meminjam keju tersebut. Kasus level 5 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 5."
+                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 5.",
+                hints: [
+                    "Keju meninggalkan jejak yang dapat diikuti",
+                    "Tikus lain mungkin terlibat",
+                    "Perhatikan remah-remah kecil di lantai"
+                ]
             }
             // Data untuk 95 level lainnya akan mengikuti pola yang sama
         ];
 
-        // Generate 95 level tambahan
+        // Generate 95 level tambahan dengan kesulitan meningkat
         for (let i = 6; i <= 100; i++) {
             const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅'];
             const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
             
-            let difficulty;
-            if (i <= 30) difficulty = "Pemula";
-            else if (i <= 60) difficulty = "Sedang";
-            else if (i <= 90) difficulty = "Sulit";
-            else difficulty = "Master";
+            let difficulty, timeLimit;
+            if (i <= 20) {
+                difficulty = "Pemula";
+                timeLimit = 60 - i;
+            } else if (i <= 50) {
+                difficulty = "Sedang";
+                timeLimit = 50 - Math.floor(i/2);
+            } else if (i <= 80) {
+                difficulty = "Sulit";
+                timeLimit = 40 - Math.floor(i/3);
+            } else {
+                difficulty = "Expert";
+                timeLimit = 30 - Math.floor(i/4);
+            }
+            
+            // Pastikan waktu tidak kurang dari 10 detik
+            timeLimit = Math.max(10, timeLimit);
             
             levels.push({
                 level: i,
                 character: randomAnimal,
                 story: `Level ${i}: Kasus misterius terjadi! ${randomAnimal} membutuhkan bantuan Anda untuk mengungkap kebenaran di balik kejadian aneh yang sedang berlangsung. Setiap petunjuk membawa Anda semakin dekat kepada jawaban.`,
+                clue: `Petunjuk tersembunyi di balik perilaku ${randomAnimal}. Perhatikan detail kecil dan jangan abaikan sesuatu yang tampak tidak penting.`,
                 choices: [
-                    "Selidiki tempat kejadian",
-                    "Wawancarai saksi",
-                    "Periksa bukti forensik",
-                    "Gunakan teknologi mutakhir"
+                    "Selidiki tempat kejadian perkara",
+                    "Wawancarai semua saksi yang mungkin",
+                    "Periksa bukti forensik dengan cermat",
+                    "Gunakan teknologi mutakhir untuk analisis"
                 ],
                 correctChoice: Math.floor(Math.random() * 4),
                 difficulty: difficulty,
+                time: timeLimit,
                 success: `Hebat! Anda berhasil memecahkan kasus level ${i}. ${randomAnimal} sangat berterima kasih atas bantuan Anda!`,
-                failure: `Sayang sekali, Anda belum berhasil memecahkan kasus level ${i}. Coba lagi!`
+                failure: `Sayang sekali, Anda belum berhasil memecahkan kasus level ${i}. Coba lagi!`,
+                hints: [
+                    "Perhatikan detail kecil dalam cerita",
+                    "Gunakan petunjuk yang diberikan",
+                    "Analisis semua opsi dengan cermat sebelum memilih"
+                ]
             });
         }
 
         let currentLevelIndex = 0;
         let score = 0;
+        let lives = 3;
+        let timer;
+        let timeLeft;
         const maxLevel = levels.length;
 
         // Elemen DOM
@@ -482,19 +619,25 @@
         const progressPercentageElement = document.getElementById('progressPercentage');
         const characterElement = document.getElementById('character');
         const storyElement = document.getElementById('story');
+        const clueElement = document.getElementById('clue');
         const choicesElement = document.getElementById('choices');
         const themeToggle = document.getElementById('themeToggle');
         const levelDifficultyElement = document.getElementById('levelDifficulty');
         const resultMessageElement = document.getElementById('resultMessage');
+        const timerElement = document.getElementById('timer');
+        const livesElement = document.getElementById('lives');
 
         // Fungsi untuk memuat level
         function loadLevel(levelIndex) {
             if (levelIndex >= maxLevel) {
                 // Game selesai
+                clearInterval(timer);
                 storyElement.textContent = "Selamat! Anda telah menyelesaikan semua 100 level. Anda sekarang adalah Detektif Master! Terima kasih telah bermain!";
                 characterElement.textContent = "🏆";
                 choicesElement.innerHTML = "";
                 resultMessageElement.style.display = "none";
+                document.querySelector('.clue-container').style.display = "none";
+                document.querySelector('.hint-btn').style.display = "none";
                 return;
             }
 
@@ -502,6 +645,7 @@
             currentLevelElement.textContent = level.level;
             characterElement.textContent = level.character;
             storyElement.textContent = level.story;
+            clueElement.textContent = level.clue;
             levelDifficultyElement.textContent = level.difficulty;
             
             // Update progress bar
@@ -527,19 +671,92 @@
 
             // Sembunyikan pesan hasil
             resultMessageElement.style.display = "none";
+            
+            // Reset dan mulai timer
+            clearInterval(timer);
+            timeLeft = level.time;
+            timerElement.textContent = timeLeft;
+            startTimer();
+            
+            // Update lives display
+            updateLivesDisplay();
+        }
+
+        // Fungsi untuk memulai timer
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        // Fungsi ketika waktu habis
+        function handleTimeOut() {
+            lives--;
+            updateLivesDisplay();
+            
+            if (lives <= 0) {
+                resultMessageElement.textContent = "Waktu habis! Nyawa Anda juga habis. Game Over!";
+                resultMessageElement.className = "result-message failure";
+                resultMessageElement.style.display = "block";
+                
+                setTimeout(() => {
+                    resetGame();
+                }, 3000);
+            } else {
+                resultMessageElement.textContent = "Waktu habis! Anda kehilangan satu nyawa.";
+                resultMessageElement.className = "result-message failure";
+                resultMessageElement.style.display = "block";
+                
+                setTimeout(() => {
+                    loadLevel(currentLevelIndex);
+                }, 3000);
+            }
+        }
+
+        // Fungsi untuk memperbarui tampilan nyawa
+        function updateLivesDisplay() {
+            let livesText = "";
+            for (let i = 0; i < 3; i++) {
+                livesText += i < lives ? "❤️" : "🤍";
+            }
+            livesElement.textContent = livesText;
+        }
+
+        // Fungsi untuk menampilkan petunjuk
+        function showHint() {
+            if (score >= 5) {
+                score -= 5;
+                scoreElement.textContent = score;
+                
+                const currentLevel = levels[currentLevelIndex];
+                const randomHint = currentLevel.hints[Math.floor(Math.random() * currentLevel.hints.length)];
+                
+                alert(`Petunjuk: ${randomHint}`);
+            } else {
+                alert("Skor Anda tidak cukup untuk mendapatkan petunjuk! Anda membutuhkan setidaknya 5 poin.");
+            }
         }
 
         // Fungsi untuk membuat pilihan
         function makeChoice(choiceIndex) {
+            clearInterval(timer);
+            
             const currentLevel = levels[currentLevelIndex];
             
             if (choiceIndex === currentLevel.correctChoice) {
                 // Jawaban benar
-                score += 10;
+                const timeBonus = Math.floor(timeLeft / 2);
+                score += 10 + timeBonus;
                 scoreElement.textContent = score;
                 
                 // Tampilkan pesan sukses
-                resultMessageElement.textContent = currentLevel.success;
+                resultMessageElement.textContent = `${currentLevel.success} Bonus waktu: +${timeBonus} poin!`;
                 resultMessageElement.className = "result-message success";
                 resultMessageElement.style.display = "block";
                 
@@ -547,17 +764,44 @@
                 setTimeout(() => {
                     currentLevelIndex++;
                     loadLevel(currentLevelIndex);
-                }, 3000);
+                }, 4000);
             } else {
                 // Jawaban salah
                 score = Math.max(0, score - 5);
                 scoreElement.textContent = score;
+                lives--;
+                updateLivesDisplay();
                 
-                // Tampilkan pesan kegagalan
-                resultMessageElement.textContent = currentLevel.failure;
-                resultMessageElement.className = "result-message failure";
-                resultMessageElement.style.display = "block";
+                if (lives <= 0) {
+                    // Game over
+                    resultMessageElement.textContent = "Pilihan salah! Nyawa Anda habis. Game Over!";
+                    resultMessageElement.className = "result-message failure";
+                    resultMessageElement.style.display = "block";
+                    
+                    setTimeout(() => {
+                        resetGame();
+                    }, 3000);
+                } else {
+                    // Masih ada nyawa
+                    resultMessageElement.textContent = `${currentLevel.failure} Anda kehilangan 1 nyawa.`;
+                    resultMessageElement.className = "result-message failure";
+                    resultMessageElement.style.display = "block";
+                    
+                    // Set timeout untuk mencoba lagi
+                    setTimeout(() => {
+                        loadLevel(currentLevelIndex);
+                    }, 3000);
+                }
             }
+        }
+
+        // Fungsi untuk mereset game
+        function resetGame() {
+            currentLevelIndex = 0;
+            score = 0;
+            lives = 3;
+            scoreElement.textContent = score;
+            loadLevel(currentLevelIndex);
         }
 
         // Toggle mode gelap/terang
