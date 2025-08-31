@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detektif 100 Level - Dengan Save Progress</title>
+    <title>Detektif 100 Level - Teka-Teki Misteri</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -683,9 +683,7 @@
             </div>
 
             <div class="story" id="story">
-                Selamat datang, Detektif! Hari ini kita memiliki kasus hilangnya kue spesial di kafe setempat. 
-                Pemilik kafe, rubah licik bernama Felix, melaporkan bahwa kue coklatnya hilang tepat sebelum acara penting. 
-                Mari kita selidiki bersama!
+                Seorang gadis berada di pemakaman ibunya. Dia bertemu dengan seorang pria baik yang dia tidak tahu yang juga ada di pemakaman dan mereka cocok. Dia sibuk di pemakaman dan tidak punya waktu untuk menanyakan nomor telepon si pria sebelum dia pergi. Dia berusaha sangat keras untuk melacaknya, tetapi tidak ada yang tahu siapa dia atau bagaimana menghubungi dia. Beberapa hari kemudian saudara perempuan si gadis meninggal dan polisi mencurigainya sebagai kasus pembunuhan. Siapa yang membunuh saudara perempuannya?
             </div>
 
             <div class="clue-container">
@@ -693,14 +691,14 @@
                     <i class="fas fa-clue"></i>
                     <span>Petunjuk:</span>
                 </div>
-                <div id="clue">Felix si Rubah dikenal sebagai pemilik yang sangat teliti. Dia selalu mengunci dapur setelah selesai bekerja.</div>
+                <div id="clue">Pria yang ditemui di pemakaman adalah orang yang sama yang terlibat dalam kematian saudara perempuan.</div>
             </div>
 
             <div class="choices" id="choices">
-                <button class="choice-btn" onclick="makeChoice(0)"><i class="fas fa-comment"></i> Wawancarai Felix si Rubah</button>
-                <button class="choice-btn" onclick="makeChoice(1)"><i class="fas fa-utensils"></i> Periksa area dapur</button>
-                <button class="choice-btn" onclick="makeChoice(2)"><i class="fas fa-users"></i> Tanyai pelanggan yang hadir</button>
-                <button class="choice-btn" onclick="makeChoice(3)"><i class="fas fa-video"></i> Periksa CCTV</button>
+                <button class="choice-btn" onclick="makeChoice(0)"><i class="fas fa-user"></i> Pria yang ditemui di pemakaman</button>
+                <button class="choice-btn" onclick="makeChoice(1)"><i class="fas fa-user-friends"></i> Teman dekat keluarga</button>
+                <button class="choice-btn" onclick="makeChoice(2)"><i class="fas fa-home"></i> Tetangga mereka</button>
+                <button class="choice-btn" onclick="makeChoice(3)"><i class="fas fa-question"></i> Pembunuh bayaran</button>
             </div>
 
             <button class="hint-btn" onclick="showHint()">
@@ -713,9 +711,9 @@
         <div class="instructions">
             <h2><i class="fas fa-info-circle"></i> Cara Bermain</h2>
             <ol>
-                <li>Setiap level menampilkan kasus misteri yang berbeda dengan karakter unik</li>
-                <li>Baca cerita dengan seksama dan pilih tindakan yang tepat</li>
-                <li>Setiap pilihan akan mempengaruhi perkembangan cerita dan skor Anda</li>
+                <li>Setiap level menampilkan teka-teki misteri yang berbeda</li>
+                <li>Baca cerita dengan seksama dan pilih jawaban yang tepat</li>
+                <li>Setiap pilihan akan mempengaruhi skor Anda</li>
                 <li>Anda memiliki waktu terbatas untuk menyelesaikan setiap level</li>
                 <li>Setiap level hanya boleh melakukan 3 kesalahan sebelum game over</li>
                 <li>Progress game akan otomatis tersimpan</li>
@@ -731,90 +729,134 @@
     </div>
 
     <script>
-        // Data level dan karakter
+        // Data level dan karakter - 100 teka-teki misteri
         const levels = [
             {
                 level: 1,
                 character: "🦊",
-                story: "Selamat datang, Detektif! Hari ini kita memiliki kasus hilangnya kue spesial di kafe setempat. Pemilik kafe, rubah licik bernama Felix, melaporkan bahwa kue coklatnya hilang tepat sebelum acara penting. Mari kita selidiki bersama!",
-                clue: "Felix si Rubah dikenal sebagai pemilik yang sangat teliti. Dia selalu mengunci dapur setelah selesai bekerja.",
+                story: "Seorang gadis berada di pemakaman ibunya. Dia bertemu dengan seorang pria baik yang dia tidak tahu yang juga ada di pemakaman dan mereka cocok. Dia sibuk di pemakaman dan tidak punya waktu untuk menanyakan nomor telepon si pria sebelum dia pergi. Dia berusaha sangat keras untuk melacaknya, tetapi tidak ada yang tahu siapa dia atau bagaimana menghubungi dia. Beberapa hari kemudian saudara perempuan si gadis meninggal dan polisi mencurigainya sebagai kasus pembunuhan. Siapa yang membunuh saudara perempuannya?",
+                clue: "Pria yang ditemui di pemakaman adalah orang yang sama yang terlibat dalam kematian saudara perempuan.",
                 choices: [
-                    "Wawancarai Felix si Rubah",
-                    "Periksa area dapur",
-                    "Tanyai pelanggan yang hadir",
-                    "Periksa CCTV"
+                    "Pria yang ditemui di pemakaman",
+                    "Teman dekat keluarga",
+                    "Tetangga mereka",
+                    "Pembunuh bayaran"
                 ],
-                correctChoice: 3,
+                correctChoice: 0,
                 difficulty: "Pemula",
                 time: 60,
-                success: "Bagus! Dengan memeriksa CCTV, Anda menemukan bahwa kucing pelayan, Whiskers, terlihat mengambil kue tersebut. Kasus level 1 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 1.",
+                success: "Benar! Pria yang ditemui di pemakaman adalah ayah kandung gadis itu. Dia membunuh saudara perempuan untuk bertemu lagi dengan gadis itu di pemakaman.",
+                failure: "Salah! Coba pikirkan lagi siapa yang memiliki motif dan kesempatan.",
                 hints: [
-                    "CCTV mungkin merekam kejadian yang terjadi",
-                    "Felix dikenal jujur dan teliti",
-                    "Dapur selalu terkunci setelah jam kerja"
+                    "Pria itu memiliki hubungan keluarga dengan gadis tersebut",
+                    "Dia ingin bertemu lagi dengan gadis itu",
+                    "Kematian saudara perempuan memberinya alasan untuk hadir di pemakaman lagi"
                 ]
             },
             {
                 level: 2,
                 character: "🐱",
-                story: "Kasus level 2: Kucing pelayan, Whiskers, terlihat mencurigakan. Dia sering terlihat mondar-mandir di sekitar tempat kue hilang. Mari kita selidiki lebih lanjut!",
-                clue: "Whiskers memiliki catatan keuangan yang buruk dan sedang membutuhkan uang.",
+                story: "Seorang pria ditemukan tewas di kamar hotelnya. Kamar terkunci dari dalam dan kunci masih terpasang. Satu-satunya jendela terbuka dan ada tangga darurat di luar. Tidak ada jejak kekerasan atau perjuangan. Di meja ada secangkir kopi setengah diminum dan buku harian terbuka. Apa yang terjadi?",
+                clue: "Pria itu tidak sendirian di kamar sebelum kematiannya.",
                 choices: [
-                    "Tanyai secara langsung tentang kejadian tersebut",
-                    "Periksa locker Whiskers",
-                    "Cari saksi yang melihat Whiskers",
-                    "Bandingkan sidik jari di area kejadian"
+                    "Dia bunuh diri",
+                    "Dia dibunuh oleh tamu yang tidak terlihat",
+                    "Kecelakaan",
+                    "Dibunuh melalui keracunan"
                 ],
-                correctChoice: 1,
+                correctChoice: 3,
                 difficulty: "Pemula",
                 time: 55,
-                success: "Hebat! Di locker Whiskers, Anda menemukan sisa-sisa kue. Whiskers mengaku telah mengambil kue karena lapar. Kasus level 2 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 2.",
+                success: "Benar! Pria itu diracuni melalui kopinya oleh seseorang yang dia kenal dan percayai.",
+                failure: "Salah! Perhatikan objek yang ada di kamar dan keadaan terkunci.",
                 hints: [
-                    "Whiskers mungkin menyimpan barang bukti di lokernya",
-                    "Dia memiliki motif finansial",
-                    "Cari bukti fisik bukan hanya kesaksian"
+                    "Perhatikan minuman di meja",
+                    "Kamar terkunci dari dalam tetapi tidak ada tanda-tanda perjuangan",
+                    "Seseorang yang dikenal korban mungkin terlibat"
                 ]
             },
             {
                 level: 3,
                 character: "🐶",
-                story: "Kasus level 3: Anjing penjaga, Rover, melaporkan bahwa tulang kesayangannya hilang. Dia curiga ada yang mengambilnya saat dia tertidur. Mari kita bantu Rover!",
-                clue: "Rover adalah penjaga yang sangat setia tetapi mudah tertidur setelah makan malam.",
+                story: "Sebuah toko perhiasan dirampok. Perampok membawa semua perhiasan berharga tetapi meninggalkan kalung yang paling mahal. Pemilik toko mengatakan kalung itu adalah barang paling berharga di tokonya. Mengapa perampok meninggalkannya?",
+                clue: "Perampok tahu sesuatu tentang kalung itu yang tidak diketahui pemilik.",
                 choices: [
-                    "Periksa tempat tidur Rover",
-                    "Tanyai hewan-hewan lain di sekitar",
-                    "Cari jejak tanah di sekitar rumah",
-                    "Periksa kamera pengintai"
+                    "Kalung itu palsu",
+                    "Perampok lupa mengambilnya",
+                    "Perampok takut ketahuan membawa kalung itu",
+                    "Kalung itu terkutuk"
                 ],
-                correctChoice: 2,
-                difficulty: "Sedang",
+                correctChoice: 0,
+                difficulty: "Pemula",
                 time: 50,
-                success: "Luar biasa! Anda menemukan jejak tanah yang mengarah ke sarang rubah. Ternyata rubah kecil mengambil tulang tersebut. Kasus level 3 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 3.",
+                success: "Benar! Kalung itu adalah tiruan yang sangat bagus. Perampok yang profesional tahu yang asli sudah dijual sebelumnya.",
+                failure: "Salah! Pikirkan mengapa perampok yang profesional akan meninggalkan barang paling berharga.",
                 hints: [
-                    "Rubah dikenal suka mengumpulkan barang berkilau dan tulang",
-                    "Perhatikan jejak di tanah",
-                    "Waktu kejadian adalah setelah makan malam Rover"
+                    "Perampok profesional tahu nilai barang yang sebenarnya",
+                    "Pemilik toko mungkin berbohong tentang nilai kalung",
+                    "Terkadang barang yang tampak berharga adalah palsu"
                 ]
             },
-            // Data untuk level lainnya...
+            {
+                level: 4,
+                character: "🦉",
+                story: "Seorang ilmuwan ditemukan tewas di laboratoriumnya. Dia memegang selembar kertas dengan tulisan '5-4-3-2-1' dan jam dinding menunjukkan pukul 12:05. Tidak ada tanda-tanda kekerasan. Apa yang terjadi?",
+                clue: "Ilmuwan itu sedang bekerja dengan bahan kimia berbahaya.",
+                choices: [
+                    "Dia bunuh diri",
+                    "Kecelakaan laboratorium",
+                    "Dibunuh oleh rekan kerja",
+                    "Serangan jantung"
+                ],
+                correctChoice: 1,
+                difficulty: "Sedang",
+                time: 45,
+                success: "Benar! Ilmuwan itu sedang melakukan percobaan dengan hitungan mundur. Dia terlambat meninggalkan area dan terkena bahan kimia berbahaya.",
+                failure: "Salah! Perhatikan angka yang ditulis dan waktu di jam.",
+                hints: [
+                    "Angka mungkin menunjukkan hitungan mundur",
+                    "Jam menunjukkan waktu tertentu",
+                    "Ilmuwan sering bekerja dengan bahan berbahaya"
+                ]
+            },
+            {
+                level: 5,
+                character: "🐺",
+                story: "Seorang pria menerima paket berisi sebuah kotak kayu. Dia membuka kotak itu, tersenyum, lalu meninggal secara tiba-tiba. Kotak itu kosong. Apa yang terjadi?",
+                clue: "Pria itu memiliki kondisi kesehatan tertentu.",
+                choices: [
+                    "Racun dalam kotak",
+                    "Serangan jantung",
+                    "Kotak berisi hantu",
+                    "Dia sudah sekarat sebelumnya"
+                ],
+                correctChoice: 1,
+                difficulty: "Sedang",
+                time: 40,
+                success: "Benar! Pria itu memiliki penyakit jantung. Kotak itu adalah hadiah dari seseorang yang telah lama dia cari, dan kegembiraan yang berlebihan menyebabkan serangan jantung.",
+                failure: "Salah! Pikirkan mengapa kotak kosong bisa menyebabkan kematian.",
+                hints: [
+                    "Kotak itu kosong tetapi masih membuatnya tersenyum",
+                    "Emosi kuat dapat mempengaruhi kesehatan",
+                    "Terkadang penyebab kematian bukanlah objek fisik"
+                ]
+            },
+            // 95 level lainnya akan diisi dengan teka-teki misteri yang berbeda
         ];
 
-        // Generate level tambahan
-        for (let i = 4; i <= 100; i++) {
+        // Generate 95 level tambahan dengan teka-teki misteri
+        for (let i = 6; i <= 100; i++) {
             const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅'];
             const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
             
             let difficulty, timeLimit;
-            if (i <= 20) {
+            if (i <= 25) {
                 difficulty = "Pemula";
                 timeLimit = 60 - i;
             } else if (i <= 50) {
                 difficulty = "Sedang";
                 timeLimit = 50 - Math.floor(i/2);
-            } else if (i <= 80) {
+            } else if (i <= 75) {
                 difficulty = "Sulit";
                 timeLimit = 40 - Math.floor(i/3);
             } else {
@@ -822,24 +864,35 @@
                 timeLimit = 30 - Math.floor(i/4);
             }
             
-            timeLimit = Math.max(10, timeLimit);
+            timeLimit = Math.max(15, timeLimit);
+            
+            // Daftar cerita teka-teki misteri
+            const mysteryStories = [
+                `Level ${i}: Seorang penulis misteri ditemukan tewas di ruang tamunya. Di tangannya ada buku yang terbuka pada halaman yang menggambarkan pembunuhan persis seperti kematiannya. Apa yang terjadi?`,
+                `Level ${i}: Sebuah desa terpencil dilaporkan menghilang tanpa jejak. Hanya tersisa sebuah lonceng gereja yang masih berdering setiap jam. Apa yang terjadi dengan penduduk desa?`,
+                `Level ${i}: Seorang kolektor seni membeli lukisan tua. Setiap malam, dia mendengar suara dari lukisan itu. Suatu pagi, dia ditemukan tewas dengan ekspresi ketakutan yang luar biasa. Apa yang terjadi?`,
+                `Level ${i}: Seorang aktor teater meninggal di atas panggung selama pertunjukan. Adegan yang dimainkannya adalah adegan kematian. Penonton mengira itu bagian dari pertunjukan sampai mereka menyadari dia benar-benar meninggal. Apa yang terjadi?`,
+                `Level ${i}: Sekelompok pendaki gunung menghilang di gunung berapi. Satu-satunya yang ditemukan adalah kamera dengan foto terakhir menunjukkan mereka semua tersenyum. Apa yang terjadi dengan mereka?`
+            ];
+            
+            const randomStory = mysteryStories[Math.floor(Math.random() * mysteryStories.length)];
             
             levels.push({
                 level: i,
                 character: randomAnimal,
-                story: `Level ${i}: Kasus misterius terjadi! ${randomAnimal} membutuhkan bantuan Anda untuk mengungkap kebenaran di balik kejadian aneh yang sedang berlangsung.`,
-                clue: `Petunjuk tersembunyi di balik perilaku ${randomAnimal}. Perhatikan detail kecil dan jangan abaikan sesuatu yang tampak tidak penting.`,
+                story: randomStory,
+                clue: "Pikirkan di luar kotak dan perhatikan detail kecil dalam cerita.",
                 choices: [
-                    "Selidiki tempat kejadian perkara",
-                    "Wawancarai semua saksi yang mungkin",
-                    "Periksa bukti forensik dengan cermat",
-                    "Gunakan teknologi mutakhir untuk analisis"
+                    "Pembunuhan berencana",
+                    "Kecelakaan tragis",
+                    "Kesalahan identitas",
+                    "Motif tersembunyi"
                 ],
                 correctChoice: Math.floor(Math.random() * 4),
                 difficulty: difficulty,
                 time: timeLimit,
-                success: `Hebat! Anda berhasil memecahkan kasus level ${i}. ${randomAnimal} sangat berterima kasih atas bantuan Anda!`,
-                failure: `Sayang sekali, Anda belum berhasil memecahkan kasus level ${i}. Coba lagi!`,
+                success: `Hebat! Anda berhasil memecahkan misteri level ${i}.`,
+                failure: `Sayang sekali, Anda belum berhasil memecahkan misteri level ${i}. Coba lagi!`,
                 hints: [
                     "Perhatikan detail kecil dalam cerita",
                     "Gunakan petunjuk yang diberikan",
