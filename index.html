@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detective Master - 100 Misteri</title>
+    <title>Detective Chronicles - 100 Misteri Unik</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -11,6 +11,7 @@
             --accent-color: #e74c3c;
             --hard-color: #c0392b;
             --success-color: #27ae60;
+            --warning-color: #f39c12;
             --light-color: #ecf0f1;
             --text-color: #333;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -380,8 +381,8 @@
     
     <div class="container">
         <header>
-            <h1>Detective Master</h1>
-            <p>Uji skill detektif Anda melalui 100 misteri yang menantang!</p>
+            <h1>Detective Chronicles</h1>
+            <p>100 Misteri Unik dengan Karakter dan Cerita Berbeda!</p>
             <div class="difficulty-toggle" id="difficulty-toggle">
                 <span class="toggle-text">Easy</span>
                 <div class="toggle-indicator">H</div>
@@ -390,8 +391,8 @@
 
         <section id="start-screen" class="game-screen">
             <div class="dialog-box">
-                <p>Selamat datang di Detective Master, sebuah game detektif dengan 100 level misteri yang harus Anda pecahkan. Setiap level menawarkan cerita dan tantangan unik. Anda dapat beralih ke mode Hard untuk tantangan ekstra!</p>
-                <p>Dalam mode Hard, Anda akan mendapatkan lebih sedikit petunjuk dan harus mengandalkan observasi dan logika Anda sepenuhnya.</p>
+                <p>Selamat datang di Detective Chronicles, game detektif dengan 100 level misteri yang masing-masing memiliki cerita dan karakter unik. Setiap kasus menawarkan tantangan berbeda yang harus Anda pecahkan.</p>
+                <p>Anda dapat beralih ke mode Hard untuk tantangan ekstra dengan lebih sedikit petunjuk dan lebih banyak kebingungan!</p>
             </div>
             <button id="start-btn" class="btn">Pilih Level</button>
         </section>
@@ -409,7 +410,7 @@
 
         <section id="investigation-screen" class="game-screen">
             <div class="level-info">
-                <span>Level: <span id="current-level">1</span></span>
+                <span>Level: <span id="current-level">1</span> - <span id="case-title">Misteri Villa Tua</span></span>
                 <span id="level-difficulty-badge">Mode: Normal</span>
             </div>
             
@@ -422,19 +423,8 @@
                 <p>Tuan Harrington ditemukan terbaring di dekat perapian. Ada luka di kepalanya, dan sebuah pecahan vas bunga tergeletak di dekatnya. Ruangan ini agak berantakan, sepertinya ada perlawanan.</p>
             </div>
             
-            <div class="characters">
-                <div class="character" onclick="interrogate('butler')">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSIzNSIgcj0iMjUiIGZpbGw9IiNkNGLjYmQiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIzMCIgc3Ryb2tlPSIjOTg2ZDRiIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjMwIiByPSI0IiBmaWxsPSIjNTU1Ii8+PGNpcmNsZSBjeD0iNjAiIGN5PSIzMCIgcj0iNCIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik00MCA0NSBRNTAgNTUgNjAgNDUiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Butler" class="character-img">
-                    <p>Butler</p>
-                </div>
-                <div class="character" onclick="interrogate('wife')">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSIzNSIgcj0iMjUiIGZpbGw9IiNmOGNhY2UiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIzMCIgc3Ryb2tlPSIjOTg2ZDRiIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjMwIiByPSI0IiBmaWxsPSIjNTU1Ii8+PGNpcmNsZSBjeD0iNjAiIGN5PSIzMCIgcj0iNCIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik00MCA0NSBRNTAgNTUgNjAgNDUiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Istri" class="character-img">
-                    <p>Istri Almarhum</p>
-                </div>
-                <div class="character" onclick="interrogate('nephew')">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSIzNSIgcj0iMjUiIGZpbGw9IiNiY2Q0ZTUiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIzMCIgc3Ryb2tlPSIjOTg2ZDRiIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjMwIiByPSI0IiBmaWxsPSIjNTU1Ii8+PGNpcmNsZSBjeD0iNjAiIGN5PSIzMCIgcj0iNCIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik00MCA0NSBRNTAgNTUgNjAgNDUiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Keponakan" class="character-img">
-                    <p>Keponakan</p>
-                </div>
+            <div class="characters" id="characters-container">
+                <!-- Characters will be generated here -->
             </div>
             
             <div class="choices" id="location-choices">
@@ -442,7 +432,7 @@
                 <button class="choice-btn" onclick="examine('body')">Periksa tubuh korban</button>
                 <button class="choice-btn" onclick="examine('window')">Periksa jendela</button>
                 <button class="choice-btn" onclick="moveLocation('hall')">Pergi ke Aula</button>
-                <button class="choice-btn hint-btn" onclick="useHint()">Gunakan Petunjuk (3 tersisa)</button>
+                <button class="choice-btn hint-btn" onclick="useHint()">Gunakan Petunjuk (<span id="hint-count">3</span> tersisa)</button>
             </div>
             
             <div class="inventory">
@@ -462,10 +452,7 @@
             </div>
             
             <div class="choices" id="interrogation-choices">
-                <button class="choice-btn" onclick="askQuestion('whereabouts')">Di mana Anda saat kejadian?</button>
-                <button class="choice-btn" onclick="askQuestion('relationship')">Apa hubungan Anda dengan korban?</button>
-                <button class="choice-btn" onclick="askQuestion('alibi')">Apakah Anda memiliki alibi?</button>
-                <button class="choice-btn" onclick="endInterrogation()">Kembali</button>
+                <!-- Questions will be generated here -->
             </div>
         </section>
 
@@ -477,17 +464,13 @@
             </div>
             
             <div class="choices" id="accusation-choices">
-                <button class="choice-btn" onclick="accuse('butler')">Butler</button>
-                <button class="choice-btn" onclick="accuse('wife')">Istri Almarhum</button>
-                <button class="choice-btn" onclick="accuse('nephew')">Keponakan</button>
-                <button class="choice-btn" onclick="accuse('business')">Rekan Bisnis</button>
-                <button class="choice-btn" onclick="accuse('maid')">Pembantu</button>
+                <!-- Accusation options will be generated here -->
             </div>
         </section>
     </div>
 
     <footer>
-        <p>Detective Master &copy; 2023 - Game Detektif dengan 100 Level Misteri</p>
+        <p>Detective Chronicles &copy; 2023 - 100 Misteri Unik dengan Karakter Berbeda</p>
     </footer>
 
     <script>
@@ -495,7 +478,7 @@
         let gameState = {
             currentScreen: 'start',
             currentLevel: 1,
-            difficulty: 'normal', // 'normal' or 'hard'
+            difficulty: 'normal',
             progress: 0,
             currentLocation: 'library',
             currentSuspect: null,
@@ -503,24 +486,286 @@
             clues: {},
             conversations: {},
             hints: 3,
-            completedLevels: []
+            completedLevels: [],
+            levelProgress: {}
         };
 
-        // Generate level data for 100 levels
-        const generateLevels = () => {
-            const levels = {};
-            for (let i = 1; i <= 100; i++) {
-                levels[i] = {
-                    title: `Misteri #${i}`,
-                    difficulty: i % 4 === 0 ? 'hard' : 'normal', // Every 4th level is hard by default
-                    description: `Ini adalah deskripsi untuk misteri level ${i}. Setiap level memiliki cerita unik dan tantangan yang berbeda.`,
-                    completed: false
-                };
+        // Sample level data with different stories and characters
+        const levelData = {
+            1: {
+                title: "Misteri Villa Tua",
+                description: "Tuan James Harrington ditemukan tewas di perpustakaannya. Lima orang berada di villa saat kejadian, dan masing-masing memiliki motif.",
+                startingLocation: "library",
+                locations: {
+                    library: {
+                        name: "Perpustakaan",
+                        description: "Tuan Harrington ditemukan terbaring di dekat perapian. Ada luka di kepalanya, dan sebuah pecahan vas bunga tergeletak di dekatnya.",
+                        choices: [
+                            { text: "Periksa vas pecah", action: "examine", target: "vas" },
+                            { text: "Periksa tubuh korban", action: "examine", target: "body" },
+                            { text: "Periksa jendela", action: "examine", target: "window" },
+                            { text: "Pergi ke Aula", action: "move", target: "hall" }
+                        ]
+                    },
+                    hall: {
+                        name: "Aula",
+                        description: "Aula besar dengan tangga mewah. Ada lukisan keluarga Harrington tergantung di dinding.",
+                        choices: [
+                            { text: "Periksa lukisan", action: "examine", target: "painting" },
+                            { text: "Pergi ke Perpustakaan", action: "move", target: "library" },
+                            { text: "Pergi ke Dapur", action: "move", target: "kitchen" }
+                        ]
+                    }
+                },
+                characters: {
+                    butler: {
+                        name: "Charles, Butler",
+                        description: "Telah melayani keluarga Harrington selama 20 tahun.",
+                        questions: {
+                            whereabouts: "Di mana Anda saat kejadian?",
+                            relationship: "Apa hubungan Anda dengan korban?",
+                            alibi: "Apakah Anda memiliki alibi?"
+                        },
+                        responses: {
+                            whereabouts: "Saya sedang merapikan perpustakaan sekitar setengah jam sebelum kejadian. Setelah itu, saya pergi ke dapur.",
+                            relationship: "Saya telah melayani keluarga Harrington selama 20 tahun. Tuan James seperti keluarga bagi saya.",
+                            alibi: "Saya berada di dapur bersama kepala koki ketika teriakan terdengar."
+                        }
+                    },
+                    wife: {
+                        name: "Eleanor, Istri Almarhum",
+                        description: "Istri kedua Tuan Harrington, berusia 30 tahun lebih muda.",
+                        questions: {
+                            whereabouts: "Di mana Anda saat kejadian?",
+                            relationship: "Apa hubungan Anda dengan korban?",
+                            alibi: "Apakah Anda memiliki alibi?"
+                        },
+                        responses: {
+                            whereabouts: "Saya sedang beristirahat di kamar saya. Saya merasa tidak enak badan sejak sore.",
+                            relationship: "James adalah suami saya. Kami sudah menikah selama 5 tahun.",
+                            alibi: "Sayangnya, saya sendirian di kamar. Tidak ada yang bisa membuktikan."
+                        }
+                    }
+                },
+                clues: {
+                    vas: {
+                        name: "Pecahan Vas",
+                        description: "Vas antik dari Dinasti Ming. Ada sidik jari pada beberapa pecahan. Terlihat ada noda darah di salah satu pecahan.",
+                        found: false
+                    },
+                    body: {
+                        name: "Tubuh Korban",
+                        description: "Luka di kepala konsisten dengan pukulan benda tumpul. Jam tangan korban berhenti pada pukul 21:45.",
+                        found: false
+                    }
+                },
+                solution: "butler"
+            },
+            2: {
+                title: "Misteri Galeri Seni",
+                description: "Sebuah lukisan berharga dicuri dari galeri seni ternama. Empat orang berada di lokasi saat kejadian.",
+                startingLocation: "gallery",
+                locations: {
+                    gallery: {
+                        name: "Galeri Utama",
+                        description: "Ruang pamer utama dengan dinding kosong tempat lukisan itu sebelumnya dipajang. Kaca pelindung pecah berantakan di lantai.",
+                        choices: [
+                            { text: "Periksa kaca pecah", action: "examine", target: "glass" },
+                            { text: "Periksa sistem keamanan", action: "examine", target: "security" },
+                            { text: "Pergi ke Ruang Penyimpanan", action: "move", target: "storage" }
+                        ]
+                    },
+                    storage: {
+                        name: "Ruang Penyimpanan",
+                        description: "Ruang ini berisi lukisan-lukisan yang tidak sedang dipamerkan. Terdapat bau cat yang kuat.",
+                        choices: [
+                            { text: "Periksa cat", action: "examine", target: "paint" },
+                            { text: "Pergi ke Galeri Utama", action: "move", target: "gallery" }
+                        ]
+                    }
+                },
+                characters: {
+                    curator: {
+                        name: "Budi, Kurator",
+                        description: "Bekerja di galeri selama 10 tahun, sangat mengetahui nilai setiap karya.",
+                        questions: {
+                            whereabouts: "Di mana Anda saat kejadian?",
+                            relationship: "Apa pendapat Anda tentang lukisan yang hilang?",
+                            alibi: "Apakah Anda memiliki alibi?"
+                        },
+                        responses: {
+                            whereabouts: "Saya sedang mengatur pameran baru di ruang belakang.",
+                            relationship: "Lukisan itu adalah mahakarya. Sangat disayangkan hilang.",
+                            alibi: "Saya bersama asisten kurator saat alarm berbunyi."
+                        }
+                    },
+                    artist: {
+                        name: "Sari, Seniman",
+                        description: "Seniman lokal yang karyanya sedang dipamerkan di galeri.",
+                        questions: {
+                            whereabouts: "Di mana Anda saat kejadian?",
+                            relationship: "Apa pendapat Anda tentang lukisan yang hilang?",
+                            alibi: "Apakah Anda memiliki alibi?"
+                        },
+                        responses: {
+                            whereabouts: "Saya sedang menyiapkan karya saya di ruang pamer samping.",
+                            relationship: "Lukisan itu terlalu tradisional untuk selera saya.",
+                            alibi: "Saya sendirian saat itu, menikmati keheningan galeri."
+                        }
+                    }
+                },
+                clues: {
+                    glass: {
+                        name: "Kaca Pecah",
+                        description: "Kaca pelindung yang pecah. Pecahannya ada di dalam, menandakan lukisan didorong dari luar.",
+                        found: false
+                    },
+                    security: {
+                        name: "Sistem Keamanan",
+                        description: "Sistem keamanan dimatikan dari dalam tepat sebelum pencurian.",
+                        found: false
+                    }
+                },
+                solution: "curator"
+            },
+            3: {
+                title: "Misteri Laboratorium",
+                description: "Ilmuwan senior ditemukan tewas di laboratorium rahasia. Formula penting hilang dari brankas.",
+                startingLocation: "lab",
+                locations: {
+                    lab: {
+                        name: "Laboratorium Utama",
+                        description: "Ruangan penuh dengan peralatan ilmiah. Bau bahan kimia menyengat. Meja kerja berantakan dengan kertas berserakan.",
+                        choices: [
+                            { text: "Periksa meja kerja", action: "examine", target: "desk" },
+                            { text: "Periksa brankas", action: "examine", target: "safe" },
+                            { text: "Pergi ke Ruang Server", action: "move", target: "server" }
+                        ]
+                    },
+                    server: {
+                        name: "Ruang Server",
+                        description: "Ruangan dingin berisi komputer dan server. Monitor masih menampilkan data penelitian.",
+                        choices: [
+                            { text: "Periksa log komputer", action: "examine", target: "computer" },
+                            { text: "Pergi ke Laboratorium Utama", action: "move", target: "lab" }
+                        ]
+                    }
+                },
+                characters: {
+                    assistant: {
+                        name: "Dr. Ahmad, Asisten",
+                        description: "Asisten laboratorium yang ambisius, bekerja di bawah korban.",
+                        questions: {
+                            whereabouts: "Di mana Anda saat kejadian?",
+                            relationship: "Apa hubungan Anda dengan korban?",
+                            alibi: "Apakah Anda memiliki alibi?"
+                        },
+                        responses: {
+                            whereabouts: "Saya sedang melakukan percobaan di ruang sebelah.",
+                            relationship: "Saya bekerja sebagai asisten Dr. Surya selama 3 tahun.",
+                            alibi: "Tidak ada yang melihat saya saat itu. Saya sendirian di lab kecil."
+                        }
+                    },
+                    intern: {
+                        name: "Maya, Magang",
+                        description: "Magang yang baru bergabung 2 bulan lalu, sangat antusias.",
+                        questions: {
+                            whereabouts: "Di mana Anda saat kejadian?",
+                            relationship: "Apa hubungan Anda dengan korban?",
+                            alibi: "Apakah Anda memiliki alibi?"
+                        },
+                        responses: {
+                            whereabouts: "Saya sedang mengatur bahan kimia di gudang penyimpanan.",
+                            relationship: "Dr. Surya adalah mentor saya. Dia sangat membantu.",
+                            alibi: "Saya bertemu penjaga keamanan sekitar waktu kejadian."
+                        }
+                    }
+                },
+                clues: {
+                    desk: {
+                        name: "Meja Kerja",
+                        description: "Terdapat catatan tentang formula yang hilang. Ada coretan 'jangan percaya siapa pun' di sudutnya.",
+                        found: false
+                    },
+                    safe: {
+                        name: "Brankas",
+                        description: "Brankas dibuka dengan kombinasi, bukan dibongkar. Tidak ada tanda-tanda paksa.",
+                        found: false
+                    }
+                },
+                solution: "assistant"
             }
-            return levels;
         };
 
-        const levelData = generateLevels();
+        // Generate remaining levels with placeholder data
+        for (let i = 4; i <= 100; i++) {
+            levelData[i] = {
+                title: `Misteri #${i}`,
+                description: `Ini adalah deskripsi untuk misteri level ${i}. Setiap level memiliki cerita unik dan tantangan yang berbeda.`,
+                startingLocation: "location1",
+                locations: {
+                    location1: {
+                        name: "Lokasi 1",
+                        description: `Deskripsi lokasi 1 untuk level ${i}.`,
+                        choices: [
+                            { text: "Periksa objek A", action: "examine", target: "objectA" },
+                            { text: "Pergi ke Lokasi 2", action: "move", target: "location2" }
+                        ]
+                    },
+                    location2: {
+                        name: "Lokasi 2",
+                        description: `Deskripsi lokasi 2 untuk level ${i}.`,
+                        choices: [
+                            { text: "Periksa objek B", action: "examine", target: "objectB" },
+                            { text: "Pergi ke Lokasi 1", action: "move", target: "location1" }
+                        ]
+                    }
+                },
+                characters: {
+                    character1: {
+                        name: `Karakter A - Level ${i}`,
+                        description: `Deskripsi karakter A untuk level ${i}.`,
+                        questions: {
+                            question1: "Pertanyaan 1?",
+                            question2: "Pertanyaan 2?",
+                            question3: "Pertanyaan 3?"
+                        },
+                        responses: {
+                            question1: "Jawaban untuk pertanyaan 1.",
+                            question2: "Jawaban untuk pertanyaan 2.",
+                            question3: "Jawaban untuk pertanyaan 3."
+                        }
+                    },
+                    character2: {
+                        name: `Karakter B - Level ${i}`,
+                        description: `Deskripsi karakter B untuk level ${i}.`,
+                        questions: {
+                            question1: "Pertanyaan 1?",
+                            question2: "Pertanyaan 2?",
+                            question3: "Pertanyaan 3?"
+                        },
+                        responses: {
+                            question1: "Jawaban untuk pertanyaan 1.",
+                            question2: "Jawaban untuk pertanyaan 2.",
+                            question3: "Jawaban untuk pertanyaan 3."
+                        }
+                    }
+                },
+                clues: {
+                    objectA: {
+                        name: `Objek A - Level ${i}`,
+                        description: `Deskripsi objek A untuk level ${i}.`,
+                        found: false
+                    },
+                    objectB: {
+                        name: `Objek B - Level ${i}`,
+                        description: `Deskripsi objek B untuk level ${i}.`,
+                        found: false
+                    }
+                },
+                solution: "character1"
+            };
+        }
 
         // Initialize the game
         document.addEventListener('DOMContentLoaded', function() {
@@ -558,7 +803,7 @@
                 levelButton.setAttribute('data-level', i);
                 
                 // Add difficulty badge for hard levels
-                if (levelData[i].difficulty === 'hard') {
+                if (i % 4 === 0) {
                     const difficultyBadge = document.createElement('span');
                     difficultyBadge.className = 'level-difficulty';
                     difficultyBadge.textContent = 'H';
@@ -675,22 +920,39 @@
 
         function startLevel(level) {
             gameState.currentLevel = level;
+            const levelInfo = levelData[level];
+            
+            // Initialize level progress if not exists
+            if (!gameState.levelProgress[level]) {
+                gameState.levelProgress[level] = {
+                    clues: {},
+                    conversations: {}
+                };
+            }
+            
             showScreen('investigation-screen');
             
             // Update UI for current level
             document.getElementById('current-level').textContent = level;
+            document.getElementById('case-title').textContent = levelInfo.title;
             document.getElementById('level-difficulty-badge').textContent = `Mode: ${gameState.difficulty === 'hard' ? 'Hard' : 'Normal'}`;
             
             // Adjust hints based on difficulty
             gameState.hints = gameState.difficulty === 'hard' ? 1 : 3;
-            document.querySelector('.hint-btn').textContent = `Gunakan Petunjuk (${gameState.hints} tersisa)`;
+            document.getElementById('hint-count').textContent = gameState.hints;
             
             // Reset level-specific state
-            gameState.currentLocation = 'library';
-            gameState.clues = {};
-            gameState.conversations = {};
+            gameState.currentLocation = levelInfo.startingLocation;
+            gameState.clues = JSON.parse(JSON.stringify(gameState.levelProgress[level].clues));
+            gameState.conversations = JSON.parse(JSON.stringify(gameState.levelProgress[level].conversations));
             gameState.inventory = ['Notebook', 'Pena'];
             updateInventory();
+            
+            // Load location data
+            loadLocation(levelInfo.startingLocation);
+            
+            // Load characters
+            loadCharacters();
             
             // Update progress bar
             updateProgress();
@@ -698,13 +960,81 @@
             saveGameState();
         }
 
+        function loadLocation(locationId) {
+            const levelInfo = levelData[gameState.currentLevel];
+            const location = levelInfo.locations[locationId];
+            
+            gameState.currentLocation = locationId;
+            
+            document.getElementById('current-location').textContent = location.name;
+            document.getElementById('location-description').innerHTML = `<p>${location.description}</p>`;
+            
+            // Update choices
+            const choicesContainer = document.getElementById('location-choices');
+            choicesContainer.innerHTML = '';
+            
+            location.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                
+                if (choice.action === 'examine') {
+                    button.onclick = () => examine(choice.target);
+                } else if (choice.action === 'move') {
+                    button.onclick = () => moveLocation(choice.target);
+                }
+                
+                choicesContainer.appendChild(button);
+            });
+            
+            // Add hint button
+            const hintButton = document.createElement('button');
+            hintButton.className = 'choice-btn hint-btn';
+            hintButton.innerHTML = `Gunakan Petunjuk (<span id="hint-count">${gameState.hints}</span> tersisa)`;
+            hintButton.onclick = useHint;
+            choicesContainer.appendChild(hintButton);
+        }
+
+        function loadCharacters() {
+            const levelInfo = levelData[gameState.currentLevel];
+            const charactersContainer = document.getElementById('characters-container');
+            charactersContainer.innerHTML = '';
+            
+            for (const [key, character] of Object.entries(levelInfo.characters)) {
+                const characterElement = document.createElement('div');
+                characterElement.className = 'character';
+                characterElement.onclick = () => interrogate(key);
+                
+                // Generate different avatar based on character
+                const avatarColors = ['#d4bcbd', '#f8cace', '#bcd4e5', '#d4d4aa', '#c9b1bd'];
+                const randomColor = avatarColors[Math.floor(Math.random() * avatarColors.length)];
+                
+                characterElement.innerHTML = `
+                    <img src="data:image/svg+xml;base64,${btoa(`
+                        <svg width="100" height="100" viewBox="0 0 100 100">
+                            <circle cx="50" cy="35" r="25" fill="${randomColor}"/>
+                            <circle cx="50" cy="35" r="30" stroke="#986d4b" stroke-width="2" fill="none"/>
+                            <circle cx="40" cy="30" r="4" fill="#555"/>
+                            <circle cx="60" cy="30" r="4" fill="#555"/>
+                            <path d="M40 45 Q50 55 60 45" stroke="#555" stroke-width="2" fill="none"/>
+                        </svg>
+                    `)}" alt="${character.name}" class="character-img">
+                    <p>${character.name}</p>
+                `;
+                
+                charactersContainer.appendChild(characterElement);
+            }
+        }
+
         function useHint() {
             if (gameState.hints > 0) {
                 gameState.hints--;
-                document.querySelector('.hint-btn').textContent = `Gunakan Petunjuk (${gameState.hints} tersisa)`;
+                document.getElementById('hint-count').textContent = gameState.hints;
                 
                 // Provide a hint based on the current level
-                alert(`Petunjuk: Coba periksa vas pecah dengan cermat. Ada sesuatu yang tersembunyi di sana.`);
+                const levelInfo = levelData[gameState.currentLevel];
+                const hint = `Petunjuk: Coba periksa ${Object.keys(levelInfo.clues)[0]} dengan cermat.`;
+                alert(hint);
                 
                 saveGameState();
             } else {
@@ -713,9 +1043,29 @@
         }
 
         function updateProgress() {
-            // Simplified progress calculation for demo
-            const progress = 30; // This would be calculated based on actual game progress
+            // Calculate progress based on clues found and conversations had
+            const levelInfo = levelData[gameState.currentLevel];
+            const totalClues = Object.keys(levelInfo.clues).length;
+            const foundClues = Object.values(gameState.clues).filter(clue => clue).length;
+            
+            const totalConversations = Object.keys(levelInfo.characters).length * 3; // 3 questions per character
+            let completedConversations = 0;
+            
+            for (const character in gameState.conversations) {
+                completedConversations += Object.keys(gameState.conversations[character] || {}).length;
+            }
+            
+            const clueProgress = foundClues / totalClues;
+            const conversationProgress = completedConversations / totalConversations;
+            
+            // Progress is average of both components
+            const progress = (clueProgress + conversationProgress) / 2 * 100;
             document.getElementById('progress-bar').style.width = `${progress}%`;
+            
+            // If progress reaches 100%, enable accusation
+            if (progress >= 100) {
+                // You could add a button to accuse here
+            }
         }
 
         function updateInventory() {
@@ -731,40 +1081,85 @@
         }
 
         function moveLocation(locationId) {
-            // Simplified for demo
-            alert(`Anda pindah ke ${locationId}`);
+            loadLocation(locationId);
         }
 
         function examine(objectId) {
-            // Simplified for demo
-            alert(`Anda memeriksa ${objectId}`);
+            const levelInfo = levelData[gameState.currentLevel];
             
-            // Add to inventory if it's a clue
-            if (objectId === 'vas' && !gameState.inventory.includes('Pecahan Vas')) {
-                gameState.inventory.push('Pecahan Vas');
-                updateInventory();
+            if (levelInfo.clues[objectId] && !gameState.clues[objectId]) {
+                gameState.clues[objectId] = true;
+                gameState.levelProgress[gameState.currentLevel].clues[objectId] = true;
+                
+                // Add to inventory
+                if (!gameState.inventory.includes(levelInfo.clues[objectId].name)) {
+                    gameState.inventory.push(levelInfo.clues[objectId].name);
+                    updateInventory();
+                }
+                
+                // Show clue description
+                alert(`Anda menemukan: ${levelInfo.clues[objectId].name}\n${levelInfo.clues[objectId].description}`);
+                
+                // Update progress
+                updateProgress();
+            } else if (levelInfo.clues[objectId]) {
+                alert(`Anda sudah memeriksa ${levelInfo.clues[objectId].name}.`);
             }
             
             saveGameState();
         }
 
         function interrogate(characterId) {
-            // Simplified for demo
+            const levelInfo = levelData[gameState.currentLevel];
+            const character = levelInfo.characters[characterId];
+            
+            gameState.currentSuspect = characterId;
+            document.getElementById('suspect-name').textContent = character.name;
+            document.getElementById('suspect-dialog').innerHTML = '<p>Selamat sore, Detektif. Ada yang bisa saya bantu?</p>';
+            
+            // Generate questions
+            const questionsContainer = document.getElementById('interrogation-choices');
+            questionsContainer.innerHTML = '';
+            
+            for (const [key, question] of Object.entries(character.questions)) {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = question;
+                button.onclick = () => askQuestion(key);
+                questionsContainer.appendChild(button);
+            }
+            
+            // Add back button
+            const backButton = document.createElement('button');
+            backButton.className = 'choice-btn';
+            backButton.textContent = 'Kembali';
+            backButton.onclick = endInterrogation;
+            questionsContainer.appendChild(backButton);
+            
             showScreen('interrogation-screen');
-            document.getElementById('suspect-name').textContent = 
-                characterId === 'butler' ? 'Charles, Butler' : 
-                characterId === 'wife' ? 'Eleanor, Istri Almarhum' : 'Thomas, Keponakan';
         }
 
         function askQuestion(questionType) {
-            // Simplified for demo
-            const responses = {
-                whereabouts: 'Saya sedang berada di tempat lain ketika kejadian.',
-                relationship: 'Saya memiliki hubungan baik dengan korban.',
-                alibi: 'Saya memiliki alibi yang kuat.'
-            };
+            const levelInfo = levelData[gameState.currentLevel];
+            const character = levelInfo.characters[gameState.currentSuspect];
+            const response = character.responses[questionType];
             
-            document.getElementById('suspect-dialog').innerHTML = `<p>${responses[questionType]}</p>`;
+            document.getElementById('suspect-dialog').innerHTML = `<p>${response}</p>`;
+            
+            // Record conversation
+            if (!gameState.conversations[gameState.currentSuspect]) {
+                gameState.conversations[gameState.currentSuspect] = {};
+            }
+            
+            if (!gameState.conversations[gameState.currentSuspect][questionType]) {
+                gameState.conversations[gameState.currentSuspect][questionType] = true;
+                gameState.levelProgress[gameState.currentLevel].conversations[gameState.currentSuspect] = 
+                    gameState.conversations[gameState.currentSuspect];
+                
+                updateProgress();
+            }
+            
+            saveGameState();
         }
 
         function endInterrogation() {
@@ -772,8 +1167,8 @@
         }
 
         function accuse(suspect) {
-            // Simplified accusation logic for demo
-            const isCorrect = suspect === 'nephew'; // Nephew is always the killer in this demo
+            const levelInfo = levelData[gameState.currentLevel];
+            const isCorrect = suspect === levelInfo.solution;
             
             if (isCorrect) {
                 alert('Selamat! Anda telah memecahkan kasus ini.');
@@ -799,7 +1194,8 @@
             localStorage.setItem('detectiveGameState', JSON.stringify({
                 currentLevel: gameState.currentLevel,
                 difficulty: gameState.difficulty,
-                completedLevels: gameState.completedLevels
+                completedLevels: gameState.completedLevels,
+                levelProgress: gameState.levelProgress
             }));
         }
     </script>
