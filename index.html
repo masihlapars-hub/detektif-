@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detektif 100 Level - Dengan Kartu Detektif</title>
+    <title>Detektif 100 Level - Dengan Save Progress</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -474,6 +474,89 @@
             display: none;
         }
 
+        /* Modal Input Nama */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .name-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .start-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .start-button:hover {
+            background: var(--secondary-color);
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .choices {
                 grid-template-columns: 1fr;
@@ -512,10 +595,27 @@
                 width: 100%;
                 max-width: 300px;
             }
+            
+            .save-indicator {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Modal Input Nama -->
+    <div class="modal-overlay" id="nameModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-user-secret"></i> Identitas Detektif</h2>
+            <p>Masukkan nama detektif Anda untuk memulai misi rahasia!</p>
+            <input type="text" class="name-input" id="agentNameInput" placeholder="Nama Detektif" maxlength="20">
+            <button class="start-button" id="startButton">Mulai Misi</button>
+        </div>
+    </div>
+
     <!-- Kartu Detektif -->
     <div class="detective-card-container">
         <div class="detective-card" id="detectiveCard">
@@ -531,12 +631,17 @@
                     <i class="fas fa-user-secret"></i>
                 </div>
                 <div class="detective-card-details">
-                    <div class="detective-card-name" id="agentName">Agent</div>
-                    <div class="detective-card-id" id="agentId">ID: D-<span id="agentCode">0001</span></div>
+                    <div class="detective-card-name" id="agentName">Detective</div>
+                    <div class="detective-card-id" id="agentId">ID: D-<span id="agentCode">0000</span></div>
                 </div>
             </div>
             <div class="detective-card-footer">CONFIDENTIAL</div>
         </div>
+    </div>
+
+    <!-- Save Indicator -->
+    <div class="save-indicator" id="saveIndicator">
+        <i class="fas fa-save"></i> Progress tersimpan
     </div>
 
     <div class="container">
@@ -613,6 +718,7 @@
                 <li>Setiap pilihan akan mempengaruhi perkembangan cerita dan skor Anda</li>
                 <li>Anda memiliki waktu terbatas untuk menyelesaikan setiap level</li>
                 <li>Setiap level hanya boleh melakukan 3 kesalahan sebelum game over</li>
+                <li>Progress game akan otomatis tersimpan</li>
                 <li>Gunakan tombol mode gelap untuk mengubah tampilan sesuai kenyamanan mata Anda</li>
                 <li>Tujuan utama: Selesaikan semua 100 level untuk menjadi Detektif Master!</li>
             </ol>
@@ -742,6 +848,7 @@
             });
         }
 
+        // Variabel game
         let currentLevelIndex = 0;
         let score = 0;
         let lives = 3;
@@ -768,16 +875,94 @@
         const cardLevelElement = document.getElementById('cardLevel');
         const agentNameElement = document.getElementById('agentName');
         const agentCodeElement = document.getElementById('agentCode');
+        const nameModal = document.getElementById('nameModal');
+        const agentNameInput = document.getElementById('agentNameInput');
+        const startButton = document.getElementById('startButton');
+        const saveIndicator = document.getElementById('saveIndicator');
 
-        // Generate nama agen acak
-        const agentNames = ["Shadow", "Phantom", "Falcon", "Raven", "Wolf", "Fox", "Hawk", "Lynx", "Viper", "Stealth"];
-        const randomAgentName = agentNames[Math.floor(Math.random() * agentNames.length)];
-        const randomAgentCode = Math.floor(1000 + Math.random() * 9000);
-        
-        // Set nilai kartu detektif
-        agentNameElement.textContent = randomAgentName;
-        agentCodeElement.textContent = randomAgentCode;
-        cardLevelElement.textContent = 1;
+        // Fungsi untuk menyimpan progress
+        function saveProgress() {
+            const gameData = {
+                agentName: agentNameElement.textContent,
+                agentCode: agentCodeElement.textContent,
+                currentLevel: currentLevelIndex,
+                score: score,
+                lives: lives
+            };
+            
+            localStorage.setItem('detectiveGameData', JSON.stringify(gameData));
+            
+            // Tampilkan indikator save
+            saveIndicator.classList.add('show');
+            setTimeout(() => {
+                saveIndicator.classList.remove('show');
+            }, 2000);
+        }
+
+        // Fungsi untuk memuat progress
+        function loadProgress() {
+            const savedData = localStorage.getItem('detectiveGameData');
+            if (savedData) {
+                const gameData = JSON.parse(savedData);
+                
+                // Isi data yang disimpan
+                agentNameElement.textContent = gameData.agentName;
+                agentCodeElement.textContent = gameData.agentCode;
+                currentLevelIndex = gameData.currentLevel;
+                score = gameData.score;
+                lives = gameData.lives;
+                
+                // Update tampilan
+                scoreElement.textContent = score;
+                updateLivesDisplay();
+                
+                return true;
+            }
+            return false;
+        }
+
+        // Generate ID acak untuk detektif
+        function generateAgentId() {
+            return Math.floor(1000 + Math.random() * 9000);
+        }
+
+        // Event listener untuk tombol mulai
+        startButton.addEventListener('click', function() {
+            const agentName = agentNameInput.value.trim();
+            if (agentName) {
+                // Set nama agen
+                agentNameElement.textContent = agentName;
+                
+                // Set ID acak
+                agentCodeElement.textContent = generateAgentId();
+                
+                // Sembunyikan modal
+                nameModal.style.display = 'none';
+                
+                // Coba muat progress yang disimpan
+                if (!loadProgress()) {
+                    // Jika tidak ada progress yang disimpan, mulai dari awal
+                    currentLevelIndex = 0;
+                    score = 0;
+                    lives = 3;
+                }
+                
+                // Mulai game
+                loadLevel(currentLevelIndex);
+                
+                // Simpan progress
+                saveProgress();
+            } else {
+                alert('Silakan masukkan nama detektif Anda!');
+            }
+        });
+
+        // Event listener untuk tombol enter pada input
+        agentNameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startButton.click();
+            }
+        });
 
         // Toggle kartu detektif
         toggleCardBtn.addEventListener('click', function() {
@@ -800,6 +985,9 @@
                 resultMessageElement.style.display = "none";
                 document.querySelector('.clue-container').style.display = "none";
                 document.querySelector('.hint-btn').style.display = "none";
+                
+                // Hapus data yang disimpan karena game selesai
+                localStorage.removeItem('detectiveGameData');
                 return;
             }
 
@@ -843,6 +1031,9 @@
             
             // Update lives display
             updateLivesDisplay();
+            
+            // Simpan progress
+            saveProgress();
         }
 
         // Fungsi untuk memulai timer
@@ -869,7 +1060,10 @@
                 resultMessageElement.style.display = "block";
                 
                 setTimeout(() => {
-                    resetGame();
+                    // Kembali ke level terakhir yang berhasil diselesaikan
+                    currentLevelIndex = Math.max(0, currentLevelIndex - 1);
+                    lives = 3;
+                    loadLevel(currentLevelIndex);
                 }, 3000);
             } else {
                 resultMessageElement.textContent = "Waktu habis! Anda kehilangan satu nyawa.";
@@ -880,6 +1074,9 @@
                     loadLevel(currentLevelIndex);
                 }, 3000);
             }
+            
+            // Simpan progress
+            saveProgress();
         }
 
         // Fungsi untuk memperbarui tampilan nyawa
@@ -901,6 +1098,9 @@
                 const randomHint = currentLevel.hints[Math.floor(Math.random() * currentLevel.hints.length)];
                 
                 alert(`Petunjuk: ${randomHint}`);
+                
+                // Simpan progress
+                saveProgress();
             } else {
                 alert("Skor Anda tidak cukup untuk mendapatkan petunjuk! Anda membutuhkan setidaknya 5 poin.");
             }
@@ -937,12 +1137,15 @@
                 
                 if (lives <= 0) {
                     // Game over
-                    resultMessageElement.textContent = "Pilihan salah! Nyawa Anda habis. Game Over!";
+                    resultMessageElement.textContent = "Pilihan salah! Nyawa Anda habis. Kembali ke level sebelumnya.";
                     resultMessageElement.className = "result-message failure";
                     resultMessageElement.style.display = "block";
                     
                     setTimeout(() => {
-                        resetGame();
+                        // Kembali ke level terakhir yang berhasil diselesaikan
+                        currentLevelIndex = Math.max(0, currentLevelIndex - 1);
+                        lives = 3;
+                        loadLevel(currentLevelIndex);
                     }, 3000);
                 } else {
                     // Masih ada nyawa
@@ -956,15 +1159,9 @@
                     }, 3000);
                 }
             }
-        }
-
-        // Fungsi untuk mereset game
-        function resetGame() {
-            currentLevelIndex = 0;
-            score = 0;
-            lives = 3;
-            scoreElement.textContent = score;
-            loadLevel(currentLevelIndex);
+            
+            // Simpan progress
+            saveProgress();
         }
 
         // Toggle mode gelap/terang
@@ -976,10 +1173,25 @@
             } else {
                 themeToggle.innerHTML = '<span>Mode Gelap</span> <i class="fas fa-moon"></i>';
             }
+            
+            // Simpan preferensi tema
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
         });
 
-        // Mulai game
-        loadLevel(currentLevelIndex);
+        // Muat preferensi tema
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<span>Mode Terang</span> <i class="fas fa-sun"></i>';
+        }
+
+        // Coba muat progress saat halaman dimuat
+        window.addEventListener('load', function() {
+            if (loadProgress()) {
+                // Jika ada progress yang disimpan, langsung muat level
+                nameModal.style.display = 'none';
+                loadLevel(currentLevelIndex);
+            }
+        });
     </script>
 </body>
 </html>
