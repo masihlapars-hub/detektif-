@@ -1,194 +1,807 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>100 Level: Detektif Kota</title>
-<meta name="description" content="Game detektif 100 level dengan variasi kasus, mode Hard, papan skor, ekspor/impor progres, tema terang/gelap, dan avatar kustom."/>
-<style>
-:root{--bg:#0b1220;--card:#101a2b;--muted:#98a2b3;--text:#e6edf3;--accent:#73d7ff;--ok:#22c55e;--bad:#ff6b6b}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;color:var(--text);background:linear-gradient(120deg,#0b1220 0%,#111a2c 100%);min-height:100vh;display:flex;flex-direction:column}
-header{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);background:rgba(16,26,43,.7);border-bottom:1px solid #22304d;padding:.8rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
-header h1{font-size:1.05rem;margin:0}.pill{padding:.35rem .7rem;background:#0e172a;border:1px solid #1f2c48;border-radius:999px;color:#a8b3c6}
-main{width:100%;max-width:1200px;margin:16px auto;padding:0 14px;flex:1;display:grid;gap:16px}
-.two{display:grid;gap:14px;grid-template-columns:1.4fr .9fr}@media(max-width:980px){.two{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid #1f2c48;border-radius:18px;box-shadow:0 10px 35px rgba(0,0,0,.25)}.card .body{padding:16px 18px}
-.title{font-weight:700;font-size:1.05rem}.muted{color:var(--muted)}.row{display:flex;flex-wrap:wrap;gap:10px}
-.badge{background:#0f1a2d;border:1px solid #253454;color:#b8c2d6;padding:.3rem .55rem;border-radius:8px;font-size:.86rem}
-.story{white-space:pre-wrap}
-.suspects{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.sus{border-radius:16px;overflow:hidden;border:1px solid #22314e;background:#0f182a;display:flex;flex-direction:column}
-.sus header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1d2a45;background:#0e1627}
-.ava{font-size:28px;width:42px;height:42px;display:grid;place-items:center;background:#0b1324;border:1px solid #1f2b46;border-radius:12px;overflow:hidden}
-.ava img{width:100%;height:100%;object-fit:cover}
-.sus .body{padding:12px 14px;flex:1}.sus .meta{display:flex;gap:8px;flex-wrap:wrap}
-.foot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid #1d2a45;background:#0e1627}
-button{appearance:none;border:1px solid #2b3f63;background:#0e172a;color:#e6edf3;padding:.6rem 1rem;border-radius:12px;cursor:pointer;font-weight:600;transition:.2s transform,.2s background}
-button.primary{background:linear-gradient(180deg,#0d9cf3,#0676be);border-color:#0c7dd3}
-button.success{background:linear-gradient(180deg,#22c55e,#16a34a);border-color:#16a34a}
-button:active{transform:translateY(1px)}
-.progress{height:10px;border-radius:10px;background:#0d1527;border:1px solid #1f2b48;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,#4cc9f0,#22c55e);width:0%}
-.toast{padding:.65rem .85rem;border:1px solid #263758;background:#0e192c;border-radius:10px}.ok{color:#a6f4c5}.bad{color:#ffb3b3}.small{font-size:.88rem}
-footer{padding:18px 14px;text-align:center;color:#93a0b3}.tbl{width:100%;border-collapse:separate;border-spacing:0 8px}
-.tbl th,.tbl td{padding:8px 10px}.tbl tr{background:#0e1627;border:1px solid #1f2b46}
-.hidden{display:none}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detective Master - 100 Misteri</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e74c3c;
+            --hard-color: #c0392b;
+            --success-color: #27ae60;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #1a1a2e;
+            color: var(--light-color);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 0, 0.05) 0%, transparent 20%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--accent-color);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: var(--accent-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .difficulty-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            background: var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .difficulty-toggle:hover {
+            background: var(--primary-color);
+        }
+
+        .difficulty-toggle.hard {
+            background: var(--hard-color);
+        }
+
+        .toggle-text {
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .toggle-indicator {
+            width: 20px;
+            height: 20px;
+            background: var(--light-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .game-screen {
+            display: none;
+            background-color: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+            margin: 25px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .level-button {
+            background: var(--secondary-color);
+            border: none;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .level-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .level-button.completed {
+            background: var(--success-color);
+        }
+
+        .level-button.hard-level {
+            background: var(--hard-color);
+        }
+
+        .level-button.current {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        .level-difficulty {
+            font-size: 0.7rem;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .dialog-box {
+            background-color: var(--secondary-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.8;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .choice-btn {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .choice-btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .inventory {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+
+        .inventory h3 {
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+        }
+
+        .inventory-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .inventory-item {
+            background-color: var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .inventory-item::before {
+            content: "•";
+            margin-right: 5px;
+            color: var(--accent-color);
+        }
+
+        .characters {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            gap: 20px;
+        }
+
+        .character {
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .character:hover {
+            transform: scale(1.05);
+        }
+
+        .character-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            margin: 25px 0;
+            height: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), #f39c12);
+            border-radius: 8px;
+            width: 0%;
+            transition: width 0.7s ease;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 15px;
+            transition: var(--transition);
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hint-btn {
+            background-color: #f39c12;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .level-info span {
+            background: var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .hard-mode-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: rgba(199, 0, 0, 0.03);
+            z-index: 100;
+            animation: redPulse 15s infinite;
+        }
+
+        @keyframes redPulse {
+            0% { background: rgba(199, 0, 0, 0.03); }
+            50% { background: rgba(199, 0, 0, 0.08); }
+            100% { background: rgba(199, 0, 0, 0.03); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 25px;
+            border-top: 1px solid var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        @media (min-width: 768px) {
+            .choices {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .level-grid {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            }
+            
+            .level-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <h1>🕵️‍♂️ 100 Level: Detektif Kota</h1>
-  <span id="levelBadge" class="pill">Level 1 / 100</span>
-  <span id="scoreBadge" class="pill">Skor 0</span>
-  <span id="modeBadge" class="pill">Mode: Normal</span>
-  <div class="pill" id="detBadge">Detektif: —</div>
-  <div class="pill" id="lokBadge">Lokasi: —</div>
-  <div style="flex:1"></div>
-  <button id="btnTema" class="pill">Tema: Gelap</button>
-  <button id="btnMode" class="pill">Switch Hard</button>
-  <button id="btnReset" class="pill">Reset</button>
-  <button id="btnExport" class="pill">Ekspor</button>
-  <label class="pill" style="cursor:pointer">Impor <input id="fileImport" type="file" accept="application/json" class="hidden"></label>
-</header>
+    <div class="hard-mode-effect" id="hard-mode-effect" style="display: none;"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Detective Master</h1>
+            <p>Uji skill detektif Anda melalui 100 misteri yang menantang!</p>
+            <div class="difficulty-toggle" id="difficulty-toggle">
+                <span class="toggle-text">Easy</span>
+                <div class="toggle-indicator">H</div>
+            </div>
+        </header>
 
-<main class="two">
-  <section class="card">
-    <div class="body" style="display:grid;gap:16px">
-      <div class="title">📂 Kasus</div>
-      <div id="story" class="story"></div>
+        <section id="start-screen" class="game-screen">
+            <div class="dialog-box">
+                <p>Selamat datang di Detective Master, sebuah game detektif dengan 100 level misteri yang harus Anda pecahkan. Setiap level menawarkan cerita dan tantangan unik. Anda dapat beralih ke mode Hard untuk tantangan ekstra!</p>
+                <p>Dalam mode Hard, Anda akan mendapatkan lebih sedikit petunjuk dan harus mengandalkan observasi dan logika Anda sepenuhnya.</p>
+            </div>
+            <button id="start-btn" class="btn">Pilih Level</button>
+        </section>
 
-      <div class="row">
-        <span class="badge" id="badgeLok"></span>
-        <span class="badge" id="badgeWaktu"></span>
-        <span class="badge" id="badgeJenis"></span>
-        <span class="badge" id="badgePartner"></span>
-      </div>
+        <section id="level-select-screen" class="game-screen">
+            <h2>Pilih Level</h2>
+            <p>Progress: <span id="progress-percent">0</span>% selesai (<span id="completed-levels">0</span>/100 level)</p>
+            
+            <div class="level-grid" id="level-grid">
+                <!-- Level buttons will be generated here -->
+            </div>
+            
+            <button id="back-to-menu" class="btn">Kembali ke Menu</button>
+        </section>
 
-      <div class="title">👥 Tersangka</div>
-      <div id="suspects" class="suspects"></div>
+        <section id="investigation-screen" class="game-screen">
+            <div class="level-info">
+                <span>Level: <span id="current-level">1</span></span>
+                <span id="level-difficulty-badge">Mode: Normal</span>
+            </div>
+            
+            <h2>Lokasi: <span id="current-location">Perpustakaan</span></h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="dialog-box" id="location-description">
+                <p>Tuan Harrington ditemukan terbaring di dekat perapian. Ada luka di kepalanya, dan sebuah pecahan vas bunga tergeletak di dekatnya. Ruangan ini agak berantakan, sepertinya ada perlawanan.</p>
+            </div>
+            
+            <div class="characters">
+                <div class="character" onclick="interrogate('butler')">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSIzNSIgcj0iMjUiIGZpbGw9IiNkNGLjYmQiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIzMCIgc3Ryb2tlPSIjOTg2ZDRiIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjMwIiByPSI0IiBmaWxsPSIjNTU1Ii8+PGNpcmNsZSBjeD0iNjAiIGN5PSIzMCIgcj0iNCIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik00MCA0NSBRNTAgNTUgNjAgNDUiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Butler" class="character-img">
+                    <p>Butler</p>
+                </div>
+                <div class="character" onclick="interrogate('wife')">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSIzNSIgcj0iMjUiIGZpbGw9IiNmOGNhY2UiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIzMCIgc3Ryb2tlPSIjOTg2ZDRiIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjMwIiByPSI0IiBmaWxsPSIjNTU1Ii8+PGNpcmNsZSBjeD0iNjAiIGN5PSIzMCIgcj0iNCIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik00MCA0NSBRNTAgNTUgNjAgNDUiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Istri" class="character-img">
+                    <p>Istri Almarhum</p>
+                </div>
+                <div class="character" onclick="interrogate('nephew')">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSIzNSIgcj0iMjUiIGZpbGw9IiNiY2Q0ZTUiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIzMCIgc3Ryb2tlPSIjOTg2ZDRiIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjMwIiByPSI0IiBmaWxsPSIjNTU1Ii8+PGNpcmNsZSBjeD0iNjAiIGN5PSIzMCIgcj0iNCIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik00MCA0NSBRNTAgNTUgNjAgNDUiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Keponakan" class="character-img">
+                    <p>Keponakan</p>
+                </div>
+            </div>
+            
+            <div class="choices" id="location-choices">
+                <button class="choice-btn" onclick="examine('vas')">Periksa vas pecah</button>
+                <button class="choice-btn" onclick="examine('body')">Periksa tubuh korban</button>
+                <button class="choice-btn" onclick="examine('window')">Periksa jendela</button>
+                <button class="choice-btn" onclick="moveLocation('hall')">Pergi ke Aula</button>
+                <button class="choice-btn hint-btn" onclick="useHint()">Gunakan Petunjuk (3 tersisa)</button>
+            </div>
+            
+            <div class="inventory">
+                <h3>Inventory</h3>
+                <div class="inventory-items" id="inventory">
+                    <div class="inventory-item">Notebook</div>
+                    <div class="inventory-item">Pena</div>
+                </div>
+            </div>
+        </section>
 
-      <div class="row">
-        <button id="btnKunci" class="primary">Kunci Jawaban</button>
-        <button id="btnHint">Beri Petunjuk</button>
-        <button id="btnLewati">Lewati Level</button>
-      </div>
+        <section id="interrogation-screen" class="game-screen">
+            <h2>Interogasi: <span id="suspect-name">Nama Suspek</span></h2>
+            
+            <div class="dialog-box" id="suspect-dialog">
+                <p>Selamat sore, Detektif. Ada yang bisa saya bantu?</p>
+            </div>
+            
+            <div class="choices" id="interrogation-choices">
+                <button class="choice-btn" onclick="askQuestion('whereabouts')">Di mana Anda saat kejadian?</button>
+                <button class="choice-btn" onclick="askQuestion('relationship')">Apa hubungan Anda dengan korban?</button>
+                <button class="choice-btn" onclick="askQuestion('alibi')">Apakah Anda memiliki alibi?</button>
+                <button class="choice-btn" onclick="endInterrogation()">Kembali</button>
+            </div>
+        </section>
 
-      <div id="result" class="toast small hidden"></div>
-
-      <div class="row" style="align-items:center;gap:12px">
-        <div style="min-width:80px">Kemajuan</div>
-        <div class="progress" style="flex:1"><i id="prog"></i></div>
-        <button id="btnNext" class="success hidden">Lanjut ➜</button>
-      </div>
+        <section id="conclusion-screen" class="game-screen">
+            <h2>Selesaikan Kasus</h2>
+            
+            <div class="dialog-box">
+                <p>Anda telah mengumpulkan semua bukti. Siapa menurut Anda pembunuhnya?</p>
+            </div>
+            
+            <div class="choices" id="accusation-choices">
+                <button class="choice-btn" onclick="accuse('butler')">Butler</button>
+                <button class="choice-btn" onclick="accuse('wife')">Istri Almarhum</button>
+                <button class="choice-btn" onclick="accuse('nephew')">Keponakan</button>
+                <button class="choice-btn" onclick="accuse('business')">Rekan Bisnis</button>
+                <button class="choice-btn" onclick="accuse('maid')">Pembantu</button>
+            </div>
+        </section>
     </div>
-  </section>
 
-  <aside class="card">
-    <div class="body" style="display:grid;gap:16px">
-      <div class="title">🧭 Navigasi</div>
-      <div class="row"><input id="goto" type="number" min="1" max="100" value="1" class="pill" style="width:120px"><button id="btnGoto">Ke Level</button></div>
+    <footer>
+        <p>Detective Master &copy; 2023 - Game Detektif dengan 100 Level Misteri</p>
+    </footer>
 
-      <div class="title">🎮 Profil</div>
-      <div class="row"><input id="nick" class="pill" placeholder="Nickname" style="flex:1;min-width:160px"><button id="btnSaveNick">Simpan</button></div>
-      <div class="muted small">Nama dipakai saat kirim skor ke papan skor.</div>
+    <script>
+        // Game state
+        let gameState = {
+            currentScreen: 'start',
+            currentLevel: 1,
+            difficulty: 'normal', // 'normal' or 'hard'
+            progress: 0,
+            currentLocation: 'library',
+            currentSuspect: null,
+            inventory: ['Notebook', 'Pena'],
+            clues: {},
+            conversations: {},
+            hints: 3,
+            completedLevels: []
+        };
 
-      <div class="title">🏆 Papan Skor</div>
-      <table class="tbl" id="board"><thead><tr><th>#</th><th>Nama</th><th>Skor</th><th>Mode</th><th>Waktu</th></tr></thead><tbody></tbody></table>
-      <div class="row"><button id="btnSubmitScore" class="success">Kirim Skor</button><button id="btnRefreshBoard">Refresh</button></div>
-    </div>
-  </aside>
-</main>
+        // Generate level data for 100 levels
+        const generateLevels = () => {
+            const levels = {};
+            for (let i = 1; i <= 100; i++) {
+                levels[i] = {
+                    title: `Misteri #${i}`,
+                    difficulty: i % 4 === 0 ? 'hard' : 'normal', // Every 4th level is hard by default
+                    description: `Ini adalah deskripsi untuk misteri level ${i}. Setiap level memiliki cerita unik dan tantangan yang berbeda.`,
+                    completed: false
+                };
+            }
+            return levels;
+        };
 
-<footer>© 2025 — Detektif Kota. Semua fiksi.</footer>
+        const levelData = generateLevels();
 
-<script>
-/* ================= Util & Data ================= */
-class PRNG{constructor(s){this.s=s>>>0}next(){this.s=(1664525*this.s+1013904223)>>>0;return this.s/2**32}pick(a){return a[Math.floor(this.next()*a.length)]}}
-const $=q=>document.querySelector(q), $$=q=>document.querySelectorAll(q);
-function esc(s){return (s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
-function timeago(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return s+" dtk lalu";const m=Math.floor(s/60);if(m<60)return m+" mnt lalu";const h=Math.floor(m/60);if(h<24)return h+" jam lalu";const d=Math.floor(h/24);return d+" hari lalu"}
+        // Initialize the game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+            document.getElementById('start-btn').addEventListener('click', showLevelSelect);
+            document.getElementById('back-to-menu').addEventListener('click', showStartScreen);
+            document.getElementById('difficulty-toggle').addEventListener('click', toggleDifficulty);
+        });
 
-const TOTAL=100;
-const DETEKTIF=["Arga","Bela","Cipta","Dewi","Eko","Farah","Gilang","Hana","Indra","Joko","Kyla","Lia","Miko","Nara","Ojan","Putri","Qila","Rino","Salsa","Tegar","Vino","Wulan","Xena","Yuda","Zara"];
-const KOTA=["Jakarta","Bandung","Surabaya","Yogyakarta","Semarang","Medan","Makassar","Denpasar","Solo","Palembang"];
-const TEMPAT=["galeri seni","perpustakaan","stasiun","pasar malam","museum","taman kota","kafe","hotel","gudang","kantor"];
-const JENIS=["pencurian artefak","peretasan server","pemalsuan dokumen","sabotase listrik","penculikan misterius","perampokan bank kecil","pencurian lukisan","kebocoran data","penggelapan","pemerasan"];
-const WAKTU=["dini hari","pagi","siang","sore","malam","tengah malam"];
-const MITRA=[["Riko","analisis sidik jari"],["Maya","ahli gerak tubuh"],["Seno","spesialis CCTV"],["Vira","pakar digital"],["Bara","intel jalanan"]];
-const CIRI=["bekas luka di wajah","suara serak","jalan pincang","bau rokok","tangan kidal","tato naga","sering batuk","bicara cepat","mata sayu","senyum dingin"];
-const ALIBI=["pesan kopi","menunggu ojek","perbaiki ponsel","latihan vokal","mencari toilet","telpon ibu","vlog","antar paket","cari parkir","bantu satpam"];
-const AVA=["🦊","🐱","🐶","🐵","🦁","🦉","🦄","🐸","👩","👨","🧔"];
+        function initializeGame() {
+            updateInventory();
+            updateProgress();
+            generateLevelButtons();
+            
+            // Load game state from localStorage if available
+            const savedGameState = localStorage.getItem('detectiveGameState');
+            if (savedGameState) {
+                const parsedState = JSON.parse(savedGameState);
+                gameState = { ...gameState, ...parsedState };
+                
+                // Update UI based on loaded state
+                updateLevelButtons();
+                updateDifficultyToggle();
+            }
+        }
 
-/* ================= State ================= */
-const store={get(){try{return JSON.parse(localStorage.getItem("detektif100")||"{}")}catch{return {}}},set(v){localStorage.setItem("detektif100",JSON.stringify(v))}};
-let state=Object.assign({level:1,score:0,unlocked:1,mode:"normal",nick:"",theme:"dark"},store.get());
+        function generateLevelButtons() {
+            const levelGrid = document.getElementById('level-grid');
+            levelGrid.innerHTML = '';
+            
+            for (let i = 1; i <= 100; i++) {
+                const levelButton = document.createElement('button');
+                levelButton.className = 'level-button';
+                levelButton.textContent = i;
+                levelButton.setAttribute('data-level', i);
+                
+                // Add difficulty badge for hard levels
+                if (levelData[i].difficulty === 'hard') {
+                    const difficultyBadge = document.createElement('span');
+                    difficultyBadge.className = 'level-difficulty';
+                    difficultyBadge.textContent = 'H';
+                    levelButton.appendChild(difficultyBadge);
+                    levelButton.classList.add('hard-level');
+                }
+                
+                // Mark completed levels
+                if (gameState.completedLevels.includes(i)) {
+                    levelButton.classList.add('completed');
+                }
+                
+                // Mark current level
+                if (i === gameState.currentLevel) {
+                    levelButton.classList.add('current');
+                }
+                
+                levelButton.addEventListener('click', () => startLevel(i));
+                levelGrid.appendChild(levelButton);
+            }
+            
+            // Update progress stats
+            document.getElementById('completed-levels').textContent = gameState.completedLevels.length;
+            document.getElementById('progress-percent').textContent = gameState.completedLevels.length;
+        }
 
-/* ================= Generator ================= */
-function genLevel(n, hard=false){
-  const rng=new PRNG(1000+n*77+(hard?999:0));
-  const det=DETEKTIF[n%DETEKTIF.length];
-  const kota=rng.pick(KOTA), tempat=rng.pick(TEMPAT);
-  const jenis=rng.pick(JENIS), waktu=rng.pick(WAKTU);
-  const [partner,keahlian]=rng.pick(MITRA);
-  const ciriPelaku=rng.pick(CIRI);
-  const suspects=[];
-  for(let i=0;i<(hard?5:3);i++){
-    suspects.push({
-      id:i,
-      name:"Tersangka "+(i+1),
-      emoji:rng.pick(AVA),
-      ciri:rng.pick(CIRI),
-      alibi:rng.pick(ALIBI),
-      avatar:`static/avatars/${(i%5)+1}.png`
-    });
-  }
-  const culpritIndex=Math.floor(rng.next()*suspects.length);
-  suspects[culpritIndex].ciri=ciriPelaku;
-  const story=`Kasus ${jenis} terjadi di ${tempat} ${kota} pada ${waktu}.
-Detektif ${det} ditemani ${partner} (ahli ${keahlian}).
-Saksi menyebut pelaku punya ciri khas: ${ciriPelaku}.`;
-  return {n,det,kota,tempat,jenis,waktu,partner,keahlian,ciriPelaku,suspects,culpritIndex,story};
-}
+        function updateLevelButtons() {
+            const levelButtons = document.querySelectorAll('.level-button');
+            levelButtons.forEach(button => {
+                const level = parseInt(button.getAttribute('data-level'));
+                
+                // Update completed status
+                if (gameState.completedLevels.includes(level)) {
+                    button.classList.add('completed');
+                } else {
+                    button.classList.remove('completed');
+                }
+                
+                // Update current level
+                if (level === gameState.currentLevel) {
+                    button.classList.add('current');
+                } else {
+                    button.classList.remove('current');
+                }
+            });
+            
+            // Update progress stats
+            document.getElementById('completed-levels').textContent = gameState.completedLevels.length;
+            document.getElementById('progress-percent').textContent = gameState.completedLevels.length;
+        }
 
-/* ================= Render ================= */
-function render(level){
-  const L=genLevel(level,state.mode==="hard");
-  $("#story").textContent=L.story;
-  $("#badgeLok").textContent=`Lokasi: ${L.tempat}, ${L.kota}`;
-  $("#badgeWaktu").textContent=`Waktu: ${L.waktu}`;
-  $("#badgeJenis").textContent=`Kasus: ${L.jenis}`;
-  $("#badgePartner").textContent=`Partner: ${L.partner}`;
-  $("#detBadge").textContent=`Detektif: ${L.det}`;
-  $("#lokBadge").textContent=`Lokasi: ${L.tempat}, ${L.kota}`;
-  const wrap=$("#suspects");wrap.innerHTML="";
-  L.suspects.forEach(s=>{
-    const el=document.createElement("div");
-    el.className="sus";
-    el.innerHTML=`<header><div class="ava">${s.emoji||""}<img src="${s.avatar}" onerror="this.style.display='none'"></div>
-    <div><b>${s.name}</b><div class="muted small">alibi: ${s.alibi}</div></div></header>
-    <div class="body"><div class="meta small"><span class="badge">Ciri: ${s.ciri}</span></div></div>
-    <div class="foot"><label class="small"><input type="radio" name="pick" value="${s.id}"> Pilih</label></div>`;
-    wrap.appendChild(el);
-  });
-  render.current=L; setProgress();
-}
-function setProgress(){
-  $("#levelBadge").textContent=`Level ${state.level} / ${TOTAL}`;
-  $("#scoreBadge").textContent=`Skor ${state.score}`;
-  $("#modeBadge").textContent=`Mode: ${state.mode}`;
-  $("#prog").style.width=`${(state.unlocked-1)/TOTAL*100}%`;
-  $("#goto").value=state.level;
-}
+        function toggleDifficulty() {
+            const toggle = document.getElementById('difficulty-toggle');
+            if (gameState.difficulty === 'normal') {
+                gameState.difficulty = 'hard';
+                toggle.classList.add('hard');
+                document.querySelector('.toggle-text').textContent = 'Hard';
+                document.getElementById('hard-mode-effect').style.display = 'block';
+                
+                // Update current level badge if in game
+                if (document.getElementById('level-difficulty-badge')) {
+                    document.getElementById('level-difficulty-badge').textContent = 'Mode: Hard';
+                }
+            } else {
+                gameState.difficulty = 'normal';
+                toggle.classList.remove('hard');
+                document.querySelector('.toggle-text').textContent = 'Normal';
+                document.getElementById('hard-mode-effect').style.display = 'none';
+                
+                // Update current level badge if in game
+                if (document.getElementById('level-difficulty-badge')) {
+                    document.getElementById('level-difficulty-badge').textContent = 'Mode: Normal';
+                }
+            }
+            
+            saveGameState();
+        }
 
-/* ================= Events ================= */
-$("#btnKunci").onclick=()=>{const L=render.current;const pick=[...$$('input[name="pick"]')].find(x=>x.checked);if(!pick){alert("Pilih tersangka!");return}const ok=(+pick.value)===L.culpritIndex;if(ok){state.score+=state.mode==="hard"?12:10;alert("Benar!");state.unlocked=Math.max(state.unlocked,state.level+1)}else{state.score=Math.max(0,state.score-(state.mode==="hard"?5:3));alert("Salah. Pelaku punya ciri: "+L.ciriPelaku)}store.set(state);setProgress();};
-$("#btnNext").onclick=()=>{state.level=Math.min(100,state.level+1);render(state.level)};
-$("#btnGoto").onclick=()=>{const v=+$("#goto").value||1;if(v<=state.unlocked){state.level=v;render(state.level)}else alert("Belum terbuka")};
-$("#btnTema").onclick=()=>{state.theme=state.theme==="dark"?"light":"dark";document.body.style.background=state.theme==="dark"?"#111":"#fff";store.set(state)};
-$("#btnMode").onclick=()=>{state.mode=state.mode==="hard"?"normal":"hard";store.set(state);render(state.level)};
-$("#btnReset").onclick=()=>{if(confirm("Reset?")){state={level:1,score:0,unlocked:1,mode:"normal"};store.set(state);render(1)}};
+        function updateDifficultyToggle() {
+            const toggle = document.getElementById('difficulty-toggle');
+            if (gameState.difficulty === 'hard') {
+                toggle.classList.add('hard');
+                document.querySelector('.toggle-text').textContent = 'Hard';
+                document.getElementById('hard-mode-effect').style.display = 'block';
+            } else {
+                toggle.classList.remove('hard');
+                document.querySelector('.toggle-text').textContent = 'Normal';
+                document.getElementById('hard-mode-effect').style.display = 'none';
+            }
+            
+            // Update current level badge if in game
+            if (document.getElementById('level-difficulty-badge')) {
+                document.getElementById('level-difficulty-badge').textContent = `Mode: ${gameState.difficulty === 'hard' ? 'Hard' : 'Normal'}`;
+            }
+        }
 
-/* Init */
-render(state.level);
-</script>
+        function showScreen(screenId) {
+            document.querySelectorAll('.game-screen').forEach(screen => {
+                screen.style.display = 'none';
+            });
+            
+            document.getElementById(screenId).style.display = 'block';
+            gameState.currentScreen = screenId;
+        }
+
+        function showStartScreen() {
+            showScreen('start-screen');
+        }
+
+        function showLevelSelect() {
+            showScreen('level-select-screen');
+            updateLevelButtons();
+        }
+
+        function startLevel(level) {
+            gameState.currentLevel = level;
+            showScreen('investigation-screen');
+            
+            // Update UI for current level
+            document.getElementById('current-level').textContent = level;
+            document.getElementById('level-difficulty-badge').textContent = `Mode: ${gameState.difficulty === 'hard' ? 'Hard' : 'Normal'}`;
+            
+            // Adjust hints based on difficulty
+            gameState.hints = gameState.difficulty === 'hard' ? 1 : 3;
+            document.querySelector('.hint-btn').textContent = `Gunakan Petunjuk (${gameState.hints} tersisa)`;
+            
+            // Reset level-specific state
+            gameState.currentLocation = 'library';
+            gameState.clues = {};
+            gameState.conversations = {};
+            gameState.inventory = ['Notebook', 'Pena'];
+            updateInventory();
+            
+            // Update progress bar
+            updateProgress();
+            
+            saveGameState();
+        }
+
+        function useHint() {
+            if (gameState.hints > 0) {
+                gameState.hints--;
+                document.querySelector('.hint-btn').textContent = `Gunakan Petunjuk (${gameState.hints} tersisa)`;
+                
+                // Provide a hint based on the current level
+                alert(`Petunjuk: Coba periksa vas pecah dengan cermat. Ada sesuatu yang tersembunyi di sana.`);
+                
+                saveGameState();
+            } else {
+                alert("Anda kehabisan petunjuk!");
+            }
+        }
+
+        function updateProgress() {
+            // Simplified progress calculation for demo
+            const progress = 30; // This would be calculated based on actual game progress
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function updateInventory() {
+            const inventoryContainer = document.getElementById('inventory');
+            inventoryContainer.innerHTML = '';
+            
+            gameState.inventory.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'inventory-item';
+                itemElement.textContent = item;
+                inventoryContainer.appendChild(itemElement);
+            });
+        }
+
+        function moveLocation(locationId) {
+            // Simplified for demo
+            alert(`Anda pindah ke ${locationId}`);
+        }
+
+        function examine(objectId) {
+            // Simplified for demo
+            alert(`Anda memeriksa ${objectId}`);
+            
+            // Add to inventory if it's a clue
+            if (objectId === 'vas' && !gameState.inventory.includes('Pecahan Vas')) {
+                gameState.inventory.push('Pecahan Vas');
+                updateInventory();
+            }
+            
+            saveGameState();
+        }
+
+        function interrogate(characterId) {
+            // Simplified for demo
+            showScreen('interrogation-screen');
+            document.getElementById('suspect-name').textContent = 
+                characterId === 'butler' ? 'Charles, Butler' : 
+                characterId === 'wife' ? 'Eleanor, Istri Almarhum' : 'Thomas, Keponakan';
+        }
+
+        function askQuestion(questionType) {
+            // Simplified for demo
+            const responses = {
+                whereabouts: 'Saya sedang berada di tempat lain ketika kejadian.',
+                relationship: 'Saya memiliki hubungan baik dengan korban.',
+                alibi: 'Saya memiliki alibi yang kuat.'
+            };
+            
+            document.getElementById('suspect-dialog').innerHTML = `<p>${responses[questionType]}</p>`;
+        }
+
+        function endInterrogation() {
+            showScreen('investigation-screen');
+        }
+
+        function accuse(suspect) {
+            // Simplified accusation logic for demo
+            const isCorrect = suspect === 'nephew'; // Nephew is always the killer in this demo
+            
+            if (isCorrect) {
+                alert('Selamat! Anda telah memecahkan kasus ini.');
+                
+                // Mark level as completed
+                if (!gameState.completedLevels.includes(gameState.currentLevel)) {
+                    gameState.completedLevels.push(gameState.currentLevel);
+                }
+                
+                // Move to next level if available
+                if (gameState.currentLevel < 100) {
+                    gameState.currentLevel++;
+                }
+            } else {
+                alert('Sayang sekali, Anda menuduh orang yang salah. Coba lagi!');
+            }
+            
+            saveGameState();
+            showLevelSelect();
+        }
+
+        function saveGameState() {
+            localStorage.setItem('detectiveGameState', JSON.stringify({
+                currentLevel: gameState.currentLevel,
+                difficulty: gameState.difficulty,
+                completedLevels: gameState.completedLevels
+            }));
+        }
+    </script>
 </body>
 </html>
