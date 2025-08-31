@@ -628,6 +628,10 @@
             box-shadow: 0 0 15px rgba(255, 153, 0, 0.5);
         }
 
+        .level-btn.completed {
+            background: #28a745;
+        }
+
         .close-level-modal {
             position: absolute;
             top: 10px;
@@ -666,6 +670,9 @@
             .header-buttons {
                 width: 100%;
                 justify-content: center;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
             }
             
             .level-info {
@@ -974,7 +981,7 @@
                 correctChoice: 1,
                 difficulty: "Sedang",
                 time: 45,
-                success: "Benar! Patung itu memiliki mekanisme jebakan kuno yang tidak sengaja terpicu ketika penjaga membersihkannya.",
+                success: "Benar! Patung itu memiliki mechanisme jebakan kuno yang tidak sengaja terpicu ketika penjaga membersihkannya.",
                 failure: "Salah! Perhatikan petunjuk tentang kamera keamanan dan goresan di lantai.",
                 hints: [
                     "Kamera tidak menangkap siapa pun yang masuk atau keluar",
@@ -1062,7 +1069,7 @@
                 correctChoice: 1,
                 difficulty: "Sulit",
                 time: 30,
-                success: "Benar! Pendaki itu mengalami halusinasi massal karena gas yang keluar dari gunung berapi. Они tersesat dan akhirnya tewas karena percaya mereka menemukan surga.",
+                success: "Benar! Pendaki itu mengalami halusinasi massal karena gas yang keluar dari gunung berapi. Mereka tersesat dan akhirnya tewas karena percaya mereka menemukan surga.",
                 failure: "Salah! Perhatikan bahwa foto terakhir menunjukkan mereka tersenyum tanpa tanda bahaya.",
                 hints: [
                     "Gunung berapi mengeluarkan gas yang bisa menyebabkan halusinasi",
@@ -1070,8 +1077,7 @@
                     "Tidak ada jejak perjuangan atau tanda bahaya"
                 ]
             },
-            // Level 11-100 akan diisi dengan cerita yang unik
-            // ... (isi dengan 90 level lainnya)
+            // 90 level lainnya akan diisi dengan teka-teki misteri yang benar-benar berbeda
         ];
 
         // Generate 90 level tambahan dengan teka-teki misteri yang unik
@@ -1101,7 +1107,14 @@
                 `Level ${i}: Seorang peneliti arkeologi menghilang saat menjelajahi piramida Mesir. Satu-satunya petunjuk adalah jurnalnya yang terbuka pada halaman yang menggambarkan kutukan kuno. Apa yang terjadi?`,
                 `Level ${i}: Sebuah kapal kargo ditemukan mengambang di laut tanpa awak. Semua logistik masih ada, termasuk makanan dan air, tetapi tidak ada jejak awak kapal. Apa yang terjadi?`,
                 `Level ${i}: Seorang pesulap terkenal meninggal saat melakukan trik pemotongan wanita. Namun, wanita itu benar-benar hilang dan tidak pernah ditemukan. Apa yang terjadi?`,
-                // ... (isi dengan cerita-cerita lainnya)
+                `Level ${i}: Sebuah rumah sakit jiwa tua ditutup setelah semua pasien dan staf menghilang dalam satu malam. Tidak ada tanda-tanda kekerasan atau keberangkatan. Apa yang terjadi?`,
+                `Level ${i}: Seorang programmer komputer ditemukan tewas di mejanya. Komputernya menunjukkan kode aneh yang berisi pesan rahasia. Apa yang terjadi?`,
+                `Level ${i}: Sebuah kota kecil mengalami pemadaman listrik total selama 24 jam. Ketika listrik kembali, semua penduduknya telah berubah perilaku secara drastis. Apa yang terjadi?`,
+                `Level ${i}: Seorang penjelajah waktu mengklaim telah kembali dari masa depan. Keesokan harinya, dia ditemukan tewas dengan alat aneh di tangannya. Apa yang terjadi?`,
+                `Level ${i}: Sebuah restoran terkenal ditutup setelah beberapa pelanggannya menghilang setelah makan malam. Investigasi menemukan ruang rahasia di dapur. Apa yang terjadi?`,
+                `Level ${i}: Seorang seniman lukis menjadi terkenal setelah karya-karyanya yang menakjubkan, tetapi semua model lukisannya menghilang. Apa yang terjadi?`,
+                `Level ${i}: Sebuah tim sepak bola sekolah menang dengan skor tidak mungkin dalam pertandingan penting. Keesokan harinya, semua pemainnya mengaku tidak ingat apa-apa. Apa yang terjadi?`,
+                // ... tambahkan lebih banyak cerita unik
             ];
             
             const randomStory = mysteryStories[Math.floor(Math.random() * mysteryStories.length)];
@@ -1226,7 +1239,7 @@
                 
                 // Tandai level yang sudah diselesaikan
                 if (completedLevels.includes(i)) {
-                    levelBtn.style.background = '#28a745';
+                    levelBtn.classList.add('completed');
                 }
                 
                 // Tandai level saat ini
@@ -1373,7 +1386,7 @@
 
         // Fungsi untuk memulai timer
         function startTimer() {
-            timer = setInterval(() => {
+            timer = setInterval(() {
                 timeLeft--;
                 timerElement.textContent = timeLeft;
                 
