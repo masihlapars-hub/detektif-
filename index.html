@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detektif 100 Level - Tantangan Sulit</title>
+    <title>Detektif 100 Level - Dengan Kartu Detektif</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -330,6 +330,150 @@
             font-size: 1.2rem;
         }
 
+        /* Kartu Detektif */
+        .detective-card-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            perspective: 1000px;
+        }
+
+        .detective-card {
+            width: 300px;
+            height: 180px;
+            background: linear-gradient(135deg, #2c3e50, #4a5568);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .detective-card:hover {
+            transform: rotateY(10deg);
+        }
+
+        .detective-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><text x="0" y="50" font-family="monospace" font-size="12" transform="rotate(-45 50 50)">CONFIDENTIAL</text></svg>');
+            background-repeat: repeat;
+            opacity: 0.1;
+        }
+
+        .detective-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .detective-card-title {
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .detective-card-badge {
+            background: #e74c3c;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .detective-card-content {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 15px;
+        }
+
+        .detective-card-photo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border: 3px solid white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .detective-card-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .detective-card-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .detective-card-id {
+            font-family: monospace;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        .detective-card-footer {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .toggle-card-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+            z-index: 101;
+        }
+
+        .card-minimized {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-minimized .detective-card-content {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .choices {
                 grid-template-columns: 1fr;
@@ -353,10 +497,48 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .detective-card-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin: 0 auto 20px auto;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            
+            .detective-card {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Kartu Detektif -->
+    <div class="detective-card-container">
+        <div class="detective-card" id="detectiveCard">
+            <button class="toggle-card-btn" id="toggleCardBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="detective-card-header">
+                <div class="detective-card-title">SECRET AGENT</div>
+                <div class="detective-card-badge">LEVEL <span id="cardLevel">1</span></div>
+            </div>
+            <div class="detective-card-content">
+                <div class="detective-card-photo">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <div class="detective-card-details">
+                    <div class="detective-card-name" id="agentName">Agent</div>
+                    <div class="detective-card-id" id="agentId">ID: D-<span id="agentCode">0001</span></div>
+                </div>
+            </div>
+            <div class="detective-card-footer">CONFIDENTIAL</div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <h1><i class="fas fa-search"></i> Detektif 100 Level</h1>
@@ -511,55 +693,11 @@
                     "Waktu kejadian adalah setelah makan malam Rover"
                 ]
             },
-            {
-                level: 4,
-                character: "🦉",
-                story: "Kasus level 4: Burung hantu bijak, Oliver, kehilangan kacamatanya. Dia tidak bisa membaca buku-buku tua tanpa kacamata itu. Bantu Oliver menemukan kacamatanya!",
-                clue: "Oliver baru saja kembali dari perpustakaan hutan ketika menyadari kacamatanya hilang.",
-                choices: [
-                    "Periksa kembali tempat biasa Oliver meletakkan kacamata",
-                    "Tanyai teman-teman Oliver",
-                    "Periksa apakah kacamata terjatuh di bawah pohon",
-                    "Cari di perpustakaan kecil Oliver"
-                ],
-                correctChoice: 3,
-                difficulty: "Sedang",
-                time: 45,
-                success: "Bagus! Anda menemukan kacamata Oliver di perpustakaan kecilnya, tersembunyi di antara buku-buku. Kasus level 4 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 4.",
-                hints: [
-                    "Oliver baru saja dari perpustakaan",
-                    "Dia sangat teliti dengan barang-barangnya",
-                    "Periksa lokasi terakhir dia menggunakan kacamata"
-                ]
-            },
-            {
-                level: 5,
-                character: "🐭",
-                story: "Kasus level 5: Tikus kecil, Mickey, melaporkan bahwa keju favoritnya hilang dari dapur. Dia yakin ada yang mengambilnya pagi ini. Mari kita selidiki!",
-                clue: "Mickey tinggal bersama keluarganya yang besar di balik dinding dapur.",
-                choices: [
-                    "Periksa jebakan yang mungkin dipasang",
-                    "Tanyai kucing rumah",
-                    "Cari jejak remah-remah keju",
-                    "Periksa tempat persembunyian tikus lain"
-                ],
-                correctChoice: 2,
-                difficulty: "Sulit",
-                time: 40,
-                success: "Luar biasa! Anda mengikuti jejak remah-remah keju yang mengarah ke sarang tikus lain. Ternyata saudara Mickey meminjam keju tersebut. Kasus level 5 terselesaikan!",
-                failure: "Sayang sekali, pilihan Anda tidak tepat. Coba lagi untuk menyelesaikan kasus level 5.",
-                hints: [
-                    "Keju meninggalkan jejak yang dapat diikuti",
-                    "Tikus lain mungkin terlibat",
-                    "Perhatikan remah-remah kecil di lantai"
-                ]
-            }
-            // Data untuk 95 level lainnya akan mengikuti pola yang sama
+            // Data untuk level lainnya...
         ];
 
-        // Generate 95 level tambahan dengan kesulitan meningkat
-        for (let i = 6; i <= 100; i++) {
+        // Generate level tambahan
+        for (let i = 4; i <= 100; i++) {
             const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅'];
             const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
             
@@ -578,13 +716,12 @@
                 timeLimit = 30 - Math.floor(i/4);
             }
             
-            // Pastikan waktu tidak kurang dari 10 detik
             timeLimit = Math.max(10, timeLimit);
             
             levels.push({
                 level: i,
                 character: randomAnimal,
-                story: `Level ${i}: Kasus misterius terjadi! ${randomAnimal} membutuhkan bantuan Anda untuk mengungkap kebenaran di balik kejadian aneh yang sedang berlangsung. Setiap petunjuk membawa Anda semakin dekat kepada jawaban.`,
+                story: `Level ${i}: Kasus misterius terjadi! ${randomAnimal} membutuhkan bantuan Anda untuk mengungkap kebenaran di balik kejadian aneh yang sedang berlangsung.`,
                 clue: `Petunjuk tersembunyi di balik perilaku ${randomAnimal}. Perhatikan detail kecil dan jangan abaikan sesuatu yang tampak tidak penting.`,
                 choices: [
                     "Selidiki tempat kejadian perkara",
@@ -626,6 +763,31 @@
         const resultMessageElement = document.getElementById('resultMessage');
         const timerElement = document.getElementById('timer');
         const livesElement = document.getElementById('lives');
+        const detectiveCard = document.getElementById('detectiveCard');
+        const toggleCardBtn = document.getElementById('toggleCardBtn');
+        const cardLevelElement = document.getElementById('cardLevel');
+        const agentNameElement = document.getElementById('agentName');
+        const agentCodeElement = document.getElementById('agentCode');
+
+        // Generate nama agen acak
+        const agentNames = ["Shadow", "Phantom", "Falcon", "Raven", "Wolf", "Fox", "Hawk", "Lynx", "Viper", "Stealth"];
+        const randomAgentName = agentNames[Math.floor(Math.random() * agentNames.length)];
+        const randomAgentCode = Math.floor(1000 + Math.random() * 9000);
+        
+        // Set nilai kartu detektif
+        agentNameElement.textContent = randomAgentName;
+        agentCodeElement.textContent = randomAgentCode;
+        cardLevelElement.textContent = 1;
+
+        // Toggle kartu detektif
+        toggleCardBtn.addEventListener('click', function() {
+            detectiveCard.classList.toggle('card-minimized');
+            if (detectiveCard.classList.contains('card-minimized')) {
+                toggleCardBtn.innerHTML = '<i class="fas fa-id-card"></i>';
+            } else {
+                toggleCardBtn.innerHTML = '<i class="fas fa-times"></i>';
+            }
+        });
 
         // Fungsi untuk memuat level
         function loadLevel(levelIndex) {
@@ -647,6 +809,7 @@
             storyElement.textContent = level.story;
             clueElement.textContent = level.clue;
             levelDifficultyElement.textContent = level.difficulty;
+            cardLevelElement.textContent = level.level;
             
             // Update progress bar
             const progressPercentage = (level.level / 100) * 100;
