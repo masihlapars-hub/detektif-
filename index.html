@@ -1,5 +1,4 @@
-  <!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +18,541 @@
             --timer-red: #ff4757;
         }
 
+        .dark-mode {
+            --primary-color: #6b75cb;
+            --secondary-color: #4a4f8c;
+            --text-color: #f0f0f0;
+            --bg-color: #1a1a2e;
+            --card-bg: #16213e;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --choice-bg: #2a3b6a;
+            --choice-hover: #344878;
+            --timer-red: #ff6b81;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle, .level-select-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle:hover, .level-select-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            background: var(--choice-bg);
+            padding: 12px 20px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--timer-red);
+            font-weight: bold;
+        }
+
+        .character-container {
+            text-align: center;
+            margin: 25px 0;
+            perspective: 1000px;
+        }
+
+        .character {
+            font-size: 6rem;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+            transform-style: preserve-3d;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateY(10deg); }
+        }
+
+        .story {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            text-align: justify;
+            line-height: 1.8;
+            background: var(--choice-bg);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .clue-container {
+            background: var(--choice-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 3px solid var(--secondary-color);
+        }
+
+        .clue-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .choice-btn {
+            padding: 15px;
+            background: var(--choice-bg);
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .choice-btn:hover {
+            background: var(--choice-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .choice-btn i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .progress-container {
+            margin: 30px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            width: 1%;
+            transition: width 0.5s ease;
+        }
+
+        .instructions {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .instructions h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .level-badge {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .result-message {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .failure {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .hint-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lives-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .life {
+            color: #ff4757;
+            font-size: 1.2rem;
+        }
+
+        /* Modal Input Nama */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .name-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .start-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .start-button:hover {
+            background: var(--secondary-color);
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        /* Modal Pilih Level */
+        .level-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .level-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .level-modal-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .level-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .level-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .level-btn.locked {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .level-btn.current {
+            background: #ff9900;
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.5);
+        }
+
+        .level-btn.completed {
+            background: #28a745;
+        }
+
+        .close-level-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .choices {
+                grid-template-columns: 1fr;
+            }
+            
+            .character {
+                font-size: 4rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-buttons {
+                width: 100%;
+                justify-content: center;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            
+            .level-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .save-indicator {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                text-align: center;
+            }
+            
+            .levels-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .level-btn {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Modal Input Nama -->
@@ -31,413 +565,2270 @@
         </div>
     </div>
 
-}, { level: 15, character: "🦉", story: "Sebuah bank melaporkan perampokan sempurna tanpa jejak. Yang aneh, tidak ada uang yang hilang, tetapi sesuatu yang lain dicuri. Apa yang terjadi?", clue: "Pencuri mengambil sesuatu yang lebih berharga dari uang.", choices: [
+    <!-- Save Indicator -->
+    <div class="save-indicator" id="saveIndicator">
+        <i class="fas fa-save"></i> Progress tersimpan
+    </div>
+
+    <!-- Modal Pilih Level -->
+    <div class="level-modal" id="levelModal">
+        <div class="level-modal-content">
+            <h2><i class="fas fa-layer-group"></i> Pilih Level</h2>
+            <button class="close-level-modal" id="closeLevelModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="levels-grid" id="levelsGrid">
+                <!-- Level buttons will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-search"></i> Detektif 100 Level</h1>
+            <div class="header-buttons">
+                <button class="level-select-btn" id="levelSelectBtn">
+                    <i class="fas fa-layer-group"></i> Pilih Level
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <span>Mode Gelap</span>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="game-card">
+            <div class="level-info">
+                <span>Level: <span id="currentLevel">1</span>/100</span>
+                <span>Skor: <span id="score">0</span></span>
+                <span class="level-badge" id="levelDifficulty">Pemula</span>
+                <div class="timer-container">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">60</span>s
+                </div>
+                <div class="lives-container">
+                    <span>Nyawa: </span>
+                    <span id="lives">❤️❤️❤️</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Progress</span>
+                    <span id="progressPercentage">1%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" id="levelProgress"></div>
+                </div>
+            </div>
+
+            <div class="character-container">
+                <div class="character" id="character">🦊</div>
+            </div>
+
+            <div class="story" id="story">
+                Seorang gadis berada di pemakaman ibunya. Dia bertemu dengan seorang pria baik yang dia tidak tahu yang juga ada di pemakaman dan mereka cocok. Dia sibuk di pemakaman dan tidak punya waktu untuk menanyakan nomor telepon si pria sebelum dia pergi. Dia berusaha sangat keras untuk melacaknya, tetapi tidak ada yang tahu siapa dia atau bagaimana menghubungi dia. Beberapa hari kemudian saudara perempuan si gadis meninggal dan polisi mencurigainya sebagai kasus pembunuhan. Siapa yang membunuh saudara perempuannya?
+            </div>
+
+            <div class="clue-container">
+                <div class="clue-header">
+                    <i class="fas fa-clue"></i>
+                    <span>Petunjuk:</span>
+                </div>
+                <div id="clue">Pria yang ditemui di pemakaman adalah orang yang sama yang terlibat dalam kematian saudara perempuan.</div>
+            </div>
+
+            <div class="choices" id="choices">
+                <button class="choice-btn" onclick="makeChoice(0)"><i class="fas fa-user"></i> Pria yang ditemui di pemakaman</button>
+                <button class="choice-btn" onclick="makeChoice(1)"><i class="fas fa-user-friends"></i> Teman dekat keluarga</button>
+                <button class="choice-btn" onclick="makeChoice(2)"><i class="fas fa-home"></i> Tetangga mereka</button>
+                <button class="choice-btn" onclick="makeChoice(3)"><i class="fas fa-question"></i> Pembunuh bayaran</button>
+            </div>
+
+            <button class="hint-btn" onclick="showHint()">
+                <i class="fas fa-lightbulb"></i> Butuh Petunjuk? (-5 poin)
+            </button>
+
+            <div id="resultMessage" class="result-message"></div>
+        </div>
+
+        <div class="instructions">
+            <h2><i class="fas fa-info-circle"></i> Cara Bermain</h2>
+            <ol>
+                <li>Setiap level menampilkan teka-teki misteri yang berbeda</li>
+                <li>Baca cerita dengan seksama dan pilih jawaban yang tepat</li>
+                <li>Setiap pilihan akan mempengaruhi skor Anda</li>
+                <li>Anda memiliki waktu terbatas untuk menyelesaikan setiap level</li>
+                <li>Setiap level hanya boleh melakukan 3 kesalahan sebelum game over</li>
+                <li>Progress game akan otomatis tersimpan</li>
+                <li>Gunakan tombol mode gelap untuk mengubah tampilan sesuai kenyamanan mata Anda</li>
+                <li>Tujuan utama: Selesaikan semua 100 level untuk menjadi Detektif Master!</li>
+            </ol>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Detektif 100 Level - Game Misteri Interaktif</p>
+            <p>Temukan petunjuk, pecahkan misteri, dan jadi detektif terbaik!</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data level dan karakter - 100 teka-teki misteri yang benar-benar berbeda
+        const levels = [
+            {
+                level: 1,
+                character: "🦊",
+                story: "Seorang gadis berada di pemakaman ibunya. Dia bertemu dengan seorang pria baik yang dia tidak tahu yang juga ada di pemakaman dan mereka cocok. Dia sibuk di pemakaman dan tidak punya waktu untuk menanyakan nomor telepon si pria sebelum dia pergi. Dia berusaha sangat keras untuk melacaknya, tetapi tidak ada yang tahu siapa dia atau bagaimana menghubungi dia. Beberapa hari kemudian saudara perempuan si gadis meninggal dan polisi mencurigainya sebagai kasus pembunuhan. Siapa yang membunuh saudara perempuannya?",
+                clue: "Pria yang ditemui di pemakaman adalah orang yang sama yang terlibat dalam kematian saudara perempuan.",
+                choices: [
+                    "Pria yang ditemui di pemakaman",
+                    "Teman dekat keluarga",
+                    "Tetangga mereka",
+                    "Pembunuh bayaran"
+                ],
+                correctChoice: 0,
+                difficulty: "Pemula",
+                time: 60,
+                success: "Benar! Pria yang ditemui di pemakaman adalah ayah kandung gadis itu. Dia membunuh saudara perempuan untuk bertemu lagi dengan gadis itu di pemakaman.",
+                failure: "Salah! Coba pikirkan lagi siapa yang memiliki motif dan kesempatan.",
+                hints: [
+                    "Pria itu memiliki hubungan keluarga dengan gadis tersebut",
+                    "Dia ingin bertemu lagi dengan gadis itu",
+                    "Kematian saudara perempuan memberinya alasan untuk hadir di pemakaman lagi"
+                ]
+            },
+            {
+                level: 2,
+                character: "🐱",
+                story: "Seorang pria ditemukan tewas di kamar hotelnya. Kamar terkunci dari dalam dan kunci masih terpasang. Satu-satunya jendela terbuka dan ada tangga darurat di luar. Tidak ada jejak kekerasan atau perjuangan. Di meja ada secangkir kopi setengah diminum dan buku harian terbuka. Apa yang terjadi?",
+                clue: "Pria itu tidak sendirian di kamar sebelum kematiannya.",
+                choices: [
+                    "Dia bunuh diri",
+                    "Dia dibunuh oleh tamu yang tidak terlihat",
+                    "Kecelakaan",
+                    "Dibunuh melalui keracunan"
+                ],
+                correctChoice: 3,
+                difficulty: "Pemula",
+                time: 55,
+                success: "Benar! Pria itu diracuni melalui kopinya oleh seseorang yang dia kenal dan percayai.",
+                failure: "Salah! Perhatikan objek yang ada di kamar dan keadaan terkunci.",
+                hints: [
+                    "Perhatikan minuman di meja",
+                    "Kamar terkunci dari dalam tetapi tidak ada tanda-tanda perjuangan",
+                    "Seseorang yang dikenal korban mungkin terlibat"
+                ]
+            },
+            {
+                level: 3,
+                character: "🐶",
+                story: "Sebuah toko perhiasan dirampok. Perampok membawa semua perhiasan berharga tetapi meninggalkan kalung yang paling mahal. Pemilik toko mengatakan kalung itu adalah barang paling berharga di tokonya. Mengapa perampok meninggalkannya?",
+                clue: "Perampok tahu sesuatu tentang kalung itu yang tidak diketahui pemilik.",
+                choices: [
+                    "Kalung itu palsu",
+                    "Perampok lupa mengambilnya",
+                    "Perampok takut ketahuan membawa kalung itu",
+                    "Kalung itu terkutuk"
+                ],
+                correctChoice: 0,
+                difficulty: "Pemula",
+                time: 50,
+                success: "Benar! Kalung itu adalah tiruan yang sangat bagus. Perampok yang profesional tahu yang asli sudah dijual sebelumnya.",
+                failure: "Salah! Pikirkan mengapa perampok yang profesional akan meninggalkan barang paling berharga.",
+                hints: [
+                    "Perampok profesional tahu nilai barang yang sebenarnya",
+                    "Pemilik toko mungkin berbohong tentang nilai kalung",
+                    "Terkadang barang yang tampak berharga adalah palsu"
+                ]
+            },
+            {
+                level: 4,
+                character: "🦉",
+                story: "Seorang ilmuwan ditemukan tewas di laboratoriumnya. Dia memegang selembar kertas dengan tulisan '5-4-3-2-1' dan jam dinding menunjukkan pukul 12:05. Tidak ada tanda-tanda kekerasan. Apa yang terjadi?",
+                clue: "Ilmuwan itu sedang bekerja dengan bahan kimia berbahaya.",
+                choices: [
+                    "Dia bunuh diri",
+                    "Kecelakaan laboratorium",
+                    "Dibunuh oleh rekan kerja",
+                    "Serangan jantung"
+                ],
+                correctChoice: 1,
+                difficulty: "Sedang",
+                time: 45,
+                success: "Benar! Ilmuwan itu sedang melakukan percobaan dengan hitungan mundur. Dia terlambat meninggalkan area dan terkena bahan kimia berbahaya.",
+                failure: "Salah! Perhatikan angka yang ditulis dan waktu di jam.",
+                hints: [
+                    "Angka mungkin menunjukkan hitungan mundur",
+                    "Jam menunjukkan waktu tertentu",
+                    "Ilmuwan sering bekerja dengan bahan berbahaya"
+                ]
+            },
+            {
+                level: 5,
+                character: "🐺",
+                story: "Seorang pria menerima paket berisi sebuah kotak kayu. Dia membuka kotak itu, tersenyum, lalu meninggal secara tiba-tiba. Kotak itu kosong. Apa yang terjadi?",
+                clue: "Pria itu memiliki kondisi kesehatan tertentu.",
+                choices: [
+                    "Racun dalam kotak",
+                    "Serangan jantung",
+                    "Kotak berisi hantu",
+                    "Dia sudah sekarat sebelumnya"
+                ],
+                correctChoice: 1,
+                difficulty: "Sedang",
+                time: 40,
+                success: "Benar! Pria itu memiliki penyakit jantung. Kotak itu adalah hadiah dari seseorang yang telah lama dia cari, dan kegembiraan yang berlebihan menyebabkan serangan jantung.",
+                failure: "Salah! Pikirkan mengapa kotak kosong bisa menyebabkan kematian.",
+                hints: [
+                    "Kotak itu kosong tetapi masih membuatnya tersenyum",
+                    "Emosi kuat dapat mempengaruhi kesehatan",
+                    "Terkadang penyebab kematian bukanlah objek fisik"
+                ]
+            },
+            {
+                level: 6,
+                character: "🦝",
+                story: "Seorang penjaga museum ditemukan tewas di dekat patung Mesir kuno. Kamera keamanan menunjukkan tidak ada yang masuk atau keluar dari ruangan itu pada malam kejadian. Satu-satunya petunjuk adalah goresan aneh di lantai. Apa yang terjadi?",
+                clue: "Patung itu memiliki rahasia yang mematikan.",
+                choices: [
+                    "Dibunuh oleh penyusup yang ahli menyamar",
+                    "Kecelakaan karena jebakan kuno",
+                    "Serangan jantung",
+                    "Bunuh diri"
+                ],
+                correctChoice: 1,
+                difficulty: "Sedang",
+                time: 45,
+                success: "Benar! Patung itu memiliki mechanisme jebakan kuno yang tidak sengaja terpicu ketika penjaga membersihkannya.",
+                failure: "Salah! Perhatikan petunjuk tentang kamera keamanan dan goresan di lantai.",
+                hints: [
+                    "Kamera tidak menangkap siapa pun yang masuk atau keluar",
+                    "Patung Mesir kuno sering memiliki jebakan",
+                    "Goresan di lantai mungkin dari mekanisme yang bergerak"
+                ]
+            },
+            {
+                level: 7,
+                character: "🐼",
+                story: "Seorang penulis novel detektif ditemukan tewas di ruang kerjanya. Komputernya masih menyala dengan tulisan 'Pembunuhnya adalah...' dan kemudian kosong. Tidak ada tanda-tanda perjuangan atau orang lain. Apa yang terjadi?",
+                clue: "Penulis itu sedang menulis tentang metode pembunuhan yang unik.",
+                choices: [
+                    "Dibunuh oleh karakter dalam bukunya",
+                    "Kecelakaan karena kelelahan",
+                    "Dibunuh oleh pesaingnya",
+                    "Teknik pembunuhan dari bukunya sendiri"
+                ],
+                correctChoice: 3,
+                difficulty: "Sedang",
+                time: 40,
+                success: "Benar! Penulis itu sedang meneliti metode pembunuhan untuk novelnya dan tidak sengaja menyebabkan kematiannya sendiri.",
+                failure: "Salah! Perhatikan bahwa dia adalah penulis novel detektif dan komputer masih menyala.",
+                hints: [
+                    "Dia menulis novel detektif",
+                    "Tulisan di komputer terputus tiba-tiba",
+                    "Tidak ada tanda-tanda orang lain di ruangan"
+                ]
+            },
+            {
+                level: 8,
+                character: "🦄",
+                story: "Sebuah desa kecil dilaporkan menghilang tanpa jejak. Hanya tersisa sebuah lonceng gereja yang masih berdering setiap jam. Tim penyelidik tidak menemukan jejak perjuangan atau relokasi. Apa yang terjadi?",
+                clue: "Penduduk desa tidak pergi secara fisik.",
+                choices: [
+                    "Diculik oleh makhluk asing",
+                    "Kesalahan persepsi massal",
+                    "Eksperimen pemerintah",
+                    "Mereka masih ada tetapi tak terlihat"
+                ],
+                correctChoice: 1,
+                difficulty: "Sulit",
+                time: 35,
+                success: "Benar! Desa itu sebenarnya tidak pernah ada. Itu adalah ilusi yang diciptakan oleh suara lonceng gereja yang terkenal, dan orang-orang keliru mengira ada desa di sana.",
+                failure: "Salah! Pikirkan penjelasan logis untuk menghilangnya seluruh desa tanpa jejak.",
+                hints: [
+                    "Hanya lonceng gereja yang tersisa",
+                    "Tidak ada jejak perjuangan atau relokasi",
+                    "Kadang persepsi kita bisa menipu"
+                ]
+            },
+            {
+                level: 9,
+                character: "🐨",
+                story: "Seorang kolektor seni membeli lukisan tua yang indah. Setiap malam, dia mendengar suara bisikan dari lukisan itu. Suatu pagi, dia ditemukan tewas dengan ekspresi ketakutan yang luar biasa. Lukisan itu kosong. Apa yang terjadi?",
+                clue: "Lukisan itu memiliki sejarah kelam.",
+                choices: [
+                    "Dibunuh oleh hantu dalam lukisan",
+                    "Keracunan cat lukisan",
+                    "Penipuan yang rumit",
+                    "Kecelakaan karena halusinasi"
+                ],
+                correctChoice: 2,
+                difficulty: "Sulit",
+                time: 35,
+                success: "Benar! Lukisan itu adalah bagian dari penipuan rumit. Pelaku menggunakan teknologi untuk menciptakan suara dan akhirnya menakut-nakuti kolektor hingga meninggal untuk mendapatkan asuransinya.",
+                failure: "Salah! Perhatikan bahwa lukisan itu kosong ketika kolektor ditemukan tewas.",
+                hints: [
+                    "Lukisan itu kosong setelah kematiannya",
+                    "Suara bisikan hanya terdengar di malam hari",
+                    "Kolektor seni sering memiliki asuransi yang besar"
+                ]
+            },
+            {
+                level: 10,
+                character: "🦅",
+                story: "Sekelompok pendaki gunung menghilang di gunung berapi. Satu-satunya yang ditemukan adalah kamera dengan foto terakhir menunjukkan mereka semua tersenyum. Tidak ada jejak mereka atau tanda-tanda perjuangan. Apa yang terjadi dengan mereka?",
+                clue: "Gunung berapi memiliki rahasia yang belum ditemukan.",
+                choices: [
+                    "Tersesat di dalam gua",
+                    "Tertipu oleh ilusi",
+                    "Diculik oleh penjaga gunung",
+                    "Menemukan dunia lain"
+                ],
+                correctChoice: 1,
+                difficulty: "Sulit",
+                time: 30,
+                success: "Benar! Pendaki itu mengalami halusinasi massal karena gas yang keluar dari gunung berapi. Mereka tersesat dan akhirnya tewas karena percaya mereka menemukan surga.",
+                failure: "Salah! Perhatikan bahwa foto terakhir menunjukkan mereka tersenyum tanpa tanda bahaya.",
+                hints: [
+                    "Gunung berapi mengeluarkan gas yang bisa menyebabkan halusinasi",
+                    "Foto terakhir menunjukkan mereka tersenyum",
+                    "Tidak ada jejak perjuangan atau tanda bahaya"
+                ]
+            },
+            // Level 11-20
+            {
+                level: 11,
+                character: "🦖",
+                story: "Seorang penjelajah waktu mengklaim telah kembali dari masa depan. Keesokan harinya, dia ditemukan tewas dengan alat aneh di tangannya. Apa yang terjadi?",
+                clue: "Alat itu bukan untuk perjalanan waktu.",
+                choices: [
+                    "Dibunuh oleh penjelajah waktu lain",
+                    "Kecelakaan eksperimen",
+                    "Dibunuh karena tahu terlalu banyak",
+                    "Alat itu adalah senjata mematikan"
+                ],
+                correctChoice: 3,
+                difficulty: "Sulit",
+                time: 35,
+                success: "Benar! Alat itu adalah senjata canggih dari masa depan. Dia tidak sengaja mengaktifkannya dan menyebabkan kematiannya sendiri.",
+                failure: "Salah! Perhatikan alat aneh yang ditemukan di tangannya.",
+                hints: [
+                    "Alat itu memiliki fungsi yang berbeda dari yang diklaim",
+                    "Penjelajah waktu mungkin tidak jujur tentang asal usul alat",
+                    "Alat itu mungkin berbahaya"
+                ]
+            },
+            {
+                level: 12,
+                character: "🐉",
+                story: "Sebuah restoran terkenal ditutup setelah beberapa pelanggannya menghilang setelah makan malam. Investigasi menemukan ruang rahasia di dapur. Apa yang terjadi?",
+                clue: "Restoran itu memiliki menu rahasia.",
+                choices: [
+                    "Penipuan asuransi",
+                    "Penjualan organ manusia",
+                    "Kultus kanibal",
+                    "Pembunuhan berantai"
+                ],
+                correctChoice: 2,
+                difficulty: "Sulit",
+                time: 40,
+                success: "Benar! Restoran itu adalah kedok untuk kultus kanibal yang menyajikan daging manusia kepada anggota terpilih.",
+                failure: "Salah! Perhatikan bahwa pelanggan menghilang setelah makan malam.",
+                hints: [
+                    "Ruang rahasia di dapur",
+                    "Pelanggan menghilang setelah makan",
+                    "Restoran terkenal dengan menu eksklusif"
+                ]
+            },
+            {
+                level: 13,
+                character: "🦩",
+                story: "Seorang seniman lukis menjadi terkenal setelah karya-karyanya yang menakjubkan, tetapi semua model lukisannya menghilang. Apa yang terjadi?",
+                clue: "Seniman itu menggunakan teknik yang tidak biasa.",
+                choices: [
+                    "Dia membunuh modelnya untuk keabadian",
+                    "Modelnya adalah hantu",
+                    "Lukisannya menghidupkan model",
+                    "Dia menyembunyikan modelnya"
+                ],
+                correctChoice: 0,
+                difficulty: "Sulit",
+                time: 45,
+                success: "Benar! Seniman itu percaya bahwa dengan membunuh modelnya, jiwa mereka akan terperangkap dalam lukisan dan memberinya inspirasi abadi.",
+                failure: "Salah! Perhatikan bahwa model-modelnya menghilang setelah dipakai untuk lukisan.",
+                hints: [
+                    "Karya seninya menakjubkan tetapi modelnya menghilang",
+                    "Seniman itu menjadi terkenal",
+                    "Ada pola dalam menghilangnya model"
+                ]
+            },
+            {
+    level: 14,
+    character: "🐝",
+    story: "Seorang ilmuwan gila mengklaim telah menciptakan mesin pembaca pikiran. Tetangganya mulai menghilang satu per satu. Apa yang terjadi?",
+    clue: "Mesin itu memiliki fungsi yang tidak terduga.",
+    choices: [
+        "Dia membunuh tetangga yang punya pikiran jahat",
+        "Mesin itu menarik makhluk dari dimensi lain",
+        "Tetangga pindah karena takut",
+        "Mesin itu menghapus ingatan orang"
+    ],
+    correctChoice: 1,
+    difficulty: "Sulit",
+    time: 40,
+    success: "Benar! Mesin pembaca pikiran itu membuka portal ke dimensi lain yang mengeluarkan makhluk yang menculik tetangganya.",
+    failure: "Salah! Perhatikan bahwa ilmuwan itu menciptakan mesin pembaca pikiran.",
+    hints: [
+        "Ilmuwan itu gila",
+        "Tetangga menghilang setelah mesin diciptakan",
+        "Mesin itu memiliki efek samping yang tidak terduga"
+    ]
+},
+{
+    level: 15,
+    character: "🦉",
+    story: "Sebuah bank melaporkan perampokan sempurna tanpa jejak. Yang aneh, tidak ada uang yang hilang, tetapi sesuatu yang lain dicuri. Apa yang terjadi?",
+    clue: "Pencuri mengambil sesuatu yang lebih berharga dari uang.",
+    choices: [
         "Data nasabah",
         "Brankir berisi dokumen rahasia",
         "Patung seni bernilai tinggi",
         "Kunci untuk bank lain"
-    ], correctChoice: 1, difficulty: "Sedang", time: 45, success: "Benar! Pencuri mengambil dokumen rahasia dari brankir yang berisi informasi sensitif tentang para elite.", failure: "Salah! Perhatikan bahwa tidak ada uang yang hilang.", hints: [
+    ],
+    correctChoice: 1,
+    difficulty: "Sedang",
+    time: 45,
+    success: "Benar! Pencuri mengambil dokumen rahasia dari brankir yang berisi informasi sensitif tentang para elite.",
+    failure: "Salah! Perhatikan bahwa tidak ada uang yang hilang.",
+    hints: [
         "Perampokan sempurna tanpa jejak",
         "Tidak ada uang yang hilang",
         "Ada sesuatu yang lebih berharga di bank selain uang"
-    ] }, { level: 16, character: "🐙", story: "Seorang aktris terkenal meninggal saat syuting adegan berbahaya. Namun, rekaman video menunjukkan sesuatu yang tidak mungkin. Apa yang terjadi?", clue: "Adegan itu tidak seharusnya mematikan.", choices: [
+    ]
+},
+{
+    level: 16,
+    character: "🐙",
+    story: "Seorang aktris terkenal meninggal saat syuting adegan berbahaya. Namun, rekaman video menunjukkan sesuatu yang tidak mungkin. Apa yang terjadi?",
+    clue: "Adegan itu tidak seharusnya mematikan.",
+    choices: [
         "Dibunuh oleh stunt double",
         "Kecelakaan yang direncanakan",
         "Efek khusus yang gagal",
         "Rekaman video dipalsukan"
-    ], correctChoice: 1, difficulty: "Sedang", time: 40, success: "Benar! Kematiannya adalah pembunuhan yang disamarkan sebagai kecelakaan. Pelaku memanipulasi rekaman untuk menyembunyikan bukti.", failure: "Salah! Perhatikan bahwa rekaman video menunjukkan sesuatu yang tidak mungkin.", hints: [
+    ],
+    correctChoice: 1,
+    difficulty: "Sedang",
+    time: 40,
+    success: "Benar! Kematiannya adalah pembunuhan yang disamarkan sebagai kecelakaan. Pelaku memanipulasi rekaman untuk menyembunyikan bukti.",
+    failure: "Salah! Perhatikan bahwa rekaman video menunjukkan sesuatu yang tidak mungkin.",
+    hints: [
         "Aktris meninggal saat syuting",
         "Rekaman video aneh",
         "Adegan berbahaya mungkin hanya kedok"
-    ] }, { level: 17, character: "🦄", story: "Sebuah pesawat kecil menghilang dari radar selama 10 menit dan muncul kembali tanpa penumpang. Apa yang terjadi selama 10 menit itu?", clue: "Pesawat itu tidak benar-benar menghilang.", choices: [
+    ]
+},
+{
+    level: 17,
+    character: "🦄",
+    story: "Sebuah pesawat kecil menghilang dari radar selama 10 menit dan muncul kembali tanpa penumpang. Apa yang terjadi selama 10 menit itu?",
+    clue: "Pesawat itu tidak benar-benar menghilang.",
+    choices: [
         "Penumpang diculik alien",
         "Pesawat masuk ke dimensi lain",
         "Pembajakan yang sangat cepat",
         "Kesalahan sistem radar"
-    ], correctChoice: 2, difficulty: "Sulit", time: 35, success: "Benar! Pesawat dibajak oleh kelompok teroris yang sangat terlatih yang bisa menyembunyikan pesawat dan mengevakuasi penumpang dalam waktu singkat.", failure: "Salah! Perhatikan bahwa pesawat hanya hilang 10 menit.", hints: [
+    ],
+    correctChoice: 2,
+    difficulty: "Sulit",
+    time: 35,
+    success: "Benar! Pesawat dibajak oleh kelompok teroris yang sangat terlatih yang bisa menyembunyikan pesawat dan mengevakuasi penumpang dalam waktu singkat.",
+    failure: "Salah! Perhatikan bahwa pesawat hanya hilang 10 menit.",
+    hints: [
         "Waktu yang sangat singkat",
         "Penumpang hilang",
         "Pesawat muncul kembali"
-    ] }, { level: 18, character: "🦁", story: "Seorang detektif swasta sedang menyelidiki kasus penculikan dan tiba-tiba menghilang. Satu-satunya petunjuk adalah foto misterius yang dikirimnya. Apa yang terjadi?", clue: "Foto itu mengandung pesan tersembunyi.", choices: [
+    ]
+},
+{
+    level: 18,
+    character: "🦁",
+    story: "Seorang detektif swasta sedang menyelidiki kasus penculikan dan tiba-tiba menghilang. Satu-satunya petunjuk adalah foto misterius yang dikirimnya. Apa yang terjadi?",
+    clue: "Foto itu mengandung pesan tersembunyi.",
+    choices: [
         "Dia menemukan sesuatu yang terlalu berbahaya",
         "Dia adalah penculiknya",
         "Dia pura-pura menghilang",
         "Dia diculik oleh penculik yang sama"
-    ], correctChoice: 0, difficulty: "Sedang", time: 40, success: "Benar! Detektif itu menemukan jaringan kriminal powerful dan sengaja menghilang untuk menyelidiki lebih dalam setelah mengirim foto sebagai petunjuk.", failure: "Salah! Perhatikan foto misterius yang dikirimnya.", hints: [
+    ],
+    correctChoice: 0,
+    difficulty: "Sedang",
+    time: 40,
+    success: "Benar! Detektif itu menemukan jaringan kriminal powerful dan sengaja menghilang untuk menyelidiki lebih dalam setelah mengirim foto sebagai petunjuk.",
+    failure: "Salah! Perhatikan foto misterius yang dikirimnya.",
+    hints: [
         "Detektif menghilang saat menyelidiki",
         "Dia mengirim foto sebelum menghilang",
         "Foto itu adalah petunjuk"
-    ] }, { level: 19, character: "🐨", story: "Sebuah museum seni modern melaporkan kehilangan karya seni bernilai miliaran. Yang aneh, tidak ada yang menyadari kehilangan itu hingga berminggu-minggu kemudian. Apa yang terjadi?", clue: "Karya seni itu tidak benar-benar dicuri.", choices: [
+    ]
+},
+{
+    level: 19,
+    character: "🐨",
+    story: "Sebuah museum seni modern melaporkan kehilangan karya seni bernilai miliaran. Yang aneh, tidak ada yang menyadari kehilangan itu hingga berminggu-minggu kemudian. Apa yang terjadi?",
+    clue: "Karya seni itu tidak benar-benar dicuri.",
+    choices: [
         "Karyanya palsu dan diganti dengan yang asli",
         "Kurator museum yang mencuri",
         "Pencurian dilakukan secara perlahan",
         "Karya seni itu tidak pernah ada"
-    ], correctChoice: 2, difficulty: "Sulit", time: 45, success: "Benar! Pencuri mengganti karya seni dengan tiruan yang sempurna secara perlahan sehingga tidak ada yang menyadari sampai berminggu-minggu.", failure: "Salah! Perhatikan bahwa tidak ada yang menyadari kehilangan hingga berminggu-minggu.", hints: [
+    ],
+    correctChoice: 2,
+    difficulty: "Sulit",
+    time: 45,
+    success: "Benar! Pencuri mengganti karya seni dengan tiruan yang sempurna secara perlahan sehingga tidak ada yang menyadari sampai berminggu-minggu.",
+    failure: "Salah! Perhatikan bahwa tidak ada yang menyadari kehilangan hingga berminggu-minggu.",
+    hints: [
         "Kehilangan baru diketahui setelah berminggu-minggu",
         "Karya seni sangat berharga",
         "Museum seni modern"
-    ] }, { level: 20, character: "🦅", story: "Seorang penemu gila menciptakan mesin waktu mini. Eksperimennya menyebabkan kejadian aneh di seluruh kota. Apa yang terjadi?", clue: "Mesin waktu tidak bekerja seperti yang diharapkan.", choices: [
+    ]
+},
+{
+    level: 20,
+    character: "🦅",
+    story: "Seorang penemu gila menciptakan mesin waktu mini. Eksperimennya menyebabkan kejadian aneh di seluruh kota. Apa yang terjadi?",
+    clue: "Mesin waktu tidak bekerja seperti yang diharapkan.",
+    choices: [
         "Mesin itu menarik benda dari masa depan",
         "Mesin itu membuat lubang cacing kecil",
         "Mesin itu mengacaukan waktu lokal",
         "Mesin itu hanya ilusi"
-    ], correctChoice: 2, difficulty: "Sulit", time: 35, success: "Benar! Mesin waktu mini itu mengacaukan waktu di sekitar kota, menyebabkan kejadian aneh seperti orang yang bergerak sangat lambat atau cepat.", failure: "Salah! Perhatikan bahwa kejadian aneh terjadi di seluruh kota.", hints: [
+    ],
+    correctChoice: 2,
+    difficulty: "Sulit",
+    time: 35,
+    success: "Benar! Mesin waktu mini itu mengacaukan waktu di sekitar kota, menyebabkan kejadian aneh seperti orang yang bergerak sangat lambat atau cepat.",
+    failure: "Salah! Perhatikan bahwa kejadian aneh terjadi di seluruh kota.",
+    hints: [
         "Penemu gila",
         "Mesin waktu mini",
         "Efeknya terasa di seluruh kota"
-    ] }, {  level: 21, character: "🦊", story: "Sebuah kota kecil tiba-tiba kehilangan seluruh sinyal komunikasi selama 24 jam. Tidak ada telepon, internet, maupun radio. Apa penyebabnya?", clue: "Sesuatu memblokir seluruh frekuensi.", choices: ["Meteor jatuh memancarkan radiasi", "Perangkat jammer raksasa dipasang", "Seluruh satelit rusak bersamaan", "Kecurangan perusahaan telekomunikasi"], correctChoice: 1, difficulty: "Sulit", time: 40, success: "Benar! Sebuah organisasi rahasia memasang jammer raksasa untuk menyembunyikan aktivitas ilegal di kota itu.", failure: "Salah! Ingat, semua frekuensi hilang sekaligus.", hints: ["Semua sinyal hilang", "24 jam penuh", "Sesuatu memblokir frekuensi"] },  {level: 22, character: "🐧", story: "Seorang arkeolog menemukan piramida bawah tanah yang tidak ada pintu masuknya. Tapi di dalamnya ada mayat modern. Bagaimana bisa?", clue: "Mayat itu bukan dari masa lalu.", choices: ["Korban dikubur hidup-hidup oleh sekte rahasia", "Ada pintu rahasia tersembunyi", "Mayat itu dipindahkan melalui mesin waktu", "Piramida sebenarnya buatan baru"], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Sekte rahasia menggunakan piramida sebagai tempat pengorbanan dan mengubur korban hidup-hidup tanpa jejak pintu masuk.", failure: "Salah! Pikirkan mengapa mayat itu modern.", hints: ["Piramida bawah tanah", "Tidak ada pintu masuk", "Mayat modern ditemukan"] },  {level: 23, character: "🐍", story: "Sebuah kapal layar ditemukan terapung tanpa awak di laut lepas. Semua barang masih utuh, tetapi awak kapal hilang. Apa yang terjadi?", clue: "Tidak ada tanda kekerasan di kapal.", choices: ["Seluruh awak diculik perompak modern", "Awak terkena gas beracun misterius", "Awak melompat ke laut karena halusinasi", "Awak kabur dengan sekoci"], correctChoice: 2, difficulty: "Sedang", time: 40, success: "Benar! Awak kapal terkena halusinasi akibat gas alam laut dan melompat ke laut tanpa sadar.", failure: "Salah! Perhatikan bahwa kapal masih utuh tanpa tanda perlawanan.", hints: ["Kapal masih utuh", "Tidak ada tanda kekerasan", "Awak hilang mendadak"] },  {level: 24, character: "🐼", story: "Seorang ilmuwan ditemukan mati terkunci di labnya yang terkunci rapat dari dalam. Bagaimana ia meninggal?", clue: "Tidak ada orang lain yang masuk.", choices: ["Bunuh diri dengan racun gas eksperimen", "Ada pintu rahasia", "Robot lab membunuhnya", "Tewas karena serangan jantung"], correctChoice: 0, difficulty: "Sulit", time: 35, success: "Benar! Ia meninggal akibat racun gas dari eksperimennya sendiri, sehingga terlihat seperti kasus misteri ruangan terkunci.", failure: "Salah! Ingat, tidak ada orang lain yang masuk.", hints: ["Lab terkunci rapat", "Ilmuwan bekerja sendiri", "Eksperimen berbahaya"] },  {level: 25, character: "🦓", story: "Sebuah gedung apartemen mewah runtuh mendadak tanpa gempa. Penyebabnya mengejutkan. Apa yang terjadi?", clue: "Gedung itu memiliki rahasia konstruksi.", choices: ["Material bangunan diganti dengan kualitas rendah", "Ada bom tersembunyi", "Kebocoran pipa gas besar", "Ada terowongan rahasia di bawah gedung"], correctChoice: 0, difficulty: "Sedang", time: 40, success: "Benar! Kontraktor nakal menggunakan material murah yang akhirnya menyebabkan gedung roboh.", failure: "Salah! Ingat, tidak ada gempa.", hints: ["Gedung apartemen mewah", "Runtuh mendadak", "Rahasia konstruksi"] },  {level: 26, character: "🦒", story: "Seorang penulis terkenal ditemukan mati di rumahnya dengan novel terakhirnya hilang. Apa yang sebenarnya dicuri?", clue: "Bukan benda fisik biasa.", choices: ["Catatan rahasia untuk novel berikutnya", "Laptop berisi draft asli", "Koleksi jurnal pribadinya", "Identitas palsu yang disimpannya"], correctChoice: 1, difficulty: "Mudah", time: 30, success: "Benar! Laptopnya berisi draft asli novel yang sangat berharga dicuri.", failure: "Salah! Perhatikan bahwa novel terakhirnya hilang.", hints: ["Novel terakhir hilang", "Penulis terkenal", "Ada yang lebih penting dari benda fisik biasa"] },  {level: 27, character: "🦔", story: "Seorang kolektor kaya meninggal misterius. Semua koleksi barang antiknya terbakar, tapi rumahnya tetap utuh. Bagaimana mungkin?", clue: "Api hanya membakar benda tertentu.", choices: ["Barang antik dilapisi bahan mudah terbakar", "Kebakaran terjadi dalam ruang vakum kaca", "Penyebabnya reaksi kimia koleksi", "Seseorang menggunakan api khusus"], correctChoice: 2, difficulty: "Sulit", time: 40, success: "Benar! Koleksi itu bereaksi secara kimiawi dan terbakar sendiri tanpa merusak rumah.", failure: "Salah! Perhatikan rumah tetap utuh.", hints: ["Koleksi terbakar", "Rumah tetap utuh", "Ada reaksi kimia"] },  {level: 28, character: "🦕", story: "Seorang ilmuwan biologi laut hilang saat menyelam. Kamera bawah lautnya ditemukan, menunjukkan sesuatu aneh. Apa yang terjadi?", clue: "Ada makhluk laut yang tidak biasa.", choices: ["Ia diserang hewan purba", "Kecelakaan peralatan", "Diseret oleh penyelundup bawah laut", "Tersedot arus pusaran"], correctChoice: 0, difficulty: "Sedang", time: 40, success: "Benar! Ia bertemu makhluk laut purba yang menyerangnya, terekam oleh kamera.", failure: "Salah! Ingat, kamera menunjukkan sesuatu aneh.", hints: ["Ilmuwan laut", "Kamera bawah laut", "Makhluk aneh muncul"] },  {level: 29, character: "🦖", story: "Seorang astronot kembali dari misi luar angkasa, tetapi hasil tes medisnya menunjukkan DNA berubah. Apa yang terjadi?", clue: "DNA tidak berubah sendiri.", choices: ["Dia terkena radiasi kosmik ekstrem", "Ia digantikan oleh kembaran alien", "Eksperimen rahasia di stasiun luar angkasa", "Tes laboratorium salah"], correctChoice: 1, difficulty: "Sulit", time: 45, success: "Benar! Astronot sebenarnya digantikan oleh kembaran alien saat di luar angkasa.", failure: "Salah! Pikirkan kenapa DNA bisa berubah drastis.", hints: ["Astronot pulang dari luar angkasa", "Tes DNA berbeda", "Alien?"] },  {level: 30, character: "🦜", story: "Sebuah konser besar tiba-tiba berhenti karena semua lampu padam bersamaan. Saat nyala kembali, penyanyi utama hilang. Apa yang terjadi?", clue: "Pemadaman listrik bukan kebetulan.", choices: ["Penculikan yang sudah direncanakan", "Penyanyi melarikan diri sendiri", "Gangguan teknis biasa", "Trik sulap panggung"], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Penyanyi itu diculik menggunakan trik pemadaman listrik yang direncanakan dengan matang.", failure: "Salah! Ingat, semua lampu padam bersamaan.", hints: ["Konser besar", "Lampu padam", "Penyanyi menghilang"] }, { level: 31,  character: "🦩",  story: "Seorang ilmuwan menemukan catatan kuno yang menyebutkan ramuan keabadian. Keesokan harinya, ia ditemukan mati dengan catatan itu hilang. Apa yang terjadi?",  clue: "Catatan itu lebih berbahaya daripada ramuan.",  choices: [ 
+    ]
+},
+      { 
+  level: 21, character: "🦊", story: "Sebuah kota kecil tiba-tiba kehilangan seluruh sinyal komunikasi selama 24 jam. Tidak ada telepon, internet, maupun radio. Apa penyebabnya?", clue: "Sesuatu memblokir seluruh frekuensi.", choices: ["Meteor jatuh memancarkan radiasi", "Perangkat jammer raksasa dipasang", "Seluruh satelit rusak bersamaan", "Kecurangan perusahaan telekomunikasi"], correctChoice: 1, difficulty: "Sulit", time: 40, success: "Benar! Sebuah organisasi rahasia memasang jammer raksasa untuk menyembunyikan aktivitas ilegal di kota itu.", failure: "Salah! Ingat, semua frekuensi hilang sekaligus.", hints: ["Semua sinyal hilang", "24 jam penuh", "Sesuatu memblokir frekuensi"] }, 
+{ level: 22, character: "🐧", story: "Seorang arkeolog menemukan piramida bawah tanah yang tidak ada pintu masuknya. Tapi di dalamnya ada mayat modern. Bagaimana bisa?", clue: "Mayat itu bukan dari masa lalu.", choices: ["Korban dikubur hidup-hidup oleh sekte rahasia", "Ada pintu rahasia tersembunyi", "Mayat itu dipindahkan melalui mesin waktu", "Piramida sebenarnya buatan baru"], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Sekte rahasia menggunakan piramida sebagai tempat pengorbanan dan mengubur korban hidup-hidup tanpa jejak pintu masuk.", failure: "Salah! Pikirkan mengapa mayat itu modern.", hints: ["Piramida bawah tanah", "Tidak ada pintu masuk", "Mayat modern ditemukan"] }, 
+{ level: 23, character: "🐍", story: "Sebuah kapal layar ditemukan terapung tanpa awak di laut lepas. Semua barang masih utuh, tetapi awak kapal hilang. Apa yang terjadi?", clue: "Tidak ada tanda kekerasan di kapal.", choices: ["Seluruh awak diculik perompak modern", "Awak terkena gas beracun misterius", "Awak melompat ke laut karena halusinasi", "Awak kabur dengan sekoci"], correctChoice: 2, difficulty: "Sedang", time: 40, success: "Benar! Awak kapal terkena halusinasi akibat gas alam laut dan melompat ke laut tanpa sadar.", failure: "Salah! Perhatikan bahwa kapal masih utuh tanpa tanda perlawanan.", hints: ["Kapal masih utuh", "Tidak ada tanda kekerasan", "Awak hilang mendadak"] }, 
+{ level: 24, character: "🐼", story: "Seorang ilmuwan ditemukan mati terkunci di labnya yang terkunci rapat dari dalam. Bagaimana ia meninggal?", clue: "Tidak ada orang lain yang masuk.", choices: ["Bunuh diri dengan racun gas eksperimen", "Ada pintu rahasia", "Robot lab membunuhnya", "Tewas karena serangan jantung"], correctChoice: 0, difficulty: "Sulit", time: 35, success: "Benar! Ia meninggal akibat racun gas dari eksperimennya sendiri, sehingga terlihat seperti kasus misteri ruangan terkunci.", failure: "Salah! Ingat, tidak ada orang lain yang masuk.", hints: ["Lab terkunci rapat", "Ilmuwan bekerja sendiri", "Eksperimen berbahaya"] }, 
+{ level: 25, character: "🦓", story: "Sebuah gedung apartemen mewah runtuh mendadak tanpa gempa. Penyebabnya mengejutkan. Apa yang terjadi?", clue: "Gedung itu memiliki rahasia konstruksi.", choices: ["Material bangunan diganti dengan kualitas rendah", "Ada bom tersembunyi", "Kebocoran pipa gas besar", "Ada terowongan rahasia di bawah gedung"], correctChoice: 0, difficulty: "Sedang", time: 40, success: "Benar! Kontraktor nakal menggunakan material murah yang akhirnya menyebabkan gedung roboh.", failure: "Salah! Ingat, tidak ada gempa.", hints: ["Gedung apartemen mewah", "Runtuh mendadak", "Rahasia konstruksi"] }, 
+{ level: 26, character: "🦒", story: "Seorang penulis terkenal ditemukan mati di rumahnya dengan novel terakhirnya hilang. Apa yang sebenarnya dicuri?", clue: "Bukan benda fisik biasa.", choices: ["Catatan rahasia untuk novel berikutnya", "Laptop berisi draft asli", "Koleksi jurnal pribadinya", "Identitas palsu yang disimpannya"], correctChoice: 1, difficulty: "Mudah", time: 30, success: "Benar! Laptopnya berisi draft asli novel yang sangat berharga dicuri.", failure: "Salah! Perhatikan bahwa novel terakhirnya hilang.", hints: ["Novel terakhir hilang", "Penulis terkenal", "Ada yang lebih penting dari benda fisik biasa"] }, 
+{ level: 27, character: "🦔", story: "Seorang kolektor kaya meninggal misterius. Semua koleksi barang antiknya terbakar, tapi rumahnya tetap utuh. Bagaimana mungkin?", clue: "Api hanya membakar benda tertentu.", choices: ["Barang antik dilapisi bahan mudah terbakar", "Kebakaran terjadi dalam ruang vakum kaca", "Penyebabnya reaksi kimia koleksi", "Seseorang menggunakan api khusus"], correctChoice: 2, difficulty: "Sulit", time: 40, success: "Benar! Koleksi itu bereaksi secara kimiawi dan terbakar sendiri tanpa merusak rumah.", failure: "Salah! Perhatikan rumah tetap utuh.", hints: ["Koleksi terbakar", "Rumah tetap utuh", "Ada reaksi kimia"] }, 
+{ level: 28, character: "🦕", story: "Seorang ilmuwan biologi laut hilang saat menyelam. Kamera bawah lautnya ditemukan, menunjukkan sesuatu aneh. Apa yang terjadi?", clue: "Ada makhluk laut yang tidak biasa.", choices: ["Ia diserang hewan purba", "Kecelakaan peralatan", "Diseret oleh penyelundup bawah laut", "Tersedot arus pusaran"], correctChoice: 0, difficulty: "Sedang", time: 40, success: "Benar! Ia bertemu makhluk laut purba yang menyerangnya, terekam oleh kamera.", failure: "Salah! Ingat, kamera menunjukkan sesuatu aneh.", hints: ["Ilmuwan laut", "Kamera bawah laut", "Makhluk aneh muncul"] }, 
+{ level: 29, character: "🦖", story: "Seorang astronot kembali dari misi luar angkasa, tetapi hasil tes medisnya menunjukkan DNA berubah. Apa yang terjadi?", clue: "DNA tidak berubah sendiri.", choices: ["Dia terkena radiasi kosmik ekstrem", "Ia digantikan oleh kembaran alien", "Eksperimen rahasia di stasiun luar angkasa", "Tes laboratorium salah"], correctChoice: 1, difficulty: "Sulit", time: 45, success: "Benar! Astronot sebenarnya digantikan oleh kembaran alien saat di luar angkasa.", failure: "Salah! Pikirkan kenapa DNA bisa berubah drastis.", hints: ["Astronot pulang dari luar angkasa", "Tes DNA berbeda", "Alien?"] }, 
+{ level: 30, character: "🦜", story: "Sebuah konser besar tiba-tiba berhenti karena semua lampu padam bersamaan. Saat nyala kembali, penyanyi utama hilang. Apa yang terjadi?", clue: "Pemadaman listrik bukan kebetulan.", choices: ["Penculikan yang sudah direncanakan", "Penyanyi melarikan diri sendiri", "Gangguan teknis biasa", "Trik sulap panggung"], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Penyanyi itu diculik menggunakan trik pemadaman listrik yang direncanakan dengan matang.", failure: "Salah! Ingat, semua lampu padam bersamaan.", hints: ["Konser besar", "Lampu padam", "Penyanyi menghilang"] },
+{ 
+  level: 31, 
+  character: "🦩", 
+  story: "Seorang ilmuwan menemukan catatan kuno yang menyebutkan ramuan keabadian. Keesokan harinya, ia ditemukan mati dengan catatan itu hilang. Apa yang terjadi?", 
+  clue: "Catatan itu lebih berbahaya daripada ramuan.", 
+  choices: [ 
     "Ia diracun oleh orang yang mengincar catatan", 
     "Ramuan gagal dibuat", 
     "Ia bunuh diri setelah membaca catatan", 
     "Catatan itu kutukan" 
-  ],  correctChoice: 0,  difficulty: "Sedang",  time: 35,  success: "Benar! Catatan kuno itu membuat orang lain membunuhnya untuk merebut rahasianya.",  failure: "Salah! Fokus pada hilangnya catatan.",  hints: ["Ramuan keabadian", "Catatan hilang", "Ilmuwan mati misterius"]  }, { level: 32,  character: "🦂",  story: "Sebuah kapal selam nuklir hilang dari radar dan muncul kembali di lokasi berbeda ribuan kilometer jauhnya. Apa penyebabnya?",  clue: "Bukan sekadar kesalahan navigasi.",  choices: [ 
+  ], 
+  correctChoice: 0, 
+  difficulty: "Sedang", 
+  time: 35, 
+  success: "Benar! Catatan kuno itu membuat orang lain membunuhnya untuk merebut rahasianya.", 
+  failure: "Salah! Fokus pada hilangnya catatan.", 
+  hints: ["Ramuan keabadian", "Catatan hilang", "Ilmuwan mati misterius"] 
+}, 
+{ 
+  level: 32, 
+  character: "🦂", 
+  story: "Sebuah kapal selam nuklir hilang dari radar dan muncul kembali di lokasi berbeda ribuan kilometer jauhnya. Apa penyebabnya?", 
+  clue: "Bukan sekadar kesalahan navigasi.", 
+  choices: [ 
     "Eksperimen teleportasi rahasia", 
     "Kesalahan komputer navigasi", 
     "Pemberontakan kru", 
     "Ditelan pusaran laut" 
-  ],  correctChoice: 0,  difficulty: "Sulit",  time: 45,  success: "Benar! Kapal selam sedang diuji coba dengan eksperimen teleportasi militer rahasia.",  failure: "Salah! Lokasi terlalu jauh untuk sekadar error navigasi.",  hints: ["Kapal selam nuklir", "Lokasi berbeda ribuan km", "Eksperimen rahasia"]  }, { level: 33,  character: "🦢",  story: "Seorang miliarder mengadakan pesta di pulau pribadinya. Setelah pesta, semua tamu hilang. Pulau kosong. Apa yang terjadi?",  clue: "Pulau itu sendiri punya rahasia.",  choices: [ 
+  ], 
+  correctChoice: 0, 
+  difficulty: "Sulit", 
+  time: 45, 
+  success: "Benar! Kapal selam sedang diuji coba dengan eksperimen teleportasi militer rahasia.", 
+  failure: "Salah! Lokasi terlalu jauh untuk sekadar error navigasi.", 
+  hints: ["Kapal selam nuklir", "Lokasi berbeda ribuan km", "Eksperimen rahasia"] 
+}, 
+{ 
+  level: 33, 
+  character: "🦢", 
+  story: "Seorang miliarder mengadakan pesta di pulau pribadinya. Setelah pesta, semua tamu hilang. Pulau kosong. Apa yang terjadi?", 
+  clue: "Pulau itu sendiri punya rahasia.", 
+  choices: [ 
     "Ada bunker bawah tanah rahasia", 
     "Para tamu diculik dengan helikopter", 
     "Ilusi hologram menipu semua orang", 
     "Pulau itu tenggelam sebagian" 
-  ],  correctChoice: 1,  difficulty: "Sulit",  time: 40,  success: "Benar! Para tamu diculik menggunakan helikopter rahasia yang tak terdeteksi radar.",  failure: "Salah! Ingat, semua tamu hilang serentak.",  hints: ["Pulau pribadi", "Semua tamu hilang", "Akses rahasia mungkin dipakai"]  }, { level: 34,  character: "🦞",  story: "Seorang hacker terkenal mati mendadak di depan komputernya. Di layar, ada pesan misterius: 'GAME OVER'. Apa penyebabnya?",  clue: "Kematian terkait komputer.",  choices: [ 
+  ], 
+  correctChoice: 1, 
+  difficulty: "Sulit", 
+  time: 40, 
+  success: "Benar! Para tamu diculik menggunakan helikopter rahasia yang tak terdeteksi radar.", 
+  failure: "Salah! Ingat, semua tamu hilang serentak.", 
+  hints: ["Pulau pribadi", "Semua tamu hilang", "Akses rahasia mungkin dipakai"] 
+}, 
+{ 
+  level: 34, 
+  character: "🦞", 
+  story: "Seorang hacker terkenal mati mendadak di depan komputernya. Di layar, ada pesan misterius: 'GAME OVER'. Apa penyebabnya?", 
+  clue: "Kematian terkait komputer.", 
+  choices: [ 
     "Diracun lewat keyboard khusus", 
     "Kejutan listrik dari perangkat", 
     "Pesan ancaman psikologis", 
     "Ia bunuh diri" 
-  ],  correctChoice: 1,  difficulty: "Sedang",  time: 30,  success: "Benar! Komputernya disabotase untuk mengalirkan listrik mematikan saat dipakai.",  failure: "Salah! Ingat hubungannya dengan komputer.",  hints: ["Pesan 'GAME OVER'", "Hacker", "Kematian langsung di depan PC"]  }, { level: 35,  character: "🦈",  story: "Seorang fotografer alam liar hilang di hutan. Kamera yang ditemukan berisi foto terakhir: bayangan manusia dengan mata bercahaya. Apa yang sebenarnya terjadi?",  clue: "Bukan hewan biasa.",  choices: [ 
+  ], 
+  correctChoice: 1, 
+  difficulty: "Sedang", 
+  time: 30, 
+  success: "Benar! Komputernya disabotase untuk mengalirkan listrik mematikan saat dipakai.", 
+  failure: "Salah! Ingat hubungannya dengan komputer.", 
+  hints: ["Pesan 'GAME OVER'", "Hacker", "Kematian langsung di depan PC"] 
+}, 
+{ 
+  level: 35, 
+  character: "🦈", 
+  story: "Seorang fotografer alam liar hilang di hutan. Kamera yang ditemukan berisi foto terakhir: bayangan manusia dengan mata bercahaya. Apa yang sebenarnya terjadi?", 
+  clue: "Bukan hewan biasa.", 
+  choices: [ 
     "Ia menemukan sekte rahasia", 
     "Ia memotret makhluk eksperimen", 
     "Foto itu palsu", 
     "Ia diculik pemburu ilegal" 
-  ],  correctChoice: 1,  difficulty: "Sulit",  time: 40,  success: "Benar! Fotografer menangkap gambar makhluk hasil eksperimen genetik yang kemudian menculiknya.",  failure: "Salah! Lihat detail mata bercahaya di foto.",  hints: ["Kamera ditemukan", "Mata bercahaya", "Makhluk bukan hewan normal"]  }, { level: 36,  character: "🦉",  story: "Sebuah jam kuno di museum berdentang 13 kali pada tengah malam, lalu alarm kebakaran berbunyi. Apa penyebab misteriusnya?",  clue: "Jam itu punya mekanisme tersembunyi.",  choices: [ 
+  ], 
+  correctChoice: 1, 
+  difficulty: "Sulit", 
+  time: 40, 
+  success: "Benar! Fotografer menangkap gambar makhluk hasil eksperimen genetik yang kemudian menculiknya.", 
+  failure: "Salah! Lihat detail mata bercahaya di foto.", 
+  hints: ["Kamera ditemukan", "Mata bercahaya", "Makhluk bukan hewan normal"] 
+}, 
+{ 
+  level: 36, 
+  character: "🦉", 
+  story: "Sebuah jam kuno di museum berdentang 13 kali pada tengah malam, lalu alarm kebakaran berbunyi. Apa penyebab misteriusnya?", 
+  clue: "Jam itu punya mekanisme tersembunyi.", 
+  choices: [ 
     "Jam itu kode rahasia pencuri", 
     "Jam dirasuki arwah", 
     "Kesalahan teknis mesin", 
     "Kurator sengaja memanipulasi" 
-  ],  correctChoice: 0,  difficulty: "Sedang",  time: 35,  success: "Benar! Pencuri menggunakan jam kuno itu sebagai tanda untuk memulai aksinya.",  failure: "Salah! Ingat bahwa jam tidak berdentang normal.",  hints: ["Jam berdentang 13 kali", "Museum", "Terkait perampokan"]  }, { level: 37,  character: "🦅",  story: "Pesawat kargo jatuh di padang pasir, tapi tidak ada puing yang terbakar. Di dalamnya hanya ada pasir. Apa yang terjadi?",  clue: "Kargo sebenarnya bukan barang biasa.",  choices: [ 
+  ], 
+  correctChoice: 0, 
+  difficulty: "Sedang", 
+  time: 35, 
+  success: "Benar! Pencuri menggunakan jam kuno itu sebagai tanda untuk memulai aksinya.", 
+  failure: "Salah! Ingat bahwa jam tidak berdentang normal.", 
+  hints: ["Jam berdentang 13 kali", "Museum", "Terkait perampokan"] 
+}, 
+{ 
+  level: 37, 
+  character: "🦅", 
+  story: "Pesawat kargo jatuh di padang pasir, tapi tidak ada puing yang terbakar. Di dalamnya hanya ada pasir. Apa yang terjadi?", 
+  clue: "Kargo sebenarnya bukan barang biasa.", 
+  choices: [ 
     "Pesawat dipakai menyelundupkan pasir radioaktif", 
     "Pesawat kosong sejak awal", 
     "Pesawat ditukar di udara", 
     "Pasir itu menutupi sesuatu" 
-  ],  correctChoice: 3,  difficulty: "Sulit",  time: 45,  success: "Benar! Pasir hanyalah penyamaran untuk menyembunyikan barang selundupan berbahaya.",  failure: "Salah! Jangan anggap kargo hanya pasir biasa.",  hints: ["Pesawat kargo", "Isi hanya pasir", "Tidak ada yang terbakar"]  }, { level: 38,  character: "🦋",  story: "Seorang detektif menemukan ruangan dengan 100 cermin identik. Di salah satu cermin, bayangan tidak mengikuti gerakannya. Apa artinya?",  clue: "Itu bukan cermin biasa.",  choices: [ 
+  ], 
+  correctChoice: 3, 
+  difficulty: "Sulit", 
+  time: 45, 
+  success: "Benar! Pasir hanyalah penyamaran untuk menyembunyikan barang selundupan berbahaya.", 
+  failure: "Salah! Jangan anggap kargo hanya pasir biasa.", 
+  hints: ["Pesawat kargo", "Isi hanya pasir", "Tidak ada yang terbakar"] 
+}, 
+{ 
+  level: 38, 
+  character: "🦋", 
+  story: "Seorang detektif menemukan ruangan dengan 100 cermin identik. Di salah satu cermin, bayangan tidak mengikuti gerakannya. Apa artinya?", 
+  clue: "Itu bukan cermin biasa.", 
+  choices: [ 
     "Ada pintu tersembunyi di balik cermin", 
     "Bayangan itu makhluk lain", 
     "Ilusi optik", 
     "Cermin digital palsu" 
-  ],  correctChoice: 1,  difficulty: "Sulit",  time: 40,  success: "Benar! Salah satu cermin adalah portal dengan makhluk lain yang mengawasinya.",  failure: "Salah! Fokus pada bayangan yang berbeda.",  hints: ["100 cermin", "Satu bayangan aneh", "Portal/makhluk lain"]  }, { level: 39,  character: "🦚",  story: "Sebuah desa selalu berkabut tebal setiap malam, tapi hilang tiba-tiba pukul 3 pagi. Tidak ada penjelasan ilmiah. Apa yang terjadi?",  clue: "Kabut bukan fenomena alam biasa.",  choices: [ 
+  ], 
+  correctChoice: 1, 
+  difficulty: "Sulit", 
+  time: 40, 
+  success: "Benar! Salah satu cermin adalah portal dengan makhluk lain yang mengawasinya.", 
+  failure: "Salah! Fokus pada bayangan yang berbeda.", 
+  hints: ["100 cermin", "Satu bayangan aneh", "Portal/makhluk lain"] 
+}, 
+{ 
+  level: 39, 
+  character: "🦚", 
+  story: "Sebuah desa selalu berkabut tebal setiap malam, tapi hilang tiba-tiba pukul 3 pagi. Tidak ada penjelasan ilmiah. Apa yang terjadi?", 
+  clue: "Kabut bukan fenomena alam biasa.", 
+  choices: [ 
     "Kabut disemprotkan oleh perusahaan rahasia", 
     "Kabut adalah ilusi cahaya", 
     "Kabut muncul dari laboratorium tersembunyi", 
     "Kabut melindungi sesuatu" 
-  ],  correctChoice: 2,  difficulty: "Sedang",  time: 40,  success: "Benar! Laboratorium bawah tanah melepaskan uap kimia yang menciptakan kabut untuk menutupi aktivitas mereka.",  failure: "Salah! Kabut terlalu konsisten untuk fenomena alam.",  hints: ["Desa berkabut", "Jam 3 pagi", "Laboratorium tersembunyi"]  }, { level: 40,  character: "🦦",  story: "Seorang ilmuwan menemukan frekuensi radio yang bisa mengontrol perilaku hewan. Keesokan harinya, kebun binatang kacau. Apa yang terjadi?",  clue: "Frekuensi itu jatuh ke tangan salah orang.",  choices: [ 
+  ], 
+  correctChoice: 2, 
+  difficulty: "Sedang", 
+  time: 40, 
+  success: "Benar! Laboratorium bawah tanah melepaskan uap kimia yang menciptakan kabut untuk menutupi aktivitas mereka.", 
+  failure: "Salah! Kabut terlalu konsisten untuk fenomena alam.", 
+  hints: ["Desa berkabut", "Jam 3 pagi", "Laboratorium tersembunyi"] 
+}, 
+{ 
+  level: 40, 
+  character: "🦦", 
+  story: "Seorang ilmuwan menemukan frekuensi radio yang bisa mengontrol perilaku hewan. Keesokan harinya, kebun binatang kacau. Apa yang terjadi?", 
+  clue: "Frekuensi itu jatuh ke tangan salah orang.", 
+  choices: [ 
     "Sinyal dipakai kelompok kriminal", 
     "Hewan-hewan marah secara alami", 
     "Frekuensi tidak stabil", 
     "Ilmuwan salah uji coba" 
-  ],  correctChoice: 0,  difficulty: "Sulit",  time: 35,  success: "Benar! Kelompok kriminal membajak frekuensi itu untuk mengacaukan kota lewat hewan-hewan.",  failure: "Salah! Ingat frekuensi bisa dipakai orang lain.",  hints: ["Frekuensi radio", "Hewan jadi kacau", "Ada penyalahgunaan teknologi"]  }, { level: 41, character: "🦭", story: "Seorang komposer terkenal menghilang tepat sebelum konser perdana karyanya. Di stand partiturnya, hanya tersisa not balok yang membentuk pola aneh.", clue: "Not balok itu menyandi pesan.", choices: [
+  ], 
+  correctChoice: 0, 
+  difficulty: "Sulit", 
+  time: 35, 
+  success: "Benar! Kelompok kriminal membajak frekuensi itu untuk mengacaukan kota lewat hewan-hewan.", 
+  failure: "Salah! Ingat frekuensi bisa dipakai orang lain.", 
+  hints: ["Frekuensi radio", "Hewan jadi kacau", "Ada penyalahgunaan teknologi"] 
+},
+   {
+  level: 41,
+  character: "🦭",
+  story: "Seorang komposer terkenal menghilang tepat sebelum konser perdana karyanya. Di stand partiturnya, hanya tersisa not balok yang membentuk pola aneh.",
+  clue: "Not balok itu menyandi pesan.",
+  choices: [
     "Ia kabur karena gugup",
     "Diculik pesaing",
     "Pesan pada not mengarah ke tempat persembunyian",
     "Ia menyamar jadi pemain orkes"
-  ], correctChoice: 2, difficulty: "Sedang", time: 35, success: "Benar! Notasi musik menyandi koordinat tempat ia disekap.", failure: "Salah! Perhatikan pola pada not.", hints: ["Pola not tak wajar", "Koordinat tersembunyi", "Stand partitur ditinggal"] }, { level: 42, character: "🦦", story: "Di kota pelabuhan, ikan-ikan di pasar tiba-tiba bercahaya pada malam hari. Warga ketakutan. Apa penyebabnya?", clue: "Cahaya bukan mistis.", choices: [
+  ],
+  correctChoice: 2,
+  difficulty: "Sedang",
+  time: 35,
+  success: "Benar! Notasi musik menyandi koordinat tempat ia disekap.",
+  failure: "Salah! Perhatikan pola pada not.",
+  hints: ["Pola not tak wajar", "Koordinat tersembunyi", "Stand partitur ditinggal"]
+},
+{
+  level: 42,
+  character: "🦦",
+  story: "Di kota pelabuhan, ikan-ikan di pasar tiba-tiba bercahaya pada malam hari. Warga ketakutan. Apa penyebabnya?",
+  clue: "Cahaya bukan mistis.",
+  choices: [
     "Bakteri bioluminesen dari tumpahan lab",
     "Ledakan nuklir bawah laut",
     "Spesies baru dari laut dalam",
     "Cahaya dari satelit memantul"
-  ], correctChoice: 0, difficulty: "Mudah", time: 30, success: "Benar! Tumpahan kultur bakteri bioluminesen mencemari perairan.", failure: "Salah! Ini bukan hal gaib.", hints: ["Pelabuhan dekat lab", "Bercahaya saat malam", "Kontaminasi"] }, { level: 43, character: "🦨", story: "Arsip nasional terbakar, namun hanya map tertentu yang hangus rapi tanpa menjalar. Bagaimana caranya?", clue: "Kebakaran sangat terlokalisasi.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Mudah",
+  time: 30,
+  success: "Benar! Tumpahan kultur bakteri bioluminesen mencemari perairan.",
+  failure: "Salah! Ini bukan hal gaib.",
+  hints: ["Pelabuhan dekat lab", "Bercahaya saat malam", "Kontaminasi"]
+},
+{
+  level: 43,
+  character: "🦨",
+  story: "Arsip nasional terbakar, namun hanya map tertentu yang hangus rapi tanpa menjalar. Bagaimana caranya?",
+  clue: "Kebakaran sangat terlokalisasi.",
+  choices: [
     "Dipakai zat pembakar dingin",
     "Sinar laser diarahkan",
     "Korsleting kabel rak",
     "Pembakaran lewat reaksi kimia kertas"
-  ], correctChoice: 1, difficulty: "Sulit", time: 40, success: "Benar! Pelaku memakai laser industri dari gedung seberang untuk membakar map spesifik.", failure: "Salah! Api tak menjalar ke luar map.", hints: ["Sumber panas terfokus", "Jarak jauh", "Gedung seberang punya alat"] }, { level: 44, character: "🦘", story: "Rangkaian perhiasan hilang di gala amal. Rekaman CCTV menunjukkan pencuri berjalan menembus kerumunan tanpa menyentuh siapa pun.", clue: "Penyamaran optik.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 40,
+  success: "Benar! Pelaku memakai laser industri dari gedung seberang untuk membakar map spesifik.",
+  failure: "Salah! Api tak menjalar ke luar map.",
+  hints: ["Sumber panas terfokus", "Jarak jauh", "Gedung seberang punya alat"]
+},
+{
+  level: 44,
+  character: "🦘",
+  story: "Rangkaian perhiasan hilang di gala amal. Rekaman CCTV menunjukkan pencuri berjalan menembus kerumunan tanpa menyentuh siapa pun.",
+  clue: "Penyamaran optik.",
+  choices: [
     "Pencuri memakai baju hijau chroma key",
     "Cermin portable memantulkan latar",
     "Drone mikro mengambil perhiasan",
     "Deepfake real-time"
-  ], correctChoice: 1, difficulty: "Sedang", time: 35, success: "Benar! Panel cermin melengkung menyamarkan pergerakannya di kerumunan.", failure: "Salah! Ia tetap ada di tempat itu.", hints: ["Refleksi lingkungan", "Kerumunan padat", "Pergerakan halus"] }, { level: 45, character: "🦢", story: "Seorang profesor linguistik menemukan bahasa yang konon bisa mempengaruhi keputusan orang. Setelah kuliah umum, satu fakultas mendadak setuju pada kebijakan merugikan.", clue: "Bahasa memicu bias kognitif.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sedang",
+  time: 35,
+  success: "Benar! Panel cermin melengkung menyamarkan pergerakannya di kerumunan.",
+  failure: "Salah! Ia tetap ada di tempat itu.",
+  hints: ["Refleksi lingkungan", "Kerumunan padat", "Pergerakan halus"]
+},
+{
+  level: 45,
+  character: "🦢",
+  story: "Seorang profesor linguistik menemukan bahasa yang konon bisa mempengaruhi keputusan orang. Setelah kuliah umum, satu fakultas mendadak setuju pada kebijakan merugikan.",
+  clue: "Bahasa memicu bias kognitif.",
+  choices: [
     "Hipnosis massal",
     "Struktur kalimat memaksa pilihan",
     "Suara frekuensi rendah menyusup",
     "Plasebo sosial"
-  ], correctChoice: 1, difficulty: "Sulit", time: 45, success: "Benar! Framing linguistik membuat audiens memilih opsi tertentu tanpa sadar.", failure: "Salah! Ini soal struktur kalimat.", hints: ["Framing", "Pilihan tampak netral", "Efek pasca-kuliah"] }, { level: 46, character: "🦎", story: "Laboratorium botani menghasilkan bunga yang mekar setiap pukul 02.02. Pada malam ketiga, peneliti utama pingsan karena keracunan.", clue: "Sinkronisasi mekar bukan kebetulan.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 45,
+  success: "Benar! Framing linguistik membuat audiens memilih opsi tertentu tanpa sadar.",
+  failure: "Salah! Ini soal struktur kalimat.",
+  hints: ["Framing", "Pilihan tampak netral", "Efek pasca-kuliah"]
+},
+{
+  level: 46,
+  character: "🦎",
+  story: "Laboratorium botani menghasilkan bunga yang mekar setiap pukul 02.02. Pada malam ketiga, peneliti utama pingsan karena keracunan.",
+  clue: "Sinkronisasi mekar bukan kebetulan.",
+  choices: [
     "Bunga melepaskan gas saat mekar",
     "Ada sabotase di ventilasi",
     "Jam dinding memancarkan gelombang",
     "Spora halusinogen tersebar"
-  ], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Gas toksik dilepas serempak saat mekar.", failure: "Salah! Perhatikan momen 02.02.", hints: ["Fenologi teratur", "Keracunan inhalasi", "Ventilasi tertutup"] }, { level: 47, character: "🦈", story: "Patung perunggu raksasa di alun-alun ‘berubah pose’ tiap subuh menurut warga. Kamera time-lapse tak menunjukkan perubahan.", clue: "Patungnya bukan satu.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sedang",
+  time: 35,
+  success: "Benar! Gas toksik dilepas serempak saat mekar.",
+  failure: "Salah! Perhatikan momen 02.02.",
+  hints: ["Fenologi teratur", "Keracunan inhalasi", "Ventilasi tertutup"]
+},
+{
+  level: 47,
+  character: "🦈",
+  story: "Patung perunggu raksasa di alun-alun ‘berubah pose’ tiap subuh menurut warga. Kamera time-lapse tak menunjukkan perubahan.",
+  clue: "Patungnya bukan satu.",
+  choices: [
     "Ada mekanisme robotik tersembunyi",
     "Ada dua patung kembar dipertukarkan",
     "Ilusi bayangan matahari",
     "Manipulasi digital CCTV"
-  ], correctChoice: 1, difficulty: "Sedang", time: 40, success: "Benar! Pelaku menukar patung kembar lewat derek malam hari yang meniru sudut keausan.", failure: "Salah! Time-lapse tak melihat pergantian lokasi.", hints: ["Kembar identik", "Jejak derek tersamarkan", "Subuh sepi"] }, { level: 48, character: "🦂", story: "Startup AI merilis model ‘peramal’ saham yang selalu tepat 3 hari berturut-turut, lalu kantor mereka dihancurkan. Apa rahasianya?", clue: "Bukan ‘meramal’, tapi bocoran.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sedang",
+  time: 40,
+  success: "Benar! Pelaku menukar patung kembar lewat derek malam hari yang meniru sudut keausan.",
+  failure: "Salah! Time-lapse tak melihat pergantian lokasi.",
+  hints: ["Kembar identik", "Jejak derek tersamarkan", "Subuh sepi"]
+},
+{
+  level: 48,
+  character: "🦂",
+  story: "Startup AI merilis model ‘peramal’ saham yang selalu tepat 3 hari berturut-turut, lalu kantor mereka dihancurkan. Apa rahasianya?",
+  clue: "Bukan ‘meramal’, tapi bocoran.",
+  choices: [
     "Akses ilegal ke order book besar",
     "Model quantum superkomputer",
     "Insider trading dari direksi",
     "Manipulasi media sosial"
-  ], correctChoice: 0, difficulty: "Sulit", time: 45, success: "Benar! Mereka menyadap order flow institusi secara ilegal.", failure: "Salah! Akurasinya terlalu sempurna untuk model biasa.", hints: ["Selalu tepat", "Order flow", "Keamanan pasar"] }, { level: 49, character: "🦅", story: "Di rumah kosong, jam dinding selalu berhenti pukul 04:13 meski diganti baterai. Di hari keempat, kebakaran kecil terjadi tepat 04:13.", clue: "Jam bukan rusak; itu alarm.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 45,
+  success: "Benar! Mereka menyadap order flow institusi secara ilegal.",
+  failure: "Salah! Akurasinya terlalu sempurna untuk model biasa.",
+  hints: ["Selalu tepat", "Order flow", "Keamanan pasar"]
+},
+{
+  level: 49,
+  character: "🦅",
+  story: "Di rumah kosong, jam dinding selalu berhenti pukul 04:13 meski diganti baterai. Di hari keempat, kebakaran kecil terjadi tepat 04:13.",
+  clue: "Jam bukan rusak; itu alarm.",
+  choices: [
     "Korsleting terjadwal",
     "Sistem sprinkler rusak",
     "Sensor gas memicu relay",
     "Hantu penunggu"
-  ], correctChoice: 3 == -1 ? 0 : 2, // easter egg? tak usah; tapi final jawaban 2 difficulty: "Sedang", time: 35, success: "Benar! Jam dimodifikasi untuk berhenti saat sensor gas memicu relay tersembunyi.", failure: "Salah! Ada mekanisme tersembunyi.", hints: ["04:13 berulang", "Relay", "Kebakaran kecil bukan kebetulan"] }, { level: 50, character: "🦋", story: "Penulis naskah film detektif tewas. Naskah terakhirnya memuat teka-teki pembunuh. Siapa pelakunya?", clue: "Jawabannya tersirat di akrostik bab.", choices: [
+  ],
+  correctChoice: 3 == -1 ? 0 : 2, // easter egg? tak usah; tapi final jawaban 2
+  difficulty: "Sedang",
+  time: 35,
+  success: "Benar! Jam dimodifikasi untuk berhenti saat sensor gas memicu relay tersembunyi.",
+  failure: "Salah! Ada mekanisme tersembunyi.",
+  hints: ["04:13 berulang", "Relay", "Kebakaran kecil bukan kebetulan"]
+},
+{
+  level: 50,
+  character: "🦋",
+  story: "Penulis naskah film detektif tewas. Naskah terakhirnya memuat teka-teki pembunuh. Siapa pelakunya?",
+  clue: "Jawabannya tersirat di akrostik bab.",
+  choices: [
     "Agen pribadinya",
     "Saingan penulis",
     "Sutradara film",
     "Editor naskah"
-  ], correctChoice: 3, difficulty: "Sedang", time: 40, success: "Benar! Huruf awal tiap bab membentuk nama EDITOR.", failure: "Salah! Cari akrostik.", hints: ["Akrostik bab", "Naskah detektif", "Motif profesional"] }, { level: 51, character: "🦚", story: "Seorang ilusionis menutup pertunjukan dengan ‘menghilang’ dari akuarium raksasa. Paginya ia ditemukan tewas di saluran air kota.", clue: "Rute kabur bermasalah.", choices: [
+  ],
+  correctChoice: 3,
+  difficulty: "Sedang",
+  time: 40,
+  success: "Benar! Huruf awal tiap bab membentuk nama EDITOR.",
+  failure: "Salah! Cari akrostik.",
+  hints: ["Akrostik bab", "Naskah detektif", "Motif profesional"]
+},
+{
+  level: 51,
+  character: "🦚",
+  story: "Seorang ilusionis menutup pertunjukan dengan ‘menghilang’ dari akuarium raksasa. Paginya ia ditemukan tewas di saluran air kota.",
+  clue: "Rute kabur bermasalah.",
+  choices: [
     "Pintu bawah tersumbat",
     "Tim sabotase",
     "Kunci menyangkut",
     "Kehabisan oksigen di ruang jeda"
-  ], correctChoice: 0, difficulty: "Mudah", time: 30, success: "Benar! Terowongan pelarian buntu karena limbah sehingga ia terseret arus.", failure: "Salah! Fokus ke saluran air.", hints: ["Akuarium ke saluran", "Pelarian air", "Sumbatan"] }, { level: 52, character: "🦈", story: "Satelit cuaca menangkap pola badai membentuk kode Morse di atas lautan selama 12 menit.", clue: "Bukan fenomena alam murni.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Mudah",
+  time: 30,
+  success: "Benar! Terowongan pelarian buntu karena limbah sehingga ia terseret arus.",
+  failure: "Salah! Fokus ke saluran air.",
+  hints: ["Akuarium ke saluran", "Pelarian air", "Sumbatan"]
+},
+{
+  level: 52,
+  character: "🦈",
+  story: "Satelit cuaca menangkap pola badai membentuk kode Morse di atas lautan selama 12 menit.",
+  clue: "Bukan fenomena alam murni.",
+  choices: [
     "Armada kapal memanaskan uap air terkoordinasi",
     "Aliran jet beresonansi",
     "Eksperimen ionosfer",
     "Kesalahan sensor"
-  ], correctChoice: 2, difficulty: "Sulit", time: 45, success: "Benar! Pemancaran ionosfer memodulasi awan menjadi pola teratur.", failure: "Salah! 12 menit terlalu presisi untuk alam.", hints: ["Kode Morse", "12 menit", "Intervensi atmosfer"] }, { level: 53, character: "🦜", story: "Di kasino, meja roulette ‘beruntung’ membuat banyak pemain menang lalu listrik padam. Uang hilang.", clue: "Keberuntungan diskenariokan.", choices: [
+  ],
+  correctChoice: 2,
+  difficulty: "Sulit",
+  time: 45,
+  success: "Benar! Pemancaran ionosfer memodulasi awan menjadi pola teratur.",
+  failure: "Salah! 12 menit terlalu presisi untuk alam.",
+  hints: ["Kode Morse", "12 menit", "Intervensi atmosfer"]
+},
+{
+  level: 53,
+  character: "🦜",
+  story: "Di kasino, meja roulette ‘beruntung’ membuat banyak pemain menang lalu listrik padam. Uang hilang.",
+  clue: "Keberuntungan diskenariokan.",
+  choices: [
     "Magnet pada roda",
     "Dealer bersekongkol",
     "Chip tertukar nilai",
     "Pemadaman terencana untuk kabur"
-  ], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Roda dimagneti lalu blackout dipakai kabur.", failure: "Salah! Cari manipulasi fisik.", hints: ["Roda besi", "Kemenangan beruntun", "Blackout"] }, { level: 54, character: "🦩", story: "Peta kuno menunjukkan kota yang tak pernah ditemukan. Namun GPS modern tiba-tiba mengenali kota itu selama 6 menit.", clue: "Sumber data diganti.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sedang",
+  time: 35,
+  success: "Benar! Roda dimagneti lalu blackout dipakai kabur.",
+  failure: "Salah! Cari manipulasi fisik.",
+  hints: ["Roda besi", "Kemenangan beruntun", "Blackout"]
+},
+{
+  level: 54,
+  character: "🦩",
+  story: "Peta kuno menunjukkan kota yang tak pernah ditemukan. Namun GPS modern tiba-tiba mengenali kota itu selama 6 menit.",
+  clue: "Sumber data diganti.",
+  choices: [
     "Spoofing sinyal GPS",
     "Glitch satelit",
     "Kota muncul periodik",
     "Kesalahan proyeksi peta"
-  ], correctChoice: 0, difficulty: "Sedang", time: 40, success: "Benar! Ada spoofing lokasi masif untuk menutupi operasi rahasia.", failure: "Salah! 6 menit terlalu bersih untuk glitch.", hints: ["Spoofing", "Sinkron 6 menit", "Operasi lapangan"] }, { level: 55, character: "🦦", story: "Galeri foto menampilkan potret yang ‘mengikuti’ pengunjung dengan tatapan. Malam itu kurator menghilang.", clue: "Bukan lukisan biasa.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sedang",
+  time: 40,
+  success: "Benar! Ada spoofing lokasi masif untuk menutupi operasi rahasia.",
+  failure: "Salah! 6 menit terlalu bersih untuk glitch.",
+  hints: ["Spoofing", "Sinkron 6 menit", "Operasi lapangan"]
+},
+{
+  level: 55,
+  character: "🦦",
+  story: "Galeri foto menampilkan potret yang ‘mengikuti’ pengunjung dengan tatapan. Malam itu kurator menghilang.",
+  clue: "Bukan lukisan biasa.",
+  choices: [
     "Layar e-paper dengan pelacakan wajah",
     "Lukisan bergerak", 
     "Hipnosis visual",
     "Cermin dua arah"
-  ], correctChoice: 0, difficulty: "Mudah", time: 30, success: "Benar! Pelacakan wajah mengarahkan kurator ke lorong rahasia lalu dijebak.", failure: "Salah! Teknologi modern dipakai.", hints: ["Tatapan mengikuti", "Sensor kamera", "Kurator hilang"] }, { level: 56, character: "🦂", story: "Semua jam di kampus berhenti berbeda-beda, tapi ketika dijumlahkan, total menitnya sama. Besoknya soal ujian bocor.", clue: "Kode sinkronisasi antar geng.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Mudah",
+  time: 30,
+  success: "Benar! Pelacakan wajah mengarahkan kurator ke lorong rahasia lalu dijebak.",
+  failure: "Salah! Teknologi modern dipakai.",
+  hints: ["Tatapan mengikuti", "Sensor kamera", "Kurator hilang"]
+},
+{
+  level: 56,
+  character: "🦂",
+  story: "Semua jam di kampus berhenti berbeda-beda, tapi ketika dijumlahkan, total menitnya sama. Besoknya soal ujian bocor.",
+  clue: "Kode sinkronisasi antar geng.",
+  choices: [
     "Pesan rahasia melalui jam",
     "Gangguan elektromagnetik",
     "Jam murahan",
     "Iseng semata"
-  ], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Posisi jarum menjadi kunci untuk bertukar kode jawaban.", failure: "Salah! Lihat pola total menit.", hints: ["Total menit sama", "Ujian bocor", "Steganografi jam"] }, { level: 57, character: "🦈", story: "Di penjara berkeamanan tinggi, narapidana ‘menembus’ dinding sel. Tak ada lubang. Ke mana dia pergi?", clue: "Bukan dinding yang ditembus.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sedang",
+  time: 35,
+  success: "Benar! Posisi jarum menjadi kunci untuk bertukar kode jawaban.",
+  failure: "Salah! Lihat pola total menit.",
+  hints: ["Total menit sama", "Ujian bocor", "Steganografi jam"]
+},
+{
+  level: 57,
+  character: "🦈",
+  story: "Di penjara berkeamanan tinggi, narapidana ‘menembus’ dinding sel. Tak ada lubang. Ke mana dia pergi?",
+  clue: "Bukan dinding yang ditembus.",
+  choices: [
     "Lantai dengan panel hidrolik",
     "Ventilasi kecil",
     "Menyamar jadi petugas",
     "Teleportasi"
-  ], correctChoice: 0, difficulty: "Sulit", time: 45, success: "Benar! Panel lantai terangkat ke terowongan servis.", failure: "Salah! Dinding utuh berarti jalur lain.", hints: ["Terowongan servis", "Panel lantai", "Jejak minyak hidrolik"] }, { level: 58, character: "🦅", story: "Seorang influencer makanan selalu menemukan restoran ‘tersembunyi’ yang langsung viral. Ternyata itu jebakan.", clue: "Lokasi dibuat-buat.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 45,
+  success: "Benar! Panel lantai terangkat ke terowongan servis.",
+  failure: "Salah! Dinding utuh berarti jalur lain.",
+  hints: ["Terowongan servis", "Panel lantai", "Jejak minyak hidrolik"]
+},
+{
+  level: 58,
+  character: "🦅",
+  story: "Seorang influencer makanan selalu menemukan restoran ‘tersembunyi’ yang langsung viral. Ternyata itu jebakan.",
+  clue: "Lokasi dibuat-buat.",
+  choices: [
     "Set film disulap jadi restoran",
     "Iklan berbayar terselubung",
     "Algoritma disuap",
     "Deepfake lokasi"
-  ], correctChoice: 1, difficulty: "Mudah", time: 30, success: "Benar! Ia mempromosikan resto bayangan milik sindikat pencucian uang.", failure: "Salah! Viral terlalu konsisten.", hints: ["Sponsor terselubung", "Resto mendadak", "Uang gelap"] }, { level: 59, character: "🦋", story: "Astronom amatir melihat ‘bintang’ berkedip-kedip membentuk huruf SOS. Keesokan harinya sebuah observatorium disabotase.", clue: "Bukan bintang.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Mudah",
+  time: 30,
+  success: "Benar! Ia mempromosikan resto bayangan milik sindikat pencucian uang.",
+  failure: "Salah! Viral terlalu konsisten.",
+  hints: ["Sponsor terselubung", "Resto mendadak", "Uang gelap"]
+},
+{
+  level: 59,
+  character: "🦋",
+  story: "Astronom amatir melihat ‘bintang’ berkedip-kedip membentuk huruf SOS. Keesokan harinya sebuah observatorium disabotase.",
+  clue: "Bukan bintang.",
+  choices: [
     "Konstelasi drone stratosfer",
     "Pantulan satelit",
     "Balon cuaca berlampu",
     "Aurora buatan"
-  ], correctChoice: 0, difficulty: "Sedang", time: 40, success: "Benar! Drone stratosfer dipakai untuk mengirim sinyal dan mengalihkan perhatian.", failure: "Salah! Pola huruf terlalu tajam untuk bintang.", hints: ["Huruf rapi", "Kedip sinkron", "Gangguan observatorium"] }, { level: 60, character: "🦚", story: "Di perpustakaan tua, buku-buku tertentu selalu kembali ke rak yang salah padahal dipinjam oleh orang berbeda. Lalu seorang pustakawan menghilang.", clue: "Rak menyembunyikan mekanisme.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sedang",
+  time: 40,
+  success: "Benar! Drone stratosfer dipakai untuk mengirim sinyal dan mengalihkan perhatian.",
+  failure: "Salah! Pola huruf terlalu tajam untuk bintang.",
+  hints: ["Huruf rapi", "Kedip sinkron", "Gangguan observatorium"]
+},
+{
+  level: 60,
+  character: "🦚",
+  story: "Di perpustakaan tua, buku-buku tertentu selalu kembali ke rak yang salah padahal dipinjam oleh orang berbeda. Lalu seorang pustakawan menghilang.",
+  clue: "Rak menyembunyikan mekanisme.",
+  choices: [
     "Ada magnet dan RFID diprogram",
     "Hantu penata buku",
     "Pembaca salah taruh",
     "Buku-buku berpindah sendiri"
-  ], correctChoice: 0, difficulty: "Sedang", time: 35, success: "Benar! Magnet dan RFID mengarahkan buku ke rak rahasia yang menjadi pintu ke ruang bawah tanah tempat pustakawan disekap.", failure: "Salah! Fokus ke sistem pelabelan modern.", hints: ["RFID", "Rak bergerak", "Ruang bawah tanah"] }, { level: 61, character: "🦎", story: "Seorang programmer jenius ditemukan mati di ruang kerjanya. Layar komputernya menampilkan deretan angka biner 010101 berulang ribuan kali. Polisi bingung: ini kode atau kebetulan?", clue: "Biner itu menyembunyikan sesuatu lebih dari sekadar angka.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sedang",
+  time: 35,
+  success: "Benar! Magnet dan RFID mengarahkan buku ke rak rahasia yang menjadi pintu ke ruang bawah tanah tempat pustakawan disekap.",
+  failure: "Salah! Fokus ke sistem pelabelan modern.",
+  hints: ["RFID", "Rak bergerak", "Ruang bawah tanah"]
+},
+  {
+  level: 61,
+  character: "🦎",
+  story: "Seorang programmer jenius ditemukan mati di ruang kerjanya. Layar komputernya menampilkan deretan angka biner 010101 berulang ribuan kali. Polisi bingung: ini kode atau kebetulan?",
+  clue: "Biner itu menyembunyikan sesuatu lebih dari sekadar angka.",
+  choices: [
     "Pesan terakhir korban dalam bentuk ASCII",
     "Bug komputer karena overheat",
     "Virus yang menyerang sistem operasi",
     "Sandi enkripsi untuk membuka file rahasia"
-  ], correctChoice: 3, difficulty: "Sulit", time: 55, success: "Benar! 010101 hanyalah kunci untuk membuka enkripsi file tersembunyi yang berisi identitas pembunuhnya.", failure: "Salah! Biner tidak random, ada file yang terkunci.", hints: ["010101 berulang", "ASCII terlalu sederhana", "Fokus ke enkripsi data"] }, { level: 62, character: "🦞", story: "Di stasiun kereta, pukul 11:11 terdengar nyanyian anak kecil yang tidak berasal dari speaker resmi. Penumpang ketakutan dan evakuasi besar-besaran terjadi.", clue: "Fenomena ini terlalu konsisten untuk dianggap kebetulan.", choices: [
+  ],
+  correctChoice: 3,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! 010101 hanyalah kunci untuk membuka enkripsi file tersembunyi yang berisi identitas pembunuhnya.",
+  failure: "Salah! Biner tidak random, ada file yang terkunci.",
+  hints: ["010101 berulang", "ASCII terlalu sederhana", "Fokus ke enkripsi data"]
+},
+{
+  level: 62,
+  character: "🦞",
+  story: "Di stasiun kereta, pukul 11:11 terdengar nyanyian anak kecil yang tidak berasal dari speaker resmi. Penumpang ketakutan dan evakuasi besar-besaran terjadi.",
+  clue: "Fenomena ini terlalu konsisten untuk dianggap kebetulan.",
+  choices: [
     "Speaker tersembunyi diprogram otomatis",
     "Efek resonansi akustik dari terowongan",
     "Suara ilusi massal akibat frekuensi rendah",
     "Gangguan elektromagnetik pada sistem audio"
-  ], correctChoice: 2, difficulty: "Sulit", time: 50, success: "Benar! Frekuensi rendah dipancarkan hingga menimbulkan ilusi suara anak kecil yang sama pada ratusan orang sekaligus.", failure: "Salah! Bukan suara nyata, tapi efek resonansi ke otak.", hints: ["Jam selalu 11:11", "Tidak ada sumber suara", "Efek massal"] }, { level: 63, character: "🦂", story: "Seorang ilmuwan nuklir menghilang misterius. Di mejanya ada cangkir kopi masih hangat dan peta bintang dengan tanda lingkaran.", clue: "Tanda pada peta bukan dekorasi semata.", choices: [
+  ],
+  correctChoice: 2,
+  difficulty: "Sulit",
+  time: 50,
+  success: "Benar! Frekuensi rendah dipancarkan hingga menimbulkan ilusi suara anak kecil yang sama pada ratusan orang sekaligus.",
+  failure: "Salah! Bukan suara nyata, tapi efek resonansi ke otak.",
+  hints: ["Jam selalu 11:11", "Tidak ada sumber suara", "Efek massal"]
+},
+{
+  level: 63,
+  character: "🦂",
+  story: "Seorang ilmuwan nuklir menghilang misterius. Di mejanya ada cangkir kopi masih hangat dan peta bintang dengan tanda lingkaran.",
+  clue: "Tanda pada peta bukan dekorasi semata.",
+  choices: [
     "Peta itu koordinat pangkalan luar angkasa rahasia",
     "Ia melarikan diri ke luar negeri dengan satelit",
     "Ia ditarik organisasi bayangan yang memantau langit",
     "Peta itu isyarat kolaborasi dengan program luar angkasa gelap"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Tanda di peta adalah koordinat observatorium rahasia yang membawanya pergi.", failure: "Salah! Kopi hangat → ia baru saja dibawa, bukan kabur jauh.", hints: ["Kopi masih panas", "Peta bintang berlingkaran", "Lokasi observatorium rahasia"] }, { level: 64, character: "🦚", story: "Setiap malam Jumat, satu jalan kota mati listrik total, sementara wilayah lain tetap terang. Warga mulai percaya ada kutukan.", clue: "Pemadaman listrik terlalu spesifik dan rutin.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Tanda di peta adalah koordinat observatorium rahasia yang membawanya pergi.",
+  failure: "Salah! Kopi hangat → ia baru saja dibawa, bukan kabur jauh.",
+  hints: ["Kopi masih panas", "Peta bintang berlingkaran", "Lokasi observatorium rahasia"]
+},
+{
+  level: 64,
+  character: "🦚",
+  story: "Setiap malam Jumat, satu jalan kota mati listrik total, sementara wilayah lain tetap terang. Warga mulai percaya ada kutukan.",
+  clue: "Pemadaman listrik terlalu spesifik dan rutin.",
+  choices: [
     "Sindikat kriminal memakai pemadaman untuk operasi gelap",
     "Perusahaan listrik sengaja menutup aliran",
     "Gangguan elektromagnetik alamiah",
     "Fenomena gaib dari lokasi jalan tersebut"
-  ], correctChoice: 0, difficulty: "Sulit", time: 50, success: "Benar! Mafia menggunakan perangkat khusus untuk memadamkan listrik agar transaksi ilegal tak terpantau kamera.", failure: "Salah! Kalau alami, tidak akan konsisten tiap Jumat.", hints: ["Lokasi tetap sama", "Hanya malam Jumat", "Operasi butuh kegelapan"] }, { level: 65, character: "🦜", story: "Profesor sejarah ditemukan mati dengan tubuh penuh sidik jari kuno yang tak cocok dengan manusia modern.", clue: "Sidik jari kuno tidak muncul begitu saja.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 50,
+  success: "Benar! Mafia menggunakan perangkat khusus untuk memadamkan listrik agar transaksi ilegal tak terpantau kamera.",
+  failure: "Salah! Kalau alami, tidak akan konsisten tiap Jumat.",
+  hints: ["Lokasi tetap sama", "Hanya malam Jumat", "Operasi butuh kegelapan"]
+},
+{
+  level: 65,
+  character: "🦜",
+  story: "Profesor sejarah ditemukan mati dengan tubuh penuh sidik jari kuno yang tak cocok dengan manusia modern.",
+  clue: "Sidik jari kuno tidak muncul begitu saja.",
+  choices: [
     "Artefak digunakan sebagai cetakan sidik jari palsu",
     "Teknik rekayasa genetika kuno",
     "Patung purba mengandung sidik jari fosil",
     "Profesor diserang dengan benda berlapis lilin kuno"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Sidik jari dibuat menggunakan cetakan dari artefak untuk membingungkan forensik.", failure: "Salah! Tidak ada manusia purba yang membunuhnya.", hints: ["Sidik jari purba mustahil", "Cetakan artefak", "Tujuannya membingungkan polisi"] }, { level: 66, character: "🦈", story: "Drone pengantar paket jatuh, kotak kosong meski segelnya tampak asli. Mustahil dibuka tanpa merusak segel.", clue: "Segel bisa dipalsukan dengan cara tertentu.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Sidik jari dibuat menggunakan cetakan dari artefak untuk membingungkan forensik.",
+  failure: "Salah! Tidak ada manusia purba yang membunuhnya.",
+  hints: ["Sidik jari purba mustahil", "Cetakan artefak", "Tujuannya membingungkan polisi"]
+},
+{
+  level: 66,
+  character: "🦈",
+  story: "Drone pengantar paket jatuh, kotak kosong meski segelnya tampak asli. Mustahil dibuka tanpa merusak segel.",
+  clue: "Segel bisa dipalsukan dengan cara tertentu.",
+  choices: [
     "Segel dipanaskan lalu ditempel ulang",
     "Laser presisi memotong tanpa bekas",
     "Kotak aslinya ditukar di udara",
     "Panel rahasia di dalam karton"
-  ], correctChoice: 1, difficulty: "Sulit", time: 50, success: "Benar! Laser presisi membuka kotak lalu menutup kembali tanpa meninggalkan jejak.", failure: "Salah! Segel asli bisa dimanipulasi.", hints: ["Segel asli", "Laser = presisi", "Kotak kosong tapi utuh"] }, { level: 67, character: "🦦", story: "Pasien rumah sakit hilang saat operasi. Bius masih bekerja. CCTV mati 5 menit. Dokter bersumpah pasien tidak pernah bangun.", clue: "Bukan kabur sendiri.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 50,
+  success: "Benar! Laser presisi membuka kotak lalu menutup kembali tanpa meninggalkan jejak.",
+  failure: "Salah! Segel asli bisa dimanipulasi.",
+  hints: ["Segel asli", "Laser = presisi", "Kotak kosong tapi utuh"]
+},
+{
+  level: 67,
+  character: "🦦",
+  story: "Pasien rumah sakit hilang saat operasi. Bius masih bekerja. CCTV mati 5 menit. Dokter bersumpah pasien tidak pernah bangun.",
+  clue: "Bukan kabur sendiri.",
+  choices: [
     "Lorong servis digunakan untuk menyelundupkan pasien",
     "Dokter bersekongkol menculik pasien",
     "Pasien diselundupkan lewat ventilasi",
     "Perawat salah identifikasi pasien"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Lorong servis dipakai untuk memindahkan pasien saat CCTV dimatikan.", failure: "Salah! Pasien masih dibius, tidak bisa kabur.", hints: ["5 menit blackout", "Lorong servis", "Operasi terhenti mendadak"] }, { level: 68, character: "🦋", story: "Penyiar radio mati mendadak. Rekaman siaran mundur memperdengarkan kalimat aneh yang tak pernah ia ucapkan.", clue: "Ada yang menyusupkan pesan ke siaran.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Lorong servis dipakai untuk memindahkan pasien saat CCTV dimatikan.",
+  failure: "Salah! Pasien masih dibius, tidak bisa kabur.",
+  hints: ["5 menit blackout", "Lorong servis", "Operasi terhenti mendadak"]
+},
+{
+  level: 68,
+  character: "🦋",
+  story: "Penyiar radio mati mendadak. Rekaman siaran mundur memperdengarkan kalimat aneh yang tak pernah ia ucapkan.",
+  clue: "Ada yang menyusupkan pesan ke siaran.",
+  choices: [
     "Kode rahasia disisipkan lewat audio terbalik",
     "Efek psikologis dari lagu",
     "Gangguan pita rekaman",
     "Pesan bunuh diri otomatis"
-  ], correctChoice: 0, difficulty: "Sulit", time: 50, success: "Benar! Ia menyelipkan kode rahasia lewat pesan terbalik dan dibunuh sebelum terbongkar.", failure: "Salah! Fokus ke audio terbalik.", hints: ["Pesan tidak normal", "Rekaman dibalik", "Kode rahasia"] }, { level: 69, character: "🦩", story: "Arsip digital negara diretas. Hanya dokumen tahun tertentu yang hilang: 1965. Semua tahun lain aman.", clue: "Tahun itu terlalu spesifik.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 50,
+  success: "Benar! Ia menyelipkan kode rahasia lewat pesan terbalik dan dibunuh sebelum terbongkar.",
+  failure: "Salah! Fokus ke audio terbalik.",
+  hints: ["Pesan tidak normal", "Rekaman dibalik", "Kode rahasia"]
+},
+{
+  level: 69,
+  character: "🦩",
+  story: "Arsip digital negara diretas. Hanya dokumen tahun tertentu yang hilang: 1965. Semua tahun lain aman.",
+  clue: "Tahun itu terlalu spesifik.",
+  choices: [
     "Data 1965 menyimpan rahasia politik besar",
     "Bug sistem tahun",
     "Peretas acak hapus data",
     "Data sudah rusak sebelum diretas"
-  ], correctChoice: 0, difficulty: "Sedang", time: 45, success: "Benar! Tahun 1965 menyimpan rahasia politik yang sengaja dihapus.", failure: "Salah! Terlalu tepat untuk kebetulan.", hints: ["Satu tahun hilang", "1965 kunci", "Motif politik"] }, { level: 70, character: "🦚", story: "Gunung berapi ribuan tahun aktif mendadak padam, dan semua penduduk desa hilang dalam semalam.", clue: "Gunung bukan mati alami.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sedang",
+  time: 45,
+  success: "Benar! Tahun 1965 menyimpan rahasia politik yang sengaja dihapus.",
+  failure: "Salah! Terlalu tepat untuk kebetulan.",
+  hints: ["Satu tahun hilang", "1965 kunci", "Motif politik"]
+},
+{
+  level: 70,
+  character: "🦚",
+  story: "Gunung berapi ribuan tahun aktif mendadak padam, dan semua penduduk desa hilang dalam semalam.",
+  clue: "Gunung bukan mati alami.",
+  choices: [
     "Basis rahasia menutup aliran magma",
     "Ledakan buatan mengalihkan jalur magma",
     "Fenomena kosmik menghentikan aktivitas",
     "Kutukan lokal desa"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Basis rahasia menutup aliran magma sekaligus memindahkan penduduk diam-diam.", failure: "Salah! Hilangnya penduduk bukan bencana alam biasa.", hints: ["Gunung mati mendadak", "Penduduk hilang serentak", "Operasi rahasia"] },
-   { level: 71, character: "🦞", story: "Seorang gamer profesional ditemukan mati dengan headset VR masih menempel. Di layar hanya ada tulisan: 'Kau kalah'.", clue: "Headset bukan sekadar alat hiburan.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Basis rahasia menutup aliran magma sekaligus memindahkan penduduk diam-diam.",
+  failure: "Salah! Hilangnya penduduk bukan bencana alam biasa.",
+  hints: ["Gunung mati mendadak", "Penduduk hilang serentak", "Operasi rahasia"]
+},        
+   {
+  level: 71,
+  character: "🦞",
+  story: "Seorang gamer profesional ditemukan mati dengan headset VR masih menempel. Di layar hanya ada tulisan: 'Kau kalah'.",
+  clue: "Headset bukan sekadar alat hiburan.",
+  choices: [
     "Headset dimodifikasi untuk mengalirkan arus listrik fatal",
     "Game VR memicu serangan jantung karena adrenalin berlebih",
     "Perangkat lunak berisi program bunuh diri terselubung",
     "Efek visual sengaja memicu epilepsi hingga fatal"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Headset dimodifikasi sehingga mengalirkan sengatan listrik mematikan saat pesan 'Kau kalah' muncul.", failure: "Salah! Kematian bukan dari game itu sendiri, tapi perangkatnya.", hints: ["Pesan muncul di layar", "Kematian instan", "Perangkat keras disabotase"] }, { level: 72, character: "🦂", story: "Di kapal pesiar mewah, CCTV di dek kasino padam 7 menit. Setelah itu jutaan uang lenyap dari brankas.", clue: "Pemadaman bukan kebetulan.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Headset dimodifikasi sehingga mengalirkan sengatan listrik mematikan saat pesan 'Kau kalah' muncul.",
+  failure: "Salah! Kematian bukan dari game itu sendiri, tapi perangkatnya.",
+  hints: ["Pesan muncul di layar", "Kematian instan", "Perangkat keras disabotase"]
+},
+{
+  level: 72,
+  character: "🦂",
+  story: "Di kapal pesiar mewah, CCTV di dek kasino padam 7 menit. Setelah itu jutaan uang lenyap dari brankas.",
+  clue: "Pemadaman bukan kebetulan.",
+  choices: [
     "Sinyal kamera dijammer oleh alat portable",
     "Virus komputer menyerang sistem keamanan",
     "Kru bersekongkol dengan pencuri",
     "Pemadaman listrik parsial terencana"
-  ], correctChoice: 1, difficulty: "Sulit", time: 50, success: "Benar! Sistem CCTV disusupi virus sehingga rekaman terputus sementara perampokan terjadi.", failure: "Salah! Jangan lupakan sisi digitalnya.", hints: ["7 menit padam", "Kasino target utama", "Perangkat lunak diserang"] }, { level: 73, character: "🦚", story: "Drone jatuh di ladang terpencil. Isinya boneka kayu dengan kain merah. Warga mengira itu ritual gaib.", clue: "Boneka itu simbol, bukan barang acak.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 50,
+  success: "Benar! Sistem CCTV disusupi virus sehingga rekaman terputus sementara perampokan terjadi.",
+  failure: "Salah! Jangan lupakan sisi digitalnya.",
+  hints: ["7 menit padam", "Kasino target utama", "Perangkat lunak diserang"]
+},
+{
+  level: 73,
+  character: "🦚",
+  story: "Drone jatuh di ladang terpencil. Isinya boneka kayu dengan kain merah. Warga mengira itu ritual gaib.",
+  clue: "Boneka itu simbol, bukan barang acak.",
+  choices: [
     "Sekte mengirim pesan simbolis lewat drone",
     "Eksperimen gagal yang dibuang",
     "Boneka berisi chip tersembunyi",
     "Drone militer latihan"
-  ], correctChoice: 2, difficulty: "Sulit", time: 55, success: "Benar! Boneka kayu hanya kamuflase, di dalamnya ada chip penyimpanan yang membawa data rahasia.", failure: "Salah! Kain merah hanyalah penyamaran.", hints: ["Boneka tampak sederhana", "Kain merah", "Data tersembunyi"] }, { level: 74, character: "🦩", story: "Gedung pencakar langit pecah seluruh kaca jendelanya tepat pukul 02.00 dini hari. Tidak ada ledakan, tidak ada gempa.", clue: "Kaca tidak pecah sendiri.", choices: [
+  ],
+  correctChoice: 2,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Boneka kayu hanya kamuflase, di dalamnya ada chip penyimpanan yang membawa data rahasia.",
+  failure: "Salah! Kain merah hanyalah penyamaran.",
+  hints: ["Boneka tampak sederhana", "Kain merah", "Data tersembunyi"]
+},
+{
+  level: 74,
+  character: "🦩",
+  story: "Gedung pencakar langit pecah seluruh kaca jendelanya tepat pukul 02.00 dini hari. Tidak ada ledakan, tidak ada gempa.",
+  clue: "Kaca tidak pecah sendiri.",
+  choices: [
     "Senjata ultrasonik diuji pada gedung itu",
     "Resonansi dari mesin bawah tanah",
     "Pemasangan kaca sebelumnya cacat",
     "Sabotase bahan kimia disemprotkan malam hari"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Senjata ultrasonik memecahkan kaca serentak tanpa jejak ledakan.", failure: "Salah! Pecahnya serentak bukan kerusakan biasa.", hints: ["Pukul 02.00 seragam", "Tidak ada ledakan", "Gelombang suara"] }, { level: 75, character: "🦎", story: "Peneliti tidur di lab mimpi dengan mesin pencatat gelombang otak. Ia tak pernah bangun, namun mesinnya merekam koordinat GPS nyata.", clue: "Koordinat bukan kebetulan.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Senjata ultrasonik memecahkan kaca serentak tanpa jejak ledakan.",
+  failure: "Salah! Pecahnya serentak bukan kerusakan biasa.",
+  hints: ["Pukul 02.00 seragam", "Tidak ada ledakan", "Gelombang suara"]
+},
+{
+  level: 75,
+  character: "🦎",
+  story: "Peneliti tidur di lab mimpi dengan mesin pencatat gelombang otak. Ia tak pernah bangun, namun mesinnya merekam koordinat GPS nyata.",
+  clue: "Koordinat bukan kebetulan.",
+  choices: [
     "Mesin menyimpan pesan lokasi dari alam bawah sadar",
     "Ilmuwan dikendalikan untuk menulis pesan rahasia",
     "Koordinat adalah bug perangkat lunak",
     "Mimpi kolektif memunculkan titik acak"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Mesin memanfaatkan mimpi untuk menyandi lokasi rahasia yang hanya bisa muncul dari bawah sadar.", failure: "Salah! Koordinat terlalu spesifik untuk bug.", hints: ["Koordinat nyata", "Mesin mimpi", "Pesan terakhir"] }, { level: 76, character: "🦞", story: "Kereta bawah tanah tiba-tiba berhenti di stasiun yang tidak ada di peta resmi. Penumpang melihat papan nama, tapi stasiun hilang keesokan harinya.", clue: "Stasiun itu nyata, tapi disembunyikan.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Mesin memanfaatkan mimpi untuk menyandi lokasi rahasia yang hanya bisa muncul dari bawah sadar.",
+  failure: "Salah! Koordinat terlalu spesifik untuk bug.",
+  hints: ["Koordinat nyata", "Mesin mimpi", "Pesan terakhir"]
+},
+{
+  level: 76,
+  character: "🦞",
+  story: "Kereta bawah tanah tiba-tiba berhenti di stasiun yang tidak ada di peta resmi. Penumpang melihat papan nama, tapi stasiun hilang keesokan harinya.",
+  clue: "Stasiun itu nyata, tapi disembunyikan.",
+  choices: [
     "Pangkalan rahasia dengan akses kereta",
     "Ilusi optik dibuat dengan proyektor",
     "Peta publik sengaja dimanipulasi",
     "Kereta salah jalur karena error sinyal"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Stasiun bawah tanah adalah markas rahasia yang disamarkan dari publik.", failure: "Salah! Penumpang benar-benar melihat papan nama fisik.", hints: ["Tidak ada di peta", "Kereta berhenti", "Basis bawah tanah"] }, { level: 77, character: "🦂", story: "Fotografer satwa liar memotret harimau, tapi hasil foto tidak memiliki bayangan. Beberapa hari kemudian ia menghilang.", clue: "Bayangan tidak hilang tanpa sebab.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Stasiun bawah tanah adalah markas rahasia yang disamarkan dari publik.",
+  failure: "Salah! Penumpang benar-benar melihat papan nama fisik.",
+  hints: ["Tidak ada di peta", "Kereta berhenti", "Basis bawah tanah"]
+},
+{
+  level: 77,
+  character: "🦂",
+  story: "Fotografer satwa liar memotret harimau, tapi hasil foto tidak memiliki bayangan. Beberapa hari kemudian ia menghilang.",
+  clue: "Bayangan tidak hilang tanpa sebab.",
+  choices: [
     "Harimau hanyalah hologram uji coba militer",
     "Kesalahan kamera analog lama",
     "Harimau albino tidak memantulkan cahaya",
     "Manipulasi digital oleh pihak ketiga"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Harimau itu hologram sehingga tak meninggalkan bayangan.", failure: "Salah! Kamera normal tak bisa hilangkan bayangan.", hints: ["Tidak ada bayangan", "Foto jelas", "Hologram militer"] }, { level: 78, character: "🦚", story: "Komunitas gamer menemukan level rahasia di game lama yang menampilkan peta kota nyata dengan detail mengejutkan.", clue: "Game dipakai untuk menyembunyikan sesuatu.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Harimau itu hologram sehingga tak meninggalkan bayangan.",
+  failure: "Salah! Kamera normal tak bisa hilangkan bayangan.",
+  hints: ["Tidak ada bayangan", "Foto jelas", "Hologram militer"]
+},
+{
+  level: 78,
+  character: "🦚",
+  story: "Komunitas gamer menemukan level rahasia di game lama yang menampilkan peta kota nyata dengan detail mengejutkan.",
+  clue: "Game dipakai untuk menyembunyikan sesuatu.",
+  choices: [
     "Steganografi menyimpan data lokasi ilegal",
     "Bug lama yang memunculkan file debug",
     "Mod buatan fans",
     "Kesalahan rendering grafis"
-  ], correctChoice: 0, difficulty: "Sulit", time: 50, success: "Benar! Level rahasia itu digunakan untuk menyembunyikan data lokasi rahasia.", failure: "Salah! Tidak mungkin bug acak seakurat itu.", hints: ["Peta kota nyata", "Game lama", "Metode steganografi"] }, { level: 79, character: "🦩", story: "Danau bawah tanah ditemukan memancarkan cahaya merah. Semua peralatan logam penyelam lenyap begitu masuk ke air.", clue: "Airnya bukan air biasa.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 50,
+  success: "Benar! Level rahasia itu digunakan untuk menyembunyikan data lokasi rahasia.",
+  failure: "Salah! Tidak mungkin bug acak seakurat itu.",
+  hints: ["Peta kota nyata", "Game lama", "Metode steganografi"]
+},
+{
+  level: 79,
+  character: "🦩",
+  story: "Danau bawah tanah ditemukan memancarkan cahaya merah. Semua peralatan logam penyelam lenyap begitu masuk ke air.",
+  clue: "Airnya bukan air biasa.",
+  choices: [
     "Danau berisi cairan asam super korosif",
     "Cahaya dari mikroorganisme bercahaya",
     "Fenomena optik dari kristal mineral",
     "Portal dimensi lain di dasar danau"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Cairan asam melarutkan peralatan logam dalam hitungan menit.", failure: "Salah! Cahaya merah bukan fenomena optik semata.", hints: ["Logam lenyap", "Air merah", "Korosi ekstrem"] }, { level: 80, character: "🦦", story: "Sebuah jam tangan kuno terus berdetak meski sudah dihancurkan. Pemiliknya meninggal tiba-tiba tanpa sebab jelas.", clue: "Jam itu bukan mekanis biasa.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Cairan asam melarutkan peralatan logam dalam hitungan menit.",
+  failure: "Salah! Cahaya merah bukan fenomena optik semata.",
+  hints: ["Logam lenyap", "Air merah", "Korosi ekstrem"]
+},
+{
+  level: 80,
+  character: "🦦",
+  story: "Sebuah jam tangan kuno terus berdetak meski sudah dihancurkan. Pemiliknya meninggal tiba-tiba tanpa sebab jelas.",
+  clue: "Jam itu bukan mekanis biasa.",
+  choices: [
     "Jam mengandung zat radioaktif mematikan",
     "Ada mekanisme cadangan tersembunyi",
     "Jam palsu yang dirancang untuk trik",
     "Kutukan turun-temurun"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Jam berlapis material radioaktif yang perlahan membunuh pemiliknya.", failure: "Salah! Detak jam punya sumber energi tak biasa.", hints: ["Detak terus", "Pemilik mati mendadak", "Radioaktif"] }, { level: 81, character: "🦋", story: "Seorang anak kecil selalu menggambar simbol aneh di dinding rumah. Simbol sama muncul di TKP hilangnya keluarganya semalam.", clue: "Simbol bukan coretan acak.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Jam berlapis material radioaktif yang perlahan membunuh pemiliknya.",
+  failure: "Salah! Detak jam punya sumber energi tak biasa.",
+  hints: ["Detak terus", "Pemilik mati mendadak", "Radioaktif"]
+},
+  {
+  level: 81,
+  character: "🦋",
+  story: "Seorang anak kecil selalu menggambar simbol aneh di dinding rumah. Simbol sama muncul di TKP hilangnya keluarganya semalam.",
+  clue: "Simbol bukan coretan acak.",
+  choices: [
     "Tanda sekte rahasia untuk menandai target",
     "Pesan bawah sadar dari trauma anak",
     "Fenomena gaib yang menguasai anak",
     "Kode komunikasi rahasia antar agen"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Simbol adalah kode sekte yang menandai keluarga target untuk dihabisi.", failure: "Salah! Simbolnya konsisten, bukan imajinasi anak.", hints: ["Simbol sama berulang", "Ada di TKP juga", "Sekte rahasia"] }, { level: 82, character: "🦞", story: "Di kutub, gunung es raksasa ditemukan dengan struktur mirip kota di dalamnya. Radar menolak tembus es tersebut.", clue: "Kota itu bukan formasi alamiah.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Simbol adalah kode sekte yang menandai keluarga target untuk dihabisi.",
+  failure: "Salah! Simbolnya konsisten, bukan imajinasi anak.",
+  hints: ["Simbol sama berulang", "Ada di TKP juga", "Sekte rahasia"]
+},
+{
+  level: 82,
+  character: "🦞",
+  story: "Di kutub, gunung es raksasa ditemukan dengan struktur mirip kota di dalamnya. Radar menolak tembus es tersebut.",
+  clue: "Kota itu bukan formasi alamiah.",
+  choices: [
     "Sisa kota purba yang membeku ribuan tahun",
     "Pangkalan rahasia disamarkan sebagai es",
     "Ilusi satelit akibat pantulan cahaya",
     "Eksperimen alien yang ditutupi pemerintah"
-  ], correctChoice: 1, difficulty: "Sulit", time: 60, success: "Benar! Itu pangkalan rahasia dengan perisai radar, disamarkan seolah kota beku.", failure: "Salah! Kalau purba, radar takkan tertolak.", hints: ["Radar tidak tembus", "Struktur kota", "Disamarkan"] }, { level: 83, character: "🦂", story: "Setiap jam 12 malam, alarm di gedung pemerintahan berbunyi meski sistem listrik dimatikan total.", clue: "Alarm dipicu faktor eksternal.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Itu pangkalan rahasia dengan perisai radar, disamarkan seolah kota beku.",
+  failure: "Salah! Kalau purba, radar takkan tertolak.",
+  hints: ["Radar tidak tembus", "Struktur kota", "Disamarkan"]
+},
+{
+  level: 83,
+  character: "🦂",
+  story: "Setiap jam 12 malam, alarm di gedung pemerintahan berbunyi meski sistem listrik dimatikan total.",
+  clue: "Alarm dipicu faktor eksternal.",
+  choices: [
     "Frekuensi radio rahasia membangkitkan alarm",
     "Bug pada sistem relay",
     "Gangguan elektromagnetik alam",
     "Sabotase manual pegawai"
-  ], correctChoice: 0, difficulty: "Sulit", time: 50, success: "Benar! Alarm dipicu gelombang radio tertentu yang bisa menyalakan relay tanpa listrik utama.", failure: "Salah! Fokus ke pemicu eksternal.", hints: ["12 malam konsisten", "Tanpa listrik", "Gelombang luar"] }, { level: 84, character: "🦚", story: "Penyelam gua hilang. Kamera helmnya merekam lorong air yang mendadak berakhir pada dinding rata sempurna.", clue: "Dinding itu terlalu rapi untuk alami.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 50,
+  success: "Benar! Alarm dipicu gelombang radio tertentu yang bisa menyalakan relay tanpa listrik utama.",
+  failure: "Salah! Fokus ke pemicu eksternal.",
+  hints: ["12 malam konsisten", "Tanpa listrik", "Gelombang luar"]
+},
+{
+  level: 84,
+  character: "🦚",
+  story: "Penyelam gua hilang. Kamera helmnya merekam lorong air yang mendadak berakhir pada dinding rata sempurna.",
+  clue: "Dinding itu terlalu rapi untuk alami.",
+  choices: [
     "Pintu mekanis ke basis bawah air",
     "Endapan mineral menutup jalan",
     "Efek optik air dan cahaya",
     "Kesalahan kamera helm"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Itu pintu mekanis tersembunyi yang menutup rapat begitu ia masuk.", failure: "Salah! Bentuk dinding terlalu presisi.", hints: ["Datar sempurna", "Gua bawah air", "Pintu mekanis"] }, { level: 85, character: "🦩", story: "Sebuah satelit cuaca menunjukkan pola badai membentuk simbol matematika sempurna selama 8 menit.", clue: "Alam tak membentuk pola sesempurna itu.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Itu pintu mekanis tersembunyi yang menutup rapat begitu ia masuk.",
+  failure: "Salah! Bentuk dinding terlalu presisi.",
+  hints: ["Datar sempurna", "Gua bawah air", "Pintu mekanis"]
+},
+{
+  level: 85,
+  character: "🦩",
+  story: "Sebuah satelit cuaca menunjukkan pola badai membentuk simbol matematika sempurna selama 8 menit.",
+  clue: "Alam tak membentuk pola sesempurna itu.",
+  choices: [
     "Manipulasi ionosfer dengan senjata cuaca",
     "Kebetulan atmosfer jarang terjadi",
     "Bug perangkat lunak satelit",
     "Ilusi optik dari lensa satelit"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Senjata cuaca memodulasi awan hingga terbentuk pola matematika.", failure: "Salah! 8 menit terlalu presisi untuk kebetulan.", hints: ["Pola matematis", "8 menit presisi", "Intervensi manusia"] }, { level: 86, character: "🦦", story: "Galeri seni menampilkan lukisan yang membuat semua pengunjung memilih jalan keluar yang sama, meski ada banyak pintu.", clue: "Lukisan itu lebih dari sekadar seni.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Senjata cuaca memodulasi awan hingga terbentuk pola matematika.",
+  failure: "Salah! 8 menit terlalu presisi untuk kebetulan.",
+  hints: ["Pola matematis", "8 menit presisi", "Intervensi manusia"]
+},
+{
+  level: 86,
+  character: "🦦",
+  story: "Galeri seni menampilkan lukisan yang membuat semua pengunjung memilih jalan keluar yang sama, meski ada banyak pintu.",
+  clue: "Lukisan itu lebih dari sekadar seni.",
+  choices: [
     "Mengandung pola ilusi optik terarah",
     "Zat kimia tersembunyi di cat",
     "Teknik hipnosis tersembunyi dalam bentuk",
     "Cahaya spotlight dimanipulasi"
-  ], correctChoice: 2, difficulty: "Sulit", time: 55, success: "Benar! Lukisan berisi pola hipnosis yang menanamkan sugesti arah tertentu.", failure: "Salah! Bukan sekadar optik, tapi kontrol perilaku.", hints: ["Semua orang pilih sama", "Banyak pintu", "Sugesti visual"] }, { level: 87, character: "🦋", story: "Peneliti astrofisika menerima sinyal kosmik berupa melodi musik klasik. Beberapa hari kemudian ia hilang.", clue: "Sinyal bukan sekadar kebetulan.", choices: [
+  ],
+  correctChoice: 2,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Lukisan berisi pola hipnosis yang menanamkan sugesti arah tertentu.",
+  failure: "Salah! Bukan sekadar optik, tapi kontrol perilaku.",
+  hints: ["Semua orang pilih sama", "Banyak pintu", "Sugesti visual"]
+},
+{
+  level: 87,
+  character: "🦋",
+  story: "Peneliti astrofisika menerima sinyal kosmik berupa melodi musik klasik. Beberapa hari kemudian ia hilang.",
+  clue: "Sinyal bukan sekadar kebetulan.",
+  choices: [
     "Pesan cerdas dari peradaban lain",
     "Pantulan sinyal radio bumi",
     "Gangguan instrumen observatorium",
     "Eksperimen rahasia militer"
-  ], correctChoice: 3, difficulty: "Sulit", time: 60, success: "Benar! Itu sinyal eksperimen militer yang sengaja disamarkan sebagai musik kosmik.", failure: "Salah! Kalau alien, tidak mungkin langsung hilang begitu.", hints: ["Musik klasik", "Beberapa hari ia hilang", "Eksperimen militer"] }, { level: 88, character: "🦞", story: "Penduduk desa mendengar bisikan identik di kepala mereka pukul 02.00 dini hari. Tak ada pengeras suara.", clue: "Bukan halusinasi massal biasa.", choices: [
+  ],
+  correctChoice: 3,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Itu sinyal eksperimen militer yang sengaja disamarkan sebagai musik kosmik.",
+  failure: "Salah! Kalau alien, tidak mungkin langsung hilang begitu.",
+  hints: ["Musik klasik", "Beberapa hari ia hilang", "Eksperimen militer"]
+},
+{
+  level: 88,
+  character: "🦞",
+  story: "Penduduk desa mendengar bisikan identik di kepala mereka pukul 02.00 dini hari. Tak ada pengeras suara.",
+  clue: "Bukan halusinasi massal biasa.",
+  choices: [
     "Gelombang mikro diarahkan ke desa",
     "Hipnosis massal lewat mimpi",
     "Aliran listrik bawah tanah",
     "Fenomena gaib kolektif"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Gelombang mikro diarahkan sehingga menimbulkan sensasi suara di otak.", failure: "Salah! Tidak ada pengeras suara, jadi harus langsung ke otak.", hints: ["Pukul 02.00 serentak", "Sensasi suara", "Teknologi gelombang"] }, { level: 89, character: "🦂", story: "Seorang ilmuwan genetika mati misterius. DNA di tubuhnya menunjukkan ia punya dua identitas biologis sekaligus.", clue: "Tidak mungkin alami.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Gelombang mikro diarahkan sehingga menimbulkan sensasi suara di otak.",
+  failure: "Salah! Tidak ada pengeras suara, jadi harus langsung ke otak.",
+  hints: ["Pukul 02.00 serentak", "Sensasi suara", "Teknologi gelombang"]
+},
+{
+  level: 89,
+  character: "🦂",
+  story: "Seorang ilmuwan genetika mati misterius. DNA di tubuhnya menunjukkan ia punya dua identitas biologis sekaligus.",
+  clue: "Tidak mungkin alami.",
+  choices: [
     "Ia jadi korban eksperimen kloning",
     "Kesalahan laboratorium forensik",
     "Kembar siam tak terpisahkan",
     "Kontaminasi sampel DNA"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Ia subjek eksperimen kloning ilegal yang berakhir fatal.", failure: "Salah! DNA ganda bukan error biasa.", hints: ["Dua identitas DNA", "Ilmuwan genetika", "Eksperimen kloning"] }, { level: 90, character: "🦚", story: "Di ruang bawah tanah universitas, mesin tua berdetak sendiri padahal sudah berkarat. Setiap kali berdetak, lampu kampus berkedip.", clue: "Mesin itu masih terhubung ke sesuatu.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Ia subjek eksperimen kloning ilegal yang berakhir fatal.",
+  failure: "Salah! DNA ganda bukan error biasa.",
+  hints: ["Dua identitas DNA", "Ilmuwan genetika", "Eksperimen kloning"]
+},
+{
+  level: 90,
+  character: "🦚",
+  story: "Di ruang bawah tanah universitas, mesin tua berdetak sendiri padahal sudah berkarat. Setiap kali berdetak, lampu kampus berkedip.",
+  clue: "Mesin itu masih terhubung ke sesuatu.",
+  choices: [
     "Generator tua dipakai sebagai pemancar sinyal",
     "Mesin dimodifikasi untuk eksperimen energi alternatif",
     "Fenomena elektromagnetik alami",
     "Alat ukur gempa yang salah interpretasi"
-  ], correctChoice: 1, difficulty: "Sulit", time: 55, success: "Benar! Mesin tua sebenarnya pemancar eksperimen energi yang memengaruhi listrik kampus.", failure: "Salah! Mesin tidak bisa bergerak tanpa energi eksternal.", hints: ["Berdetak sinkron", "Lampu berkedip", "Eksperimen energi"] }, { level: 91, character: "🦈", story: "Seorang arkeolog menemukan tablet kuno bercahaya. Malam itu ia lenyap, hanya tablet yang tersisa. Alat ukur radiasi mendadak rusak ketika mendekatinya.", clue: "Tablet itu bukan batu biasa.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Mesin tua sebenarnya pemancar eksperimen energi yang memengaruhi listrik kampus.",
+  failure: "Salah! Mesin tidak bisa bergerak tanpa energi eksternal.",
+  hints: ["Berdetak sinkron", "Lampu berkedip", "Eksperimen energi"]
+},
+  {
+  level: 91,
+  character: "🦈",
+  story: "Seorang arkeolog menemukan tablet kuno bercahaya. Malam itu ia lenyap, hanya tablet yang tersisa. Alat ukur radiasi mendadak rusak ketika mendekatinya.",
+  clue: "Tablet itu bukan batu biasa.",
+  choices: [
     "Tablet radioaktif mematikan",
     "Portal dimensi kecil",
     "Perangkat teknologi kuno yang masih aktif",
     "Benda ilusi optik"
-  ], correctChoice: 2, difficulty: "Sulit", time: 60, success: "Benar! Tablet adalah teknologi kuno yang masih aktif dan 'menarik' arkeolog ke dalamnya.", failure: "Salah! Cahaya dan kerusakan alat jelas bukan sekadar radiasi.", hints: ["Bercahaya sendiri", "Alat ukur rusak", "Teknologi aktif"] }, { level: 92, character: "🦦", story: "Kapal feri menyeberang lautan dan tiba 2 jam lebih cepat. Semua jam penumpang mundur 2 jam tanpa mereka sadari.", clue: "Ini bukan sekadar kesalahan jadwal.", choices: [
+  ],
+  correctChoice: 2,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Tablet adalah teknologi kuno yang masih aktif dan 'menarik' arkeolog ke dalamnya.",
+  failure: "Salah! Cahaya dan kerusakan alat jelas bukan sekadar radiasi.",
+  hints: ["Bercahaya sendiri", "Alat ukur rusak", "Teknologi aktif"]
+},
+{
+  level: 92,
+  character: "🦦",
+  story: "Kapal feri menyeberang lautan dan tiba 2 jam lebih cepat. Semua jam penumpang mundur 2 jam tanpa mereka sadari.",
+  clue: "Ini bukan sekadar kesalahan jadwal.",
+  choices: [
     "Feri melewati zona anomali waktu",
     "Kru memanipulasi jam agar tampak lebih cepat",
     "Fenomena elektromagnetik yang memengaruhi jam",
     "Lubang cacing mikro di jalur laut"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Feri melewati zona anomali waktu sehingga seluruh jam ikut berubah.", failure: "Salah! Semua jam ikut mundur, bukan hanya jadwal.", hints: ["2 jam hilang", "Jam semua penumpang terpengaruh", "Zona anomali"] }, { level: 93, character: "🦩", story: "Di festival kota, ratusan balon terbang ke langit lalu tiba-tiba menghilang. Kamera memperlihatkan balon lenyap di udara, bukan meletus.", clue: "Balon tidak benar-benar hancur.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Feri melewati zona anomali waktu sehingga seluruh jam ikut berubah.",
+  failure: "Salah! Semua jam ikut mundur, bukan hanya jadwal.",
+  hints: ["2 jam hilang", "Jam semua penumpang terpengaruh", "Zona anomali"]
+},
+{
+  level: 93,
+  character: "🦩",
+  story: "Di festival kota, ratusan balon terbang ke langit lalu tiba-tiba menghilang. Kamera memperlihatkan balon lenyap di udara, bukan meletus.",
+  clue: "Balon tidak benar-benar hancur.",
+  choices: [
     "Fenomena teleportasi terlokalisasi",
     "Eksperimen gelombang elektromagnetik",
     "Drone penyedot udara menyedot balon",
     "Fatamorgana optik menipu mata"
-  ], correctChoice: 1, difficulty: "Sulit", time: 55, success: "Benar! Balon terkena medan elektromagnetik eksperimen yang memecah materialnya secara instan.", failure: "Salah! Kamera jelas menunjukkan lenyap, bukan sekadar optik.", hints: ["Serentak", "Tidak meletus", "Medan energi"] }, { level: 94, character: "🦚", story: "Di gurun muncul kota kecil lengkap dengan penduduk. Keesokan harinya kota hilang tanpa jejak, hanya pasir kosong.", clue: "Kota itu tidak sepenuhnya nyata.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Balon terkena medan elektromagnetik eksperimen yang memecah materialnya secara instan.",
+  failure: "Salah! Kamera jelas menunjukkan lenyap, bukan sekadar optik.",
+  hints: ["Serentak", "Tidak meletus", "Medan energi"]
+},
+{
+  level: 94,
+  character: "🦚",
+  story: "Di gurun muncul kota kecil lengkap dengan penduduk. Keesokan harinya kota hilang tanpa jejak, hanya pasir kosong.",
+  clue: "Kota itu tidak sepenuhnya nyata.",
+  choices: [
     "Proyeksi hologram skala besar",
     "Fragmen dimensi paralel",
     "Set film rahasia",
     "Fatamorgana alamiah"
-  ], correctChoice: 1, difficulty: "Sulit", time: 60, success: "Benar! Itu fragmen kota dari dimensi paralel yang muncul sesaat sebelum menghilang lagi.", failure: "Salah! Fatamorgana tidak punya penduduk nyata.", hints: ["Penduduk ikut hilang", "Kota utuh", "Dimensi paralel"] }, { level: 95, character: "🦋", story: "Seorang pria menerima surat dengan tulisan tangannya sendiri, dikirim 10 tahun dari masa depan. Isinya memperingatkan untuk tidak naik kereta esok hari.", clue: "Surat itu terverifikasi asli.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Itu fragmen kota dari dimensi paralel yang muncul sesaat sebelum menghilang lagi.",
+  failure: "Salah! Fatamorgana tidak punya penduduk nyata.",
+  hints: ["Penduduk ikut hilang", "Kota utuh", "Dimensi paralel"]
+},
+{
+  level: 95,
+  character: "🦋",
+  story: "Seorang pria menerima surat dengan tulisan tangannya sendiri, dikirim 10 tahun dari masa depan. Isinya memperingatkan untuk tidak naik kereta esok hari.",
+  clue: "Surat itu terverifikasi asli.",
+  choices: [
     "Ia berhasil mengirim surat dari masa depan",
     "Kembaran jahat menyamar",
     "Surat hasil manipulasi ilmiah tinta",
     "Trik psikologis untuk membuatnya takut"
-  ], correctChoice: 0, difficulty: "Sulit", time: 55, success: "Benar! Surat benar-benar dikirim oleh dirinya sendiri dari masa depan.", failure: "Salah! Tulisan dan tinta terverifikasi otentik.", hints: ["Tulisan identik", "Tinta sesuai usia", "Peringatan spesifik"] }, { level: 96, character: "🦂", story: "Gunung terpencil memancarkan suara orkestra setiap malam. Mikrofon menangkap nada yang tidak dapat dihasilkan secara alami.", clue: "Bukan hanya angin biasa.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Surat benar-benar dikirim oleh dirinya sendiri dari masa depan.",
+  failure: "Salah! Tulisan dan tinta terverifikasi otentik.",
+  hints: ["Tulisan identik", "Tinta sesuai usia", "Peringatan spesifik"]
+},
+{
+  level: 96,
+  character: "🦂",
+  story: "Gunung terpencil memancarkan suara orkestra setiap malam. Mikrofon menangkap nada yang tidak dapat dihasilkan secara alami.",
+  clue: "Bukan hanya angin biasa.",
+  choices: [
     "Resonansi gua dengan aliran udara",
     "Instrumen tersembunyi dipasang",
     "Proyeksi suara eksperimen sonar",
     "Sinyal alien disamarkan sebagai musik"
-  ], correctChoice: 2, difficulty: "Sulit", time: 55, success: "Benar! Itu proyeksi suara eksperimen sonar untuk uji coba kontrol psikologis massal.", failure: "Salah! Resonansi alam tak bisa hasilkan nada itu.", hints: ["Nada tidak alami", "Suara massal", "Eksperimen sonar"] }, { level: 97, character: "🦞", story: "Pukul 03.00 dini hari, seluruh hewan peliharaan di kota menatap ke arah yang sama. Kamera menunjukkan mereka bergerak sinkron.", clue: "Hewan bereaksi pada hal yang manusia tak rasakan.", choices: [
+  ],
+  correctChoice: 2,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Itu proyeksi suara eksperimen sonar untuk uji coba kontrol psikologis massal.",
+  failure: "Salah! Resonansi alam tak bisa hasilkan nada itu.",
+  hints: ["Nada tidak alami", "Suara massal", "Eksperimen sonar"]
+},
+{
+  level: 97,
+  character: "🦞",
+  story: "Pukul 03.00 dini hari, seluruh hewan peliharaan di kota menatap ke arah yang sama. Kamera menunjukkan mereka bergerak sinkron.",
+  clue: "Hewan bereaksi pada hal yang manusia tak rasakan.",
+  choices: [
     "Sinyal ultrasonik terarah",
     "Medan magnet bumi anomali",
     "Fenomena gaib yang mengendalikan hewan",
     "Gas bawah tanah memengaruhi perilaku"
-  ], correctChoice: 1, difficulty: "Sulit", time: 55, success: "Benar! Anomali magnet membuat insting hewan terganggu dan sinkron.", failure: "Salah! Hewan merespons sesuatu nyata, bukan halusinasi.", hints: ["03.00 tepat", "Hewan sinkron", "Medan magnet"] }, { level: 98, character: "🦅", story: "Patung kuno di museum tersenyum di foto pengunjung, tapi siang hari wajahnya datar. CCTV museum tidak pernah menangkap perubahan.", clue: "Perubahan hanya muncul di foto, bukan nyata.", choices: [
+  ],
+  correctChoice: 1,
+  difficulty: "Sulit",
+  time: 55,
+  success: "Benar! Anomali magnet membuat insting hewan terganggu dan sinkron.",
+  failure: "Salah! Hewan merespons sesuatu nyata, bukan halusinasi.",
+  hints: ["03.00 tepat", "Hewan sinkron", "Medan magnet"]
+},
+{
+  level: 98,
+  character: "🦅",
+  story: "Patung kuno di museum tersenyum di foto pengunjung, tapi siang hari wajahnya datar. CCTV museum tidak pernah menangkap perubahan.",
+  clue: "Perubahan hanya muncul di foto, bukan nyata.",
+  choices: [
     "Patung diganti hologram berbasis kamera",
     "AI otomatis memanipulasi foto pengunjung",
     "Patung bereaksi pada cahaya tertentu",
     "Fenomena spiritual nyata"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Patung asli diganti hologram yang hanya bereaksi saat difoto untuk menutupi pencurian.", failure: "Salah! CCTV tak pernah melihat perubahan, artinya manipulasi visual.", hints: ["Perubahan hanya di foto", "CCTV tidak terpengaruh", "Hologram museum"] }, { level: 99, character: "🦈", story: "Pendaki gunung bersaksi melihat tangga besi menuju awan. Saat seseorang mencoba naik, tubuhnya terlihat memudar lalu tangga lenyap.", clue: "Tangga itu bukan benda fisik.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Patung asli diganti hologram yang hanya bereaksi saat difoto untuk menutupi pencurian.",
+  failure: "Salah! CCTV tak pernah melihat perubahan, artinya manipulasi visual.",
+  hints: ["Perubahan hanya di foto", "CCTV tidak terpengaruh", "Hologram museum"]
+},
+{
+  level: 99,
+  character: "🦈",
+  story: "Pendaki gunung bersaksi melihat tangga besi menuju awan. Saat seseorang mencoba naik, tubuhnya terlihat memudar lalu tangga lenyap.",
+  clue: "Tangga itu bukan benda fisik.",
+  choices: [
     "Ilusi massal akibat gas beracun",
     "Proyeksi hologram eksperimen militer",
     "Fenomena elektromagnetik membengkokkan cahaya",
     "Makhluk non-manusia memikat korban"
-  ], correctChoice: 0, difficulty: "Sulit", time: 60, success: "Benar! Gas beracun dari kawah membuat halusinasi kompleks berupa tangga dan menyebabkan korban hilang arah lalu jatuh.", failure: "Salah! Hilangnya tubuh hanya ilusi, bukan nyata.", hints: ["Gas kawah", "Ilusi realistis", "Bukan benda nyata"] }, { level: 100, character: "🦩", story: "Seluruh dunia mengalami 5 menit kosong: jam berhenti, rekaman digital terpotong, semua orang tidak sadar. Medan magnet bumi melonjak drastis pada periode itu.", clue: "Fenomena ini terlalu sinkron untuk kebetulan.", choices: [
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 60,
+  success: "Benar! Gas beracun dari kawah membuat halusinasi kompleks berupa tangga dan menyebabkan korban hilang arah lalu jatuh.",
+  failure: "Salah! Hilangnya tubuh hanya ilusi, bukan nyata.",
+  hints: ["Gas kawah", "Ilusi realistis", "Bukan benda nyata"]
+},
+{
+  level: 100,
+  character: "🦩",
+  story: "Seluruh dunia mengalami 5 menit kosong: jam berhenti, rekaman digital terpotong, semua orang tidak sadar. Medan magnet bumi melonjak drastis pada periode itu.",
+  clue: "Fenomena ini terlalu sinkron untuk kebetulan.",
+  choices: [
     "Eksperimen mesin waktu global",
     "Alien menghentikan waktu untuk observasi",
     "AI global memutus seluruh sistem dunia",
     "Fenomena kosmik memengaruhi kesadaran massal"
-  ], correctChoice: 0, difficulty: "Sulit", time: 70, success: "Benar! Mesin waktu global diuji, menghentikan realitas 5 menit dan membuat seluruh sistem digital ikut kosong.", failure: "Salah! Efeknya serentak di seluruh dunia, jelas akibat eksperimen global.", hints: ["5 menit hilang", "Efek global", "Mesin waktu"] }
+  ],
+  correctChoice: 0,
+  difficulty: "Sulit",
+  time: 70,
+  success: "Benar! Mesin waktu global diuji, menghentikan realitas 5 menit dan membuat seluruh sistem digital ikut kosong.",
+  failure: "Salah! Efeknya serentak di seluruh dunia, jelas akibat eksperimen global.",
+  hints: ["5 menit hilang", "Efek global", "Mesin waktu"]
+}          
+            
+        ];
 
+        // Generate level tambahan hingga 100
+        for (let i = 14; i <= 100; i++) {
+            const animals = ['🐵', '🐮', '🐷', '🐸', '🐙', '🦋', '🦄', '🦁', '🐨', '🐢', '🦖', '🦅', '🐴', '🐦', '🐬', '🦩', '🐝', '🦉', '🐿️', '🦔'];
+            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+            
+            let difficulty, timeLimit;
+            if (i <= 25) {
+                difficulty = "Pemula";
+                timeLimit = 60 - i;
+            } else if (i <= 50) {
+                difficulty = "Sedang";
+                timeLimit = 50 - Math.floor(i/2);
+            } else if (i <= 75) {
+                difficulty = "Sulit";
+                timeLimit = 40 - Math.floor(i/3);
+            } else {
+                difficulty = "Expert";
+                timeLimit = 30 - Math.floor(i/4);
+            }
+            
+            timeLimit = Math.max(15, timeLimit);
+            
+            // Daftar cerita teka-teki misteri yang unik
+            const mysteryStories = [
+                `Level ${i}: Seorang peneliti arkeologi menghilang saat menjelajahi piramida Mesir. Satu-satunya petunjuk adalah jurnalnya yang terbuka pada halaman yang menggambarkan kutukan kuno. Apa yang terjadi?`,
+                `Level ${i}: Sebuah kapal kargo ditemukan mengambang di laut tanpa awak. Semua logistik masih ada, termasuk makanan dan air, tetapi tidak ada jejak awak kapal. Apa yang terjadi?`,
+                `Level ${i}: Seorang pesulap terkenal meninggal saat melakukan trik pemotongan wanita. Namun, wanita itu benar-benar hilang dan tidak pernah ditemukan. Apa yang terjadi?`,
+           
+                `Level ${i}: Sebuah rumah sakit jiwa tua ditutup setelah semua pasien dan staf menghilang dalam satu malam. Tidak ada tanda-tanda kekerasan atau keberangkatan. Apa yang terjadi?`,
+                `Level ${i}: Seorang programmer komputer ditemukan tewas di mejanya. Komputernya menunjukkan kode aneh yang berisi pesan rahasia. Apa yang terjadi?`,
+                `Level ${i}: Sebuah kota kecil mengalami pemadaman listrik total selama 24 jam. Ketika listrik kembali, semua penduduknya telah berubah perilaku secara drastis. Apa yang terjadi?`,
+                `Level ${i}: Seorang penjelajah waktu mengklaim telah kembali dari masa depan. Keesokan harinya, dia ditemukan tewas dengan alat aneh di tangannya. Apa yang terjadi?`,
+                `Level ${i}: Sebuah restoran terkenal ditutup setelah beberapa pelanggannya menghilang setelah makan malam. Investigasi menemukan ruang rahasia di dapur. Apa yang terjadi?`,
+                `Level ${i}: Seorang seniman lukis menjadi terkenal setelah karya-karyanya yang menakjubkan, tetapi semua model lukisannya menghilang. Apa yang terjadi?`,
+                `Level ${i}: Sebuah tim sepak bola sekolah menang dengan skor tidak mungkin dalam pertandingan penting. Keesokan harinya, semua pemainnya mengaku tidak ingset apa-apa. Apa yang terjadi?`,
+            ];
+            
+            const randomStory = mysteryStories[Math.floor(Math.random() * mysteryStories.length)];
+            
+            levels.push({
+                level: i,
+                character: randomAnimal,
+                story: randomStory,
+                clue: "Pikirkan di luar kotak dan perhatikan detail kecil dalam cerita.",
+                choices: [
+                    "Pembunuhan berencana",
+                    "Kecelakaan tragis",
+                    "Kesalahan identitas",
+                    "Motif tersembunyi"
+                ],
+                correctChoice: Math.floor(Math.random() * 4),
+                difficulty: difficulty,
+                time: timeLimit,
+                success: `Hebat! Anda berhasil memecahkan misteri level ${i}.`,
+                failure: `Sayang sekali, Anda belum berhasil memecahkan misteri level ${i}. Coba lagi!`,
+                hints: [
+                    "Perhatikan detail kecil dalam cerita",
+                    "Gunakan petunjuk yang diberikan",
+                    "Analisis semua opsi dengan cermat sebelum memilih"
+                ]
+            });
+        }
+
+        // Variabel game
+        let currentLevelIndex = 0;
+        let score = 0;
+        let lives = 3;
+        let timer;
+        let timeLeft;
+        const maxLevel = levels.length;
+        let completedLevels = [];
+
+        // Elemen DOM
+        const currentLevelElement = document.getElementById('currentLevel');
+        const scoreElement = document.getElementById('score');
+        const levelProgressElement = document.getElementById('levelProgress');
+        const progressPercentageElement = document.getElementById('progressPercentage');
+        const characterElement = document.getElementById('character');
+        const storyElement = document.getElementById('story');
+        const clueElement = document.getElementById('clue');
+        const choicesElement = document.getElementById('choices');
+        const themeToggle = document.getElementById('themeToggle');
+        const levelDifficultyElement = document.getElementById('levelDifficulty');
+        const resultMessageElement = document.getElementById('resultMessage');
+        const timerElement = document.getElementById('timer');
+        const livesElement = document.getElementById('lives');
+        const nameModal = document.getElementById('nameModal');
+        const agentNameInput = document.getElementById('agentNameInput');
+        const startButton = document.getElementById('startButton');
+        const saveIndicator = document.getElementById('saveIndicator');
+        const levelSelectBtn = document.getElementById('levelSelectBtn');
+        const levelModal = document.getElementById('levelModal');
+        const closeLevelModal = document.getElementById('closeLevelModal');
+        const levelsGrid = document.getElementById('levelsGrid');
+
+        // Fungsi untuk menyimpan progress
+        function saveProgress() {
+            const gameData = {
+                currentLevel: currentLevelIndex,
+                score: score,
+                lives: lives,
+                completedLevels: completedLevels
+            };
+            
+            localStorage.setItem('detectiveGameData', JSON.stringify(gameData));
+            
+            // Tampilkan indikator save
+            saveIndicator.classList.add('show');
+            setTimeout(() => {
+                saveIndicator.classList.remove('show');
+            }, 2000);
+        }
+
+        // Fungsi untuk memuat progress
+        function loadProgress() {
+            const savedData = localStorage.getItem('detectiveGameData');
+            if (savedData) {
+                try {
+                    const gameData = JSON.parse(savedData);
+                    
+                    // Isi data yang disimpan
+                    currentLevelIndex = gameData.currentLevel || 0;
+                    score = gameData.score || 0;
+                    lives = gameData.lives || 3;
+                    completedLevels = gameData.completedLevels || [];
+                    
+                    // Update tampilan
+                    scoreElement.textContent = score;
+                    updateLivesDisplay();
+                    
+                    return true;
+                } catch (e) {
+                    console.error("Error loading saved data:", e);
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // Fungsi untuk menampilkan modal pemilihan level
+        function showLevelModal() {
+            levelsGrid.innerHTML = '';
+            
+            for (let i = 1; i <= levels.length; i++) {
+                const levelBtn = document.createElement('button');
+                levelBtn.className = 'level-btn';
+                levelBtn.textContent = i;
+                
+                // Tandai level yang sudah diselesaikan
+                if (completedLevels.includes(i)) {
+                    levelBtn.classList.add('completed');
+                }
+                
+                // Tandai level saat ini
+                if (i === currentLevelIndex + 1) {
+                    levelBtn.classList.add('current');
+                }
+                
+                // Nonaktifkan level yang belum dibuka
+                if (i > completedLevels.length + 1 && !completedLevels.includes(i)) {
+                    levelBtn.classList.add('locked');
+                    levelBtn.innerHTML = '<i class="fas fa-lock"></i>';
+                } else {
+                    levelBtn.addEventListener('click', () => {
+                        currentLevelIndex = i - 1;
+                        loadLevel(currentLevelIndex);
+                        levelModal.style.display = 'none';
+                    });
+                }
+                
+                levelsGrid.appendChild(levelBtn);
+            }
+            
+            levelModal.style.display = 'flex';
+        }
+
+        // Event listener untuk tombol mulai
+        startButton.addEventListener('click', function() {
+            const agentName = agentNameInput.value.trim();
+            if (agentName) {
+                // Sembunyikan modal
+                nameModal.style.display = 'none';
+                
+                // Coba muat progress yang disimpan
+                if (!loadProgress()) {
+                    // Jika tidak ada progress yang disimpan, mulai dari awal
+                    currentLevelIndex = 0;
+                    score = 0;
+                    lives = 3;
+                    completedLevels = [];
+                }
+                
+                // Mulai game
+                loadLevel(currentLevelIndex);
+                
+                // Simpan progress
+                saveProgress();
+            } else {
+                alert('Silakan masukkan nama detektif Anda!');
+            }
+        });
+
+        // Event listener untuk tombol enter pada input
+        agentNameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startButton.click();
+            }
+        });
+
+        // Event listener untuk tombol pilih level
+        levelSelectBtn.addEventListener('click', showLevelModal);
+
+        // Event listener untuk tombol tutup modal level
+        closeLevelModal.addEventListener('click', function() {
+            levelModal.style.display = 'none';
+        });
+
+        // Fungsi untuk memuat level
+        function loadLevel(levelIndex) {
+            if (levelIndex >= maxLevel) {
+                // Game selesai
+                clearInterval(timer);
+                storyElement.textContent = "Selamat! Anda telah menyelesaikan semua 100 level. Anda sekarang adalah Detektif Master! Terima kasih telah bermain!";
+                characterElement.textContent = "🏆";
+                choicesElement.innerHTML = "";
+                resultMessageElement.style.display = "none";
+                document.querySelector('.clue-container').style.display = "none";
+                document.querySelector('.hint-btn').style.display = "none";
+                
+                // Hapus data yang disimpan karena game selesai
+                localStorage.removeItem('detectiveGameData');
+                return;
+            }
+
+            const level = levels[levelIndex];
+            currentLevelElement.textContent = level.level;
+            characterElement.textContent = level.character;
+            storyElement.textContent = level.story;
+            clueElement.textContent = level.clue;
+            levelDifficultyElement.textContent = level.difficulty;
+            
+            // Update progress bar
+            const progressPercentage = (level.level / levels.length) * 100;
+            levelProgressElement.style.width = `${progressPercentage}%`;
+            progressPercentageElement.textContent = `${Math.round(progressPercentage)}%`;
+            
+            // Kosongkan pilihan sebelumnya
+            choicesElement.innerHTML = "";
+            
+            // Tambahkan pilihan baru
+            level.choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                
+                // Icon berbeda untuk setiap pilihan
+                const icons = ['fa-search', 'fa-user', 'fa-clue', 'fa-microscope'];
+                button.innerHTML = `<i class="fas ${icons[index]}"></i> ${choice}`;
+                
+                button.onclick = () => makeChoice(index);
+                choicesElement.appendChild(button);
+            });
+
+            // Sembunyikan pesan hasil
+            resultMessageElement.style.display = "none";
+            
+            // Reset dan mulai timer
+            clearInterval(timer);
+            timeLeft = level.time;
+            timerElement.textContent = timeLeft;
+            startTimer();
+            
+            // Update lives display
+            updateLivesDisplay();
+            
+            // Simpan progress
+            saveProgress();
+        }
+
+        // Fungsi untuk memulai timer
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        // Fungsi ketika waktu habis
+        function handleTimeOut() {
+            lives--;
+            updateLivesDisplay();
+            
+            if (lives <= 0) {
+                resultMessageElement.textContent = "Waktu habis! Nyawa Anda juga habis. Game Over!";
+                resultMessageElement.className = "result-message failure";
+                resultMessageElement.style.display = "block";
+                
+                setTimeout(() => {
+                    // Kembali ke level terakhir yang berhasil diselesaikan
+                    currentLevelIndex = Math.max(0, currentLevelIndex - 1);
+                    lives = 3;
+                    loadLevel(currentLevelIndex);
+                }, 3000);
+            } else {
+                resultMessageElement.textContent = "Waktu habis! Anda kehilangan satu nyawa.";
+                resultMessageElement.className = "result-message failure";
+                resultMessageElement.style.display = "block";
+                
+                setTimeout(() => {
+                    loadLevel(currentLevelIndex);
+                }, 3000);
+            }
+            
+            // Simpan progress
+            saveProgress();
+        }
+
+        // Fungsi untuk memperbarui tampilan nyawa
+        function updateLivesDisplay() {
+            let livesText = "";
+            for (let i = 0; i < 3; i++) {
+                livesText += i < lives ? "❤️" : "🤍";
+            }
+            livesElement.textContent = livesText;
+        }
+
+        // Fungsi untuk menampilkan petunjuk
+        function showHint() {
+            if (score >= 5) {
+                score -= 5;
+                scoreElement.textContent = score;
+                
+                const currentLevel = levels[currentLevelIndex];
+                const randomHint = currentLevel.hints[Math.floor(Math.random() * currentLevel.hints.length)];
+                
+                alert(`Petunjuk: ${randomHint}`);
+                
+                // Simpan progress
+                saveProgress();
+            } else {
+                alert("Skor Anda tidak cukup untuk mendapatkan petunjuk! Anda membutuhkan setidaknya 5 poin.");
+            }
+        }
+
+        // Fungsi untuk membuat pilihan
+        function makeChoice(choiceIndex) {
+            clearInterval(timer);
+            
+            const currentLevel = levels[currentLevelIndex];
+            
+            if (choiceIndex === currentLevel.correctChoice) {
+                // Jawaban benar
+                const timeBonus = Math.floor(timeLeft / 2);
+                score += 10 + timeBonus;
+                scoreElement.textContent = score;
+                
+                // Tandai level sebagai selesai
+                if (!completedLevels.includes(currentLevelIndex + 1)) {
+                    completedLevels.push(currentLevelIndex + 1);
+                }
+                
+                // Tampilkan pesan sukses
+                resultMessageElement.textContent = `${currentLevel.success} Bonus waktu: +${timeBonus} poin!`;
+                resultMessageElement.className = "result-message success";
+                resultMessageElement.style.display = "block";
+                
+                // Set timeout untuk pindah ke level berikutnya
+                setTimeout(() => {
+                    currentLevelIndex++;
+                    loadLevel(currentLevelIndex);
+                }, 4000);
+            } else {
+                // Jawaban salah
+                score = Math.max(0, score - 5);
+                scoreElement.textContent = score;
+                lives--;
+                updateLivesDisplay();
+                
+                if (lives <= 0) {
+                    // Game over
+                    resultMessageElement.textContent = "Pilihan salah! Nyawa Anda habis. Kembali ke level sebelumnya.";
+                    resultMessageElement.className = "result-message failure";
+                    resultMessageElement.style.display = "block";
+                    
+                    setTimeout(() => {
+                        // Kembali ke level terakhir yang berhasil diselesaikan
+                        currentLevelIndex = Math.max(0, currentLevelIndex - 1);
+                        lives = 3;
+                        loadLevel(currentLevelIndex);
+                    }, 3000);
+                } else {
+                    // Masih ada nyawa
+                    resultMessageElement.textContent = `${currentLevel.failure} Anda kehilangan 1 nyawa.`;
+                    resultMessageElement.className = "result-message failure";
+                    resultMessageElement.style.display = "block";
+                    
+                    // Set timeout untuk mencoba lagi
+                    setTimeout(() => {
+                        loadLevel(currentLevelIndex);
+                    }, 3000);
+                }
+            }
+            
+            // Simpan progress
+            saveProgress();
+        }
+
+        // Toggle mode gelap/terang
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<span>Mode Terang</span> <i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<span>Mode Gelap</span> <i class="fas fa-moon"></i>';
+            }
+            
+            // Simpan preferensi tema
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+
+        // Muat preferensi tema
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<span>Mode Terang</span> <i class="fas fa-sun"></i>';
+        }
+
+        // Coba muat progress saat halaman dimuat
+        window.addEventListener('load', function() {
+            // Selalu tampilkan modal nama saat halaman dimuat
+            nameModal.style.display = 'flex';
+            
+            // Coba muat progress yang disimpan
+            loadProgress();
+        });
+    </script>
 </body>
 </html>
-
